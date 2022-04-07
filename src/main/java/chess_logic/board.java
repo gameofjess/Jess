@@ -1,6 +1,6 @@
 package chess_logic;
 
-import chess_logic.pices.*;
+import chess_logic.pieces.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -28,40 +28,40 @@ import java.util.Arrays;
 */
 
 public class board {
-	public static List<pice> pices = new ArrayList<pice>();
+	public static List<piece> pieces = new ArrayList<piece>();
 
 	public static void initialize() {
-		pices.add(new rook(true, new int[] {0,0} ));
-		pices.add(new knight(true, new int[] {1,0} ));
-		pices.add(new bishop(true, new int[] {2,0} ));
-		pices.add(new queen(true, new int[] {3,0} ));
-		pices.add(new king(true, new int[] {4,0} ));
-		pices.add(new bishop(true, new int[] {5,0} ));
-		pices.add(new knight(true, new int[] {6,0} ));
-		pices.add(new rook(true, new int[] {7,0} ));
+		pieces.add(new rook(true, new int[] {0,0} ));
+		pieces.add(new knight(true, new int[] {1,0} ));
+		pieces.add(new bishop(true, new int[] {2,0} ));
+		pieces.add(new queen(true, new int[] {3,0} ));
+		pieces.add(new king(true, new int[] {4,0} ));
+		pieces.add(new bishop(true, new int[] {5,0} ));
+		pieces.add(new knight(true, new int[] {6,0} ));
+		pieces.add(new rook(true, new int[] {7,0} ));
 
 		for (int i = 0; i < 8; i++) {
-			pices.add(new pawn(true, new int[] {i,1} ));
+			pieces.add(new pawn(true, new int[] {i,1} ));
 		}
 
-		pices.add(new rook(false, new int[] {0,7} ));
-		pices.add(new knight(false, new int[] {1,7} ));
-		pices.add(new bishop(false, new int[] {2,7} ));
-		pices.add(new queen(false, new int[] {3,7} ));
-		pices.add(new king(false, new int[] {4,7} ));
-		pices.add(new bishop(false, new int[] {5,7} ));
-		pices.add(new knight(false, new int[] {6,7} ));
-		pices.add(new rook(false, new int[] {7,7} ));
+		pieces.add(new rook(false, new int[] {0,7} ));
+		pieces.add(new knight(false, new int[] {1,7} ));
+		pieces.add(new bishop(false, new int[] {2,7} ));
+		pieces.add(new queen(false, new int[] {3,7} ));
+		pieces.add(new king(false, new int[] {4,7} ));
+		pieces.add(new bishop(false, new int[] {5,7} ));
+		pieces.add(new knight(false, new int[] {6,7} ));
+		pieces.add(new rook(false, new int[] {7,7} ));
 
 		for (int i = 0; i < 8; i++) {
-			pices.add(new pawn(false, new int[] {i,6} ));
+			pieces.add(new pawn(false, new int[] {i,6} ));
 		}
 	}
 
-	public static pice getPosition(int x, int y) {
+	public static piece getPosition(int x, int y) {
 		int[] position = {x,y};
-		for (pice pice : pices) {
-			if( Arrays.equals(position, pice.position)) return pice;
+		for (piece piece : pieces) {
+			if( Arrays.equals(position, piece.position)) return piece;
 		}
 		return null;
 	}

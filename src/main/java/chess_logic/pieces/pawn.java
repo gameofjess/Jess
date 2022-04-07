@@ -1,11 +1,11 @@
-package chess_logic.pices;
+package chess_logic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import chess_logic.board;
 
-public class pawn extends pice {
+public class pawn extends piece {
 	public pawn(boolean isWhite, int[] position){
 		super(isWhite, position);
 	}

@@ -1,7 +1,7 @@
-package chess_logic.pices;
+package chess_logic.pieces;
 
-public class bishop extends pice {
-	public bishop(boolean isWhite, int[] position){
+public class king  extends piece {
+	public king(boolean isWhite, int[] position){
 		super(isWhite, position);
 	}
 
