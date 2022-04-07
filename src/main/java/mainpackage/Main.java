@@ -13,11 +13,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        URL fxmlFileUrl = getClass().getClassLoader().getResource("sample.fxml");
+        //TODO: Implement JavaFX startup
+        /*
+
+        URL fxmlFileUrl = getClass().getClassLoader().getResource("main.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("JavaChess");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+         */
     }
 
     public static void main(String[] args) {
