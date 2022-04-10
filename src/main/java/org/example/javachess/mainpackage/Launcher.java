@@ -1,4 +1,4 @@
-package mainpackage;
+package org.example.javachess.mainpackage;
 
 /**
  * This class is needed to fix the issue with starting JavaFX Applications pointed out here:

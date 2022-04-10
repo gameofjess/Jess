@@ -1,4 +1,4 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
 
 public class rook extends piece {
 	public rook(boolean isWhite, int[] position){

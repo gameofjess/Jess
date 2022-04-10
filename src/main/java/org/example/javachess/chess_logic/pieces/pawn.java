@@ -1,9 +1,9 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chess_logic.board;
+import org.example.javachess.chess_logic.board;
 
 public class pawn extends piece {
 	public pawn(boolean isWhite, int[] position){

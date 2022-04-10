@@ -1,4 +1,4 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
 
 public class bishop extends piece {
 	public bishop(boolean isWhite, int[] position){
