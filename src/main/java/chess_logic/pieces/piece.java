@@ -1,5 +1,7 @@
 package chess_logic.pieces;
 
+import chess_logic.move;
+
 public abstract class piece {
 
 	public boolean isWhite;
@@ -10,5 +12,5 @@ public abstract class piece {
 		this.position = position;
 	}
 
-	public abstract int[][] getMoves();
+	public abstract move[] getMoves();
 }
