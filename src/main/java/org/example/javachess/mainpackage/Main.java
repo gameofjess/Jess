@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //TODO: Implement JavaFX startup
+        //_TODO: Implement JavaFX startup
         /*
 
         URL fxmlFileUrl = getClass().getClassLoader().getResource("main.fxml");
