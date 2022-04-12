@@ -65,4 +65,8 @@ public class Board {
 		}
 		return null;
 	}
+
+	public static boolean checkCheck(){
+		return false;
+	}
 }
