@@ -1,26 +1,26 @@
 package org.example.javachess.chess_logic;
 
 
-import org.example.javachess.chess_logic.pieces.piece;
+import org.example.javachess.chess_logic.pieces.Piece;
 
-public class move {
+public class Move {
     public int destinationX;
     public int destinationy;
-    public piece capture = null;
-    public move rochade = null;
+    public Piece capture = null;
+    public Move rochade = null;
 
-    public move(int destinationX, int destinationy){
+    public Move(int destinationX, int destinationy){
         this.destinationX = destinationX;
         this.destinationy = destinationy;
     }
 
-    public move(int destinationX, int destinationy, piece capture){
+    public Move(int destinationX, int destinationy, Piece capture){
         this.destinationX = destinationX;
         this.destinationy = destinationy;
         this.capture = capture;
     }
 
-    public move(int destinationX, int destinationy, move rochade){
+    public Move(int destinationX, int destinationy, Move rochade){
         this.destinationX = destinationX;
         this.destinationy = destinationy;
         this.rochade = rochade;

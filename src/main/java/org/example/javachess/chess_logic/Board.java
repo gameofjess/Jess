@@ -27,40 +27,40 @@ import java.util.Arrays;
 	  A    B    C    D    E    F    G    H
 */
 
-public class board {
-	public static List<piece> pieces = new ArrayList<piece>();
+public class Board {
+	public static List<Piece> pieces = new ArrayList<Piece>();
 
 	public static void initialize() {
-		pieces.add(new rook(true, new int[] {0,0} ));
-		pieces.add(new knight(true, new int[] {1,0} ));
-		pieces.add(new bishop(true, new int[] {2,0} ));
-		pieces.add(new queen(true, new int[] {3,0} ));
-		pieces.add(new king(true, new int[] {4,0} ));
-		pieces.add(new bishop(true, new int[] {5,0} ));
-		pieces.add(new knight(true, new int[] {6,0} ));
-		pieces.add(new rook(true, new int[] {7,0} ));
+		pieces.add(new Rook(true, new int[] {0,0} ));
+		pieces.add(new Knight(true, new int[] {1,0} ));
+		pieces.add(new Bishop(true, new int[] {2,0} ));
+		pieces.add(new Queen(true, new int[] {3,0} ));
+		pieces.add(new King(true, new int[] {4,0} ));
+		pieces.add(new Bishop(true, new int[] {5,0} ));
+		pieces.add(new Knight(true, new int[] {6,0} ));
+		pieces.add(new Rook(true, new int[] {7,0} ));
 
 		for (int i = 0; i < 8; i++) {
-			pieces.add(new pawn(true, new int[] {i,1} ));
+			pieces.add(new Pawn(true, new int[] {i,1} ));
 		}
 
-		pieces.add(new rook(false, new int[] {0,7} ));
-		pieces.add(new knight(false, new int[] {1,7} ));
-		pieces.add(new bishop(false, new int[] {2,7} ));
-		pieces.add(new queen(false, new int[] {3,7} ));
-		pieces.add(new king(false, new int[] {4,7} ));
-		pieces.add(new bishop(false, new int[] {5,7} ));
-		pieces.add(new knight(false, new int[] {6,7} ));
-		pieces.add(new rook(false, new int[] {7,7} ));
+		pieces.add(new Rook(false, new int[] {0,7} ));
+		pieces.add(new Knight(false, new int[] {1,7} ));
+		pieces.add(new Bishop(false, new int[] {2,7} ));
+		pieces.add(new Queen(false, new int[] {3,7} ));
+		pieces.add(new King(false, new int[] {4,7} ));
+		pieces.add(new Bishop(false, new int[] {5,7} ));
+		pieces.add(new Knight(false, new int[] {6,7} ));
+		pieces.add(new Rook(false, new int[] {7,7} ));
 
 		for (int i = 0; i < 8; i++) {
-			pieces.add(new pawn(false, new int[] {i,6} ));
+			pieces.add(new Pawn(false, new int[] {i,6} ));
 		}
 	}
 
-	public static piece getPosition(int x, int y) {
+	public static Piece getPosition(int x, int y) {
 		int[] position = {x,y};
-		for (piece piece : pieces) {
+		for (Piece piece : pieces) {
 			if( Arrays.equals(position, piece.position)) return piece;
 		}
 		return null;

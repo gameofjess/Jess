@@ -1,16 +1,16 @@
 package org.example.javachess.chess_logic.pieces;
 
-import org.example.javachess.chess_logic.move;
+import org.example.javachess.chess_logic.Move;
 
-public abstract class piece {
+public abstract class Piece {
 
 	public boolean isWhite;
 	public int[] position = new int[2];
 
-	public piece(boolean isWhite, int[] position){
+	public Piece(boolean isWhite, int[] position){
 		this.isWhite = isWhite;
 		this.position = position;
 	}
 
-	public abstract move[] getMoves();
+	public abstract Move[] getMoves();
 }
