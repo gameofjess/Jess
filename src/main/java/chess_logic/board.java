@@ -65,4 +65,9 @@ public class board {
 		}
 		return null;
 	}
+
+	public boolean checkCheck(move move){
+		//TODO implement method
+		return false;
+	}
 }
