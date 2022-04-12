@@ -1,6 +1,6 @@
-package chess_logic;
+package org.example.javachess.chess_logic;
 
-import chess_logic.pieces.*;
+import org.example.javachess.chess_logic.pieces.*;
 
 import java.util.List;
 import java.util.ArrayList;

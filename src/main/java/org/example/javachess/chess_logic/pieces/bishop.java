@@ -1,6 +1,6 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
 
-import chess_logic.move;
+import org.example.javachess.chess_logic.move;
 
 public class bishop extends piece {
 	public bishop(boolean isWhite, int[] position){

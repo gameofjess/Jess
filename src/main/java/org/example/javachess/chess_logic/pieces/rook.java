@@ -1,15 +1,16 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chess_logic.board;
-import chess_logic.move;
+import org.example.javachess.chess_logic.board;
+import org.example.javachess.chess_logic.move;
 
 public class rook extends piece {
 	public rook(boolean isWhite, int[] position){
 		super(isWhite, position);
 	}
+
 
 	@Override
 	public move[] getMoves() {

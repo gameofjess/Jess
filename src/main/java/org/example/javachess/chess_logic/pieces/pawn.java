@@ -1,10 +1,11 @@
-package chess_logic.pieces;
+package org.example.javachess.chess_logic.pieces;
+
+import org.example.javachess.chess_logic.board;
+import org.example.javachess.chess_logic.move;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chess_logic.board;
-import chess_logic.move;
 
 public class pawn extends piece {
 	public boolean enpassant = false;
@@ -49,7 +50,7 @@ public class pawn extends piece {
 			}
 		}
 		else{
-			
+
 			piece eins_vor = board.getPosition(position[0], position[1] - 1);
 			if (eins_vor == null) {
 				moves.add(new move(position[0], position[1] - 1));
@@ -83,5 +84,5 @@ public class pawn extends piece {
 		return moves.toArray(new move[moves.size()]);
 	}
 
-	
+
 }
