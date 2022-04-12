@@ -1,9 +1,8 @@
-package mainpackage;
-
-import chess_logic.*;
+package org.example.javachess.mainpackage;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.example.javachess.chess_logic.Board;
 
 public class Main extends Application {
 
@@ -22,7 +21,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-		board.initialize();
-		System.out.println(board.pieces);
+		Board.initialize();
+		System.out.println(Board.pieces);
     }
 }
