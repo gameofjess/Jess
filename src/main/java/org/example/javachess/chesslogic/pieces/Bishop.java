@@ -1,10 +1,10 @@
-package org.example.javachess.chess_logic.pieces;
+package org.example.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.example.javachess.chess_logic.Move;
-import org.example.javachess.chess_logic.Board;
+import org.example.javachess.chesslogic.Board;
+import org.example.javachess.chesslogic.Move;
 
 public class Bishop extends Piece {
 	public Bishop(boolean isWhite, int[] position){

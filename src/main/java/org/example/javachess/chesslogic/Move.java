@@ -1,13 +1,13 @@
-package org.example.javachess.chess_logic;
+package org.example.javachess.chesslogic;
 
 
-import org.example.javachess.chess_logic.pieces.Piece;
+import org.example.javachess.chesslogic.pieces.Piece;
 
 public class Move {
     public int destinationX;
     public int destinationY;
     public Piece capture = null;
-    public Move rochade = null;
+    public boolean rochade = false;
 
     public Move(int destinationX, int destinationY){
         this.destinationX = destinationX;
@@ -20,7 +20,7 @@ public class Move {
         this.capture = capture;
     }
 
-    public Move(int destinationX, int destinationY, Move rochade){
+    public Move(int destinationX, int destinationY, boolean rochade){
         this.destinationX = destinationX;
         this.destinationY = destinationY;
         this.rochade = rochade;

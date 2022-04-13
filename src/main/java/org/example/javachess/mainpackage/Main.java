@@ -1,8 +1,9 @@
 package org.example.javachess.mainpackage;
 
+import org.example.javachess.chesslogic.Board;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.example.javachess.chess_logic.Board;
 
 public class Main extends Application {
 

@@ -1,6 +1,6 @@
-package org.example.javachess.chess_logic.pieces;
+package org.example.javachess.chesslogic.pieces;
 
-import org.example.javachess.chess_logic.Move;
+import org.example.javachess.chesslogic.Move;
 
 public abstract class Piece {
 

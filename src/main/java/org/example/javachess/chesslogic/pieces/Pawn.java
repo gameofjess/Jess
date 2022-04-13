@@ -1,10 +1,10 @@
-package org.example.javachess.chess_logic.pieces;
-
-import org.example.javachess.chess_logic.Board;
-import org.example.javachess.chess_logic.Move;
+package org.example.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.javachess.chesslogic.Board;
+import org.example.javachess.chesslogic.Move;
 
 
 public class Pawn extends Piece {

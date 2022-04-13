@@ -1,8 +1,9 @@
-package org.example.javachess.chess_logic;
-
-import org.example.javachess.chess_logic.pieces.*;
+package org.example.javachess.chesslogic;
 
 import java.util.List;
+
+import org.example.javachess.chesslogic.pieces.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -64,10 +65,5 @@ public class Board {
 			if( Arrays.equals(position, piece.position)) return piece;
 		}
 		return null;
-	}
-
-	public static boolean checkCheck(){
-		//TODO 
-		return false;
 	}
 }

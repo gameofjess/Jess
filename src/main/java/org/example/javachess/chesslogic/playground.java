@@ -1,4 +1,4 @@
-package org.example.javachess.chess_logic;
+package org.example.javachess.chesslogic;
 
 public class playground {
 	public static void main(String[] args) {
