@@ -7,6 +7,8 @@ import org.example.javachess.chess_logic.Board;
 import org.example.javachess.chess_logic.Move;
 
 public class Rook extends Piece {
+	public boolean rochade = true;
+
 	public Rook(boolean isWhite, int[] position){
 		super(isWhite, position);
 	}

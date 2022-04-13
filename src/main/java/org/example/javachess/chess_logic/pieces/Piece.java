@@ -12,5 +12,10 @@ public abstract class Piece {
 		this.position = position;
 	}
 
+	@Override
+	public String toString(){
+		return ((isWhite) ? "White " : "Black ") + String.format("%s: X=%d Y=%d", this.getClass().getSimpleName(), position[0], position[1]);  
+	}
+
 	public abstract Move[] getMoves();
 }

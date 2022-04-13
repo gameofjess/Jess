@@ -5,24 +5,24 @@ import org.example.javachess.chess_logic.pieces.Piece;
 
 public class Move {
     public int destinationX;
-    public int destinationy;
+    public int destinationY;
     public Piece capture = null;
     public Move rochade = null;
 
-    public Move(int destinationX, int destinationy){
+    public Move(int destinationX, int destinationY){
         this.destinationX = destinationX;
-        this.destinationy = destinationy;
+        this.destinationY = destinationY;
     }
 
-    public Move(int destinationX, int destinationy, Piece capture){
+    public Move(int destinationX, int destinationY, Piece capture){
         this.destinationX = destinationX;
-        this.destinationy = destinationy;
+        this.destinationY = destinationY;
         this.capture = capture;
     }
 
-    public Move(int destinationX, int destinationy, Move rochade){
+    public Move(int destinationX, int destinationY, Move rochade){
         this.destinationX = destinationX;
-        this.destinationy = destinationy;
+        this.destinationY = destinationY;
         this.rochade = rochade;
     }
 }

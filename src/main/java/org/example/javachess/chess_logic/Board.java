@@ -67,6 +67,7 @@ public class Board {
 	}
 
 	public static boolean checkCheck(){
+		//TODO 
 		return false;
 	}
 }
