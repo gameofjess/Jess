@@ -3,6 +3,7 @@ package org.example.javachess.helper.messages;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.javachess.chesslogic.Move;
 
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class ServerMessage implements Message{
     private final Date time;
     private final MessageType type;
 
-    ServerMessage (String username, MessageType type, Date time, String message){
+    public ServerMessage (String username, MessageType type, Date time, String message){
         this.username = username;
         this.type = type;
         this.time = time;
@@ -30,7 +31,7 @@ public class ServerMessage implements Message{
      * @param type Type of the ServerMessage.
      * @param message Message to be sent.
      */
-    ServerMessage (String username, MessageType type, String message){
+    public ServerMessage (String username, MessageType type, String message){
         this.username = username;
         this.type = type;
         this.time = new Date();
@@ -38,9 +39,33 @@ public class ServerMessage implements Message{
     }
 
     /**
+     * Constructs a ServerMessage from a MessageType and a message.
+     * @param type Type of the ServerMessage.
+     * @param message Message to be sent.
+     */
+    public ServerMessage (MessageType type, String message){
+        this.username = null;
+        this.type = type;
+        this.message = message;
+        this.time = new Date();
+    }
+
+    /**
+     * Constructs a ServerMessage from a MessageType and a message. Time of creation can be manually set.
+     * @param type Type of the ServerMessage.
+     * @param message Message to be sent.
+     */
+    public ServerMessage (MessageType type, Date time, String message){
+        this.username = null;
+        this.type = type;
+        this.message = message;
+        this.time = time;
+    }
+
+    /**
      * Constructs a ServerMessage from JSON.
      */
-    ServerMessage (String json){
+    public ServerMessage (String json){
         Gson g = new Gson();
         message = g.fromJson(json, ServerMessage.class).getMessage();
         time = g.fromJson(json, ServerMessage.class).getTime();

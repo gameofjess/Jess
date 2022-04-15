@@ -3,6 +3,7 @@ package org.example.javachess.helper.messages;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.javachess.chesslogic.Move;
 
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class ClientMessage implements Message{
      * @param time Custom time of creation.
      * @param type Type of ClientMessage.
      */
-    ClientMessage(String message, Date time, MessageType type) {
+    public ClientMessage(String message, Date time, MessageType type) {
         log.debug("Constructing ClientMessage with message, date and message type.");
         if(type == MessageType.SERVERINFO || type == MessageType.SERVERERROR){
             throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
@@ -38,7 +39,7 @@ public class ClientMessage implements Message{
      * @param message Message to be sent.
      * @param type Type of ClientMessage.
      */
-    ClientMessage(String message, MessageType type) {
+    public ClientMessage(String message, MessageType type) {
         log.debug("Constructing ClientMessage with message and message type.");
         this.message = message;
         this.type = type;
@@ -46,9 +47,19 @@ public class ClientMessage implements Message{
     }
 
     /**
+     * Constructs a ClientMessage from a Move.
+     * @param m Move to be sent.
+     */
+    public ClientMessage(Move m){
+        this.type = MessageType.NEWMOVE;
+        this.time = new Date();
+        this.message = new Gson().toJson(m);
+    }
+
+    /**
      * Constructs a ClientMessage from JSON.
      */
-    ClientMessage(String json){
+    public ClientMessage(String json){
         log.debug("Constructing ClientMessage from JSON");
         Gson g = new Gson();
         this.message = g.fromJson(json, ClientMessage.class).getMessage();
