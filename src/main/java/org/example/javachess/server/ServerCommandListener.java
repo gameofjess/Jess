@@ -42,7 +42,7 @@ public class ServerCommandListener implements Runnable{
 
     public void parseCommand(String cmd) {
         switch(cmd){
-            case "stop":
+            case "stop" -> {
                 try {
                     log.info("Server is preparing to stop!");
                     server.stop(20);
@@ -50,10 +50,15 @@ public class ServerCommandListener implements Runnable{
                 } catch (InterruptedException e){
                     log.error(e.getMessage());
                 }
-                break;
-            default:
-                log.info("Unknown command: " + cmd);
-                break;
+            }
+            case "list" -> {
+                String users = "";
+                for(String s : server.getUsers()){
+                    users = users.concat(s + ", ");
+                }
+                log.info("The following users are connected: " + users);
+            }
+            default -> log.info("Unknown command: " + cmd);
         }
     }
 
