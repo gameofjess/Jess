@@ -73,6 +73,9 @@ public class ServerClientTest {
         assertTrue(isDisonnected);
     }
 
+    /**
+     * Tests whether a connection gets refused when too many users are connected.
+     */
     @Test
     void tooManyUsersTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
