@@ -20,7 +20,7 @@ Using the optional flag `-Dshow=private` will add information about private meth
 ## Dependencies
 
 This project uses the java-websocket library made by TooTallNate and contributors which can be found here: [Java-Websocket Repository](https://github.com/TooTallNate/java-websocket)
-It also uses the [log4j logging framework](https://logging.apache.org/log4j/2.x/index.html) and the [JUnit unit test framework](https://junit.org/junit5/) as well as [JavaFX](https://openjfx.io/).
+It also uses the [log4j logging framework](https://logging.apache.org/log4j/2.x/index.html) and the [JUnit unit test framework](https://junit.org/junit5/) as well as [JavaFX](https://openjfx.io/) and [Gson](https://github.com/google/gson) for Object Serialization.
 
 ## Copyright
 
