@@ -25,6 +25,9 @@ public class ClientMessage implements Message{
      */
     ClientMessage(String message, Date time, MessageType type) {
         log.debug("Constructing ClientMessage with message, date and message type.");
+        if(type == MessageType.SERVERINFO || type == MessageType.SERVERERROR){
+            throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
+        }
         this.message = message;
         this.time = time;
         this.type = type;
