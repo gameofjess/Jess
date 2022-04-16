@@ -72,4 +72,9 @@ public class Knight extends Piece {
 		}
 		return moves.toArray(new Move[moves.size()]);
 	}
+
+	@Override
+	public Knight getClone() {
+		return new Knight(isWhite, position);
+	}
 }

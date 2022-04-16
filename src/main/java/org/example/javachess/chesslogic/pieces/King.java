@@ -13,6 +13,11 @@ public class King extends Piece {
 		super(isWhite, position);
 	}
 
+	public King(boolean isWhite, int[] position, boolean rochade){
+		super(isWhite, position);
+		this.rochade = rochade;
+	}
+
 	@Override
 	public Move[] getMoves() {
 		List<Move> moves = new ArrayList<Move>();
@@ -93,5 +98,44 @@ public class King extends Piece {
 			Board.capturedPieces.add(move.capture);
 			Board.pieces.remove(move.capture);
 		}
+	}
+
+	public boolean checkCheck(){
+		for (Piece piece : Board.pieces) {
+			for (Move move : piece.getMoves()) {
+				if (move.destinationX == position[0] && move.destinationY == position[1]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean checkCheck(Move test_move, Piece test_piece){
+		List<Piece> piecesCopy = new ArrayList<Piece>();
+
+		for (Piece piece : Board.pieces) {
+			piecesCopy.add(piece.getClone());
+		}
+
+		for (Piece piece : piecesCopy) {
+			if (piece.position[0] == test_piece.position[0] && piece.position[1] == test_piece.position[1]) {
+				piece.makeMove(test_move);
+			}
+		}
+
+		for (Piece piece : piecesCopy) {
+			for (Move move : piece.getMoves()) {
+				if (move.destinationX == position[0] && move.destinationY == position[1]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public King getClone() {
+		return new King(isWhite, position, rochade);
 	}
 }

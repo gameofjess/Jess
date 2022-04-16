@@ -32,12 +32,16 @@ public class Board {
 	public static List<Piece> pieces = new ArrayList<Piece>();
 	public static List<Piece> capturedPieces = new ArrayList<Piece>();
 
+	public static Piece kingWhite;
+	public static Piece kingBlack;
+
 	public static void initialize() {
 		pieces.add(new Rook(true, new int[] {0,0} ));
 		pieces.add(new Knight(true, new int[] {1,0} ));
 		pieces.add(new Bishop(true, new int[] {2,0} ));
 		pieces.add(new Queen(true, new int[] {3,0} ));
-		pieces.add(new King(true, new int[] {4,0} ));
+		kingWhite = new King(true, new int[] {4,0});
+		pieces.add(kingWhite);
 		pieces.add(new Bishop(true, new int[] {5,0} ));
 		pieces.add(new Knight(true, new int[] {6,0} ));
 		pieces.add(new Rook(true, new int[] {7,0} ));
@@ -50,7 +54,8 @@ public class Board {
 		pieces.add(new Knight(false, new int[] {1,7} ));
 		pieces.add(new Bishop(false, new int[] {2,7} ));
 		pieces.add(new Queen(false, new int[] {3,7} ));
-		pieces.add(new King(false, new int[] {4,7} ));
+		kingBlack = new King(false, new int[] {4,7} );
+		pieces.add(kingBlack);
 		pieces.add(new Bishop(false, new int[] {5,7} ));
 		pieces.add(new Knight(false, new int[] {6,7} ));
 		pieces.add(new Rook(false, new int[] {7,7} ));

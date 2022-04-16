@@ -14,6 +14,11 @@ public class Pawn extends Piece {
 		super(isWhite, position);
 	}
 
+	public Pawn(boolean isWhite, int[] position, boolean enpassant){
+		super(isWhite, position);
+		this.enpassant = enpassant;
+	}
+
 	@Override
 	public Move[] getMoves() {
 		List<Move> moves = new ArrayList<Move>();
@@ -86,7 +91,6 @@ public class Pawn extends Piece {
 
 	@Override
 	public void makeMove(Move move){
-		//TODO Enpassant
 		enpassant = move.enpassant;
 		position[0] = move.destinationX;
 		position[1] = move.destinationY;
@@ -95,5 +99,10 @@ public class Pawn extends Piece {
 			Board.capturedPieces.add(move.capture);
 			Board.pieces.remove(move.capture);
 		}
+	}
+
+	@Override
+	public Pawn getClone() {
+		return new Pawn(isWhite, position, enpassant);
 	}
 }

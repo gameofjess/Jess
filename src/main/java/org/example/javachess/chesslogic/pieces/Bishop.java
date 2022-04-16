@@ -43,4 +43,9 @@ public class Bishop extends Piece {
 
 		return moves.toArray(new Move[moves.size()]);
 	}
+
+	@Override
+	public Bishop getClone() {
+		return new Bishop(isWhite, position);
+	}
 }

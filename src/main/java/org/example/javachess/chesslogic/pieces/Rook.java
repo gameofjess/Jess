@@ -13,6 +13,11 @@ public class Rook extends Piece {
 		super(isWhite, position);
 	}
 
+	public Rook(boolean isWhite, int[] position, boolean rochade){
+		super(isWhite, position);
+		this.rochade = rochade;
+	}
+
 
 	@Override
 	public Move[] getMoves() {
@@ -58,6 +63,12 @@ public class Rook extends Piece {
 			Board.capturedPieces.add(move.capture);
 			Board.pieces.remove(move.capture);
 		}
+	}
+
+
+	@Override
+	public Rook getClone() {
+		return new Rook(isWhite, position, rochade);
 	}
 
 }

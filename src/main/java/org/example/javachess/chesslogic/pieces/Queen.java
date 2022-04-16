@@ -67,4 +67,9 @@ public class Queen extends Piece {
 		}
 		return moves.toArray(new Move[moves.size()]);
 	}
+
+	@Override
+	public Queen getClone() {
+		return new Queen(isWhite, position);
+	}
 }

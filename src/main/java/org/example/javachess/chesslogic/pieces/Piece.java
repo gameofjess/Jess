@@ -3,7 +3,7 @@ package org.example.javachess.chesslogic.pieces;
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 
-public abstract class Piece {
+public abstract class Piece implements Cloneable{
 
 	public boolean isWhite;
 	public int[] position = new int[2];
@@ -20,6 +20,8 @@ public abstract class Piece {
 
 	public abstract Move[] getMoves();
 
+	public abstract Piece getClone();
+
 	public void makeMove(Move move){
 		position[0] = move.destinationX;
 		position[1] = move.destinationY;
@@ -29,4 +31,5 @@ public abstract class Piece {
 			Board.pieces.remove(move.capture);
 		}
 	}
+
 }
