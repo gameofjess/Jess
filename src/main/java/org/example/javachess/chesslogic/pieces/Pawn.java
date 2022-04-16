@@ -58,7 +58,7 @@ public class Pawn extends Piece {
 
 			Piece zwei_vor = Board.getPosition(position[0], position[1] - 2);
 			if (position[1] == 2 && eins_vor == null && zwei_vor == null) {
-				moves.add(new Move(position[0], position[1] - 2));
+				moves.add(new Move(true, position[0], position[1] - 2));
 			}
 
 			Piece schlagen_rechts = Board.getPosition(position[0]+1, position[1] - 1);
@@ -84,5 +84,16 @@ public class Pawn extends Piece {
 		return moves.toArray(new Move[moves.size()]);
 	}
 
-
+	@Override
+	public void makeMove(Move move){
+		//TODO Enpassant
+		enpassant = move.enpassant;
+		position[0] = move.destinationX;
+		position[1] = move.destinationY;
+		if (move.capture != null) {
+			move.capture.position = null;
+			Board.capturedPieces.add(move.capture);
+			Board.pieces.remove(move.capture);
+		}
+	}
 }

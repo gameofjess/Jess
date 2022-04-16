@@ -47,4 +47,17 @@ public class Rook extends Piece {
 
 		return moves.toArray(new Move[moves.size()]);
 	}
+
+	@Override
+	public void makeMove(Move move){
+		rochade = false;
+		position[0] = move.destinationX;
+		position[1] = move.destinationY;
+		if (move.capture != null) {
+			move.capture.position = null;
+			Board.capturedPieces.add(move.capture);
+			Board.pieces.remove(move.capture);
+		}
+	}
+
 }

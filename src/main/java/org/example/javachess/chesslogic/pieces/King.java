@@ -60,13 +60,38 @@ public class King extends Piece {
 		}
 
 		if (rochade && Board.getPosition(5, position[1]) == null && Board.getPosition(6, position[1]) == null) {
-			moves.add(new Move(7, position[1], true));
+			Piece rook = Board.getPosition(7, position[1]);
+			if (rook instanceof Rook) {
+				if (((Rook) rook).rochade) {
+					moves.add(new Move(7, position[1], true));
+				}
+			}
 		}
 
 		if (rochade && Board.getPosition(1, position[1]) == null && Board.getPosition(2, position[1]) == null && Board.getPosition(3, position[1]) == null) {
-			moves.add(new Move(0, position[1], true));
+			Piece rook = Board.getPosition(0, position[1]);
+			if (rook instanceof Rook) {
+				if (((Rook) rook).rochade) {
+					moves.add(new Move(0, position[1], true));
+				}
+			}
 		}
 
 		return moves.toArray(new Move[moves.size()]);
+	}
+
+	@Override
+	public void makeMove(Move move){
+		rochade = false;
+		if (move.rochade) {
+			Board.getPosition(move.destinationX, move.destinationY).position = position;
+		}
+		position[0] = move.destinationX;
+		position[1] = move.destinationY;
+		if (move.capture != null) {
+			move.capture.position = null;
+			Board.capturedPieces.add(move.capture);
+			Board.pieces.remove(move.capture);
+		}
 	}
 }

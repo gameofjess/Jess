@@ -30,6 +30,7 @@ import java.util.Arrays;
 
 public class Board {
 	public static List<Piece> pieces = new ArrayList<Piece>();
+	public static List<Piece> capturedPieces = new ArrayList<Piece>();
 
 	public static void initialize() {
 		pieces.add(new Rook(true, new int[] {0,0} ));
