@@ -16,59 +16,219 @@ public class Knight extends Piece {
 		List<Move> moves = new ArrayList<Move>();
 		//hoch rechts
 		if (position[0] < 7 && position[1] < 6 && Board.getPosition(position[0] +1 , position[1] + 2) == null) {
-			moves.add(new Move(position[0] +1, position[1] + 2));
+			Move test_move = new Move(position[0] +1, position[1] + 2);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] < 7 && position[1] < 6 && Board.getPosition(position[0] +1 , position[1] + 2).isWhite != isWhite) {
-			moves.add(new Move(position[0] +1, position[1] + 2, Board.getPosition(position[0] +1 , position[1] + 2)));
+			Move test_move = new Move(position[0] +1, position[1] + 2, Board.getPosition(position[0] +1 , position[1] + 2));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//rechts hoch
 		if (position[0] < 6 && position[1] < 7 && Board.getPosition(position[0] +2 , position[1] + 1) == null) {
-			moves.add(new Move(position[0] +2, position[1] + 1));
+			Move test_move = new Move(position[0] +2, position[1] + 1);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] < 6 && position[1] < 7 && Board.getPosition(position[0] +2 , position[1] + 1).isWhite != isWhite) {
-			moves.add(new Move(position[0] +2, position[1] + 1, Board.getPosition(position[0] +2 , position[1] + 1)));
+			Move test_move = new Move(position[0] +2, position[1] + 1, Board.getPosition(position[0] +2 , position[1] + 1));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//rechts runter
 		if (position[0] < 6 && position[1] > 0 && Board.getPosition(position[0] +2 , position[1] - 1) == null) {
-			moves.add(new Move(position[0] +2, position[1] - 1));
+			Move test_move = new Move(position[0] +2, position[1] - 1);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] < 6 && position[1] > 0 && Board.getPosition(position[0] +2 , position[1] - 1).isWhite != isWhite) {
-			moves.add(new Move(position[0] +2, position[1] - 1, Board.getPosition(position[0] +2 , position[1] - 1)));
+			Move test_move = new Move(position[0] +2, position[1] - 1, Board.getPosition(position[0] +2 , position[1] - 1));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//runter rechts
 		if (position[0] < 7 && position[1] > 1 && Board.getPosition(position[0] +1 , position[1] - 2) == null) {
-			moves.add(new Move(position[0] +1, position[1] - 2));
+			Move test_move = new Move(position[0] +1, position[1] - 2);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] < 7 && position[1] > 1 && Board.getPosition(position[0] +1 , position[1] - 2).isWhite != isWhite) {
-			moves.add(new Move(position[0] +1, position[1] - 2, Board.getPosition(position[0] +1 , position[1] - 2)));
+			Move test_move = new Move(position[0] +1, position[1] - 2, Board.getPosition(position[0] +1 , position[1] - 2));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//runter links
 		if (position[0] > 0 && position[1] > 1 && Board.getPosition(position[0] -1 , position[1] - 2) == null) {
-			moves.add(new Move(position[0] -1, position[1] - 2));
+			Move test_move = new Move(position[0] -1, position[1] - 2);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] > 0 && position[1] > 1 && Board.getPosition(position[0] -1 , position[1] - 2).isWhite != isWhite) {
-			moves.add(new Move(position[0] -1, position[1] - 2, Board.getPosition(position[0] -1 , position[1] - 2)));
+			Move test_move = new Move(position[0] -1, position[1] - 2, Board.getPosition(position[0] -1 , position[1] - 2));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//Links runter
 		if (position[0] > 1 && position[1] > 0 && Board.getPosition(position[0] -2 , position[1] - 1) == null) {
-			moves.add(new Move(position[0] -2, position[1] - 1));
+			Move test_move = new Move(position[0] -2, position[1] - 1);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] > 1 && position[1] > 0 && Board.getPosition(position[0] -2 , position[1] - 1).isWhite != isWhite) {
-			moves.add(new Move(position[0] -2, position[1] - 1, Board.getPosition(position[0] -2 , position[1] - 1)));
+			Move test_move = new Move(position[0] -2, position[1] - 1, Board.getPosition(position[0] -2 , position[1] - 1));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//links hoch
 		if (position[0] > 1 && position[1] < 7 && Board.getPosition(position[0] -2 , position[1] + 1) == null) {
-			moves.add(new Move(position[0] -2, position[1] + 1));
+			Move test_move = new Move(position[0] -2, position[1] + 1);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] > 1 && position[1] < 7 && Board.getPosition(position[0] -2 , position[1] + 1).isWhite != isWhite) {
-			moves.add(new Move(position[0] -2, position[1] + 1, Board.getPosition(position[0] -2 , position[1] + 1)));
+			Move test_move = new Move(position[0] -2, position[1] + 1, Board.getPosition(position[0] -2 , position[1] + 1));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		//hoch links
 		if (position[0] > 0&& position[1] < 6 && Board.getPosition(position[0] -1 , position[1] + 2) == null) {
-			moves.add(new Move(position[0] -1, position[1] + 2));
+			Move test_move = new Move(position[0] -1, position[1] + 2);
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		if (position[0] > 0 && position[1] < 6 && Board.getPosition(position[0] -1 , position[1] + 2).isWhite != isWhite) {
-			moves.add(new Move(position[0] -1, position[1] + 2, Board.getPosition(position[0] -1 , position[1] + 2)));
+			Move test_move = new Move(position[0] -1, position[1] + 2, Board.getPosition(position[0] -1 , position[1] + 2));
+			if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 		}
 		return moves.toArray(new Move[moves.size()]);
 	}

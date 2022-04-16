@@ -26,64 +26,184 @@ public class Pawn extends Piece {
 
 			Piece eins_vor = Board.getPosition(position[0], position[1] + 1);
 			if (eins_vor == null) {
-				moves.add(new Move(position[0], position[1] + 1));
+				Move test_move = new Move(position[0], position[1] + 1);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece zwei_vor = Board.getPosition(position[0], position[1] + 2);
 			if (position[1] == 2 && eins_vor == null && zwei_vor == null) {
-				moves.add(new Move(position[0], position[1] + 2));
+				Move test_move = new Move(position[0], position[1] + 2);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece schlagen_rechts = Board.getPosition(position[0]+1, position[1] + 1);
 			if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
-				moves.add(new Move(position[0]+1, position[1] + 1, schlagen_rechts));
+				Move test_move = new Move(position[0]+1, position[1] + 1, schlagen_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece schlagen_links = Board.getPosition(position[0]-1, position[1] + 1);
 			if (schlagen_links != null && !schlagen_links.isWhite) {
-				moves.add(new Move(position[0]-1, position[1] + 1, schlagen_links));
+				Move test_move = new Move(position[0]-1, position[1] + 1, schlagen_links);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece enpassant_rechts = Board.getPosition(position[0]+1, position[1]);
 			if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
-				moves.add(new Move(position[0]+1, position[1] + 1, enpassant_rechts));
+				Move test_move = new Move(position[0]+1, position[1] + 1, enpassant_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece enpassant_links = Board.getPosition(position[0]-1, position[1]);
 			if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
-				moves.add(new Move(position[0]-1, position[1] + 1, enpassant_rechts));
+				Move test_move = new Move(position[0]-1, position[1] + 1, enpassant_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 		}
 		else{
 
 			Piece eins_vor = Board.getPosition(position[0], position[1] - 1);
 			if (eins_vor == null) {
-				moves.add(new Move(position[0], position[1] - 1));
+				Move test_move = new Move(position[0], position[1] - 1);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece zwei_vor = Board.getPosition(position[0], position[1] - 2);
 			if (position[1] == 2 && eins_vor == null && zwei_vor == null) {
-				moves.add(new Move(true, position[0], position[1] - 2));
+				Move test_move = new Move(true, position[0], position[1] - 2);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece schlagen_rechts = Board.getPosition(position[0]+1, position[1] - 1);
 			if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
-				moves.add(new Move(position[0]+1, position[1] - 1, schlagen_rechts));
+				Move test_move = new Move(position[0]+1, position[1] - 1, schlagen_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece schlagen_links = Board.getPosition(position[0]-1, position[1] - 1);
 			if (schlagen_links != null && !schlagen_links.isWhite) {
-				moves.add(new Move(position[0]-1, position[1] - 1, schlagen_links));
+				Move test_move = new Move(position[0]-1, position[1] - 1, schlagen_links);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece enpassant_rechts = Board.getPosition(position[0]+1, position[1]);
 			if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
-				moves.add(new Move(position[0]+1, position[1] - 1, enpassant_rechts));
+				Move test_move = new Move(position[0]+1, position[1] - 1, enpassant_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 
 			Piece enpassant_links = Board.getPosition(position[0]-1, position[1]);
 			if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
-				moves.add(new Move(position[0]-1, position[1] - 1, enpassant_rechts));
+				Move test_move = new Move(position[0]-1, position[1] - 1, enpassant_rechts);
+				if (isWhite) {
+				if (!Board.kingWhite.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
+			else{
+				if (!Board.kingBlack.checkCheck(test_move, this)) {
+					moves.add(test_move);
+				}
+			}
 			}
 		}
 		return moves.toArray(new Move[moves.size()]);
