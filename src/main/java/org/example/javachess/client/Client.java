@@ -61,6 +61,11 @@ public class Client extends WebSocketClient {
                 log.info("Received new server info: " + msg.getMessage());
                 //TO BE IMPLEMENTED
             }
+
+            case BEGINMATCH -> {
+                log.info(msg.getMessage());
+                // TO BE IMPLEMENTED
+            }
         }
     }
 }

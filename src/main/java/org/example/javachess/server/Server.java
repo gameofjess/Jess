@@ -47,6 +47,12 @@ public class Server extends WebSocketServer{
             } else {
                 log.info("Username of new user is " + username);
                 users.put(u, username);
+
+                if(users.size() == 2){
+                    ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + username + " joined. The match begins!");
+                    broadcast(msg.toJSON());
+                    log.info("Match begins.");
+                }
             }
         } else {
             log.warn("Client with invalid username field tried to connect to the server!");

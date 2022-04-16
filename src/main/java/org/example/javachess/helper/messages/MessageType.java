@@ -6,7 +6,9 @@ package org.example.javachess.helper.messages;
  * SERVERINFO: This message type may be used when there is an event the server wants to announce.
  * This can be anything the other types can't match. This type may only be used in ServerMessage!
  *
- * SERVERERROR: This message type may be used when an error or exception happens. This type may only be used in ServerMessage
+ * SERVERERROR: This message type may be used when an error or exception happens. This type may only be used in ServerMessage!
+ *
+ * BEGINMATCH: This message type may be used to tell the first player, that the second player joined. This type may only be used in ServerMessage!
  *
  * CHATMESSAGE: This message type transmits new chat messages.
  *
@@ -16,6 +18,7 @@ public enum MessageType {
 
     SERVERINFO,
     SERVERERROR,
+    BEGINMATCH,
     CHATMESSAGE,
     NEWMOVE
 
