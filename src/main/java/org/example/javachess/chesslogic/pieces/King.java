@@ -11,6 +11,7 @@ public class King extends Piece {
 
 	public King(boolean isWhite, int[] position){
 		super(isWhite, position);
+		super.fen = "k";
 	}
 
 	public King(boolean isWhite, int[] position, boolean rochade){
@@ -19,7 +20,7 @@ public class King extends Piece {
 	}
 
 	@Override
-	public Move[] getMoves() {
+	public Move[] getMoves(boolean checking) {
 		List<Move> moves = new ArrayList<Move>();
 
 		Piece test;
@@ -28,12 +29,12 @@ public class King extends Piece {
 		if (position[1] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0], position[1] + 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -43,12 +44,12 @@ public class King extends Piece {
 		if (position[0] + 1 < 8 && position[1] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] + 1, position[1] + 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -58,12 +59,12 @@ public class King extends Piece {
 		if (position[0] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] + 1, position[1], test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -73,12 +74,12 @@ public class King extends Piece {
 		if (position[0] + 1 < 8 && position[1] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] + 1, position[1] - 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -88,12 +89,12 @@ public class King extends Piece {
 		if (position[1] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0], position[1] - 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -103,12 +104,12 @@ public class King extends Piece {
 		if (position[0] - 1 >= 0 && position[1] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] - 1, position[1] - 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -118,12 +119,12 @@ public class King extends Piece {
 		if (position[0] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] - 1, position[1], test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -133,12 +134,12 @@ public class King extends Piece {
 		if (position[0] - 1 >= 0 && position[1] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
 			Move test_move = new Move(position[0] - 1, position[1] + 1, test);
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -150,12 +151,12 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(7, position[1], true);
 					if (isWhite) {
-						if (!Board.kingWhite.checkCheck(test_move, this)) {
+						if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 							moves.add(test_move);
 						}
 					}
 					else{
-						if (!Board.kingBlack.checkCheck(test_move, this)) {
+						if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 							moves.add(test_move);
 						}
 					}
@@ -169,12 +170,12 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(0, position[1], true);
 					if (isWhite) {
-						if (!Board.kingWhite.checkCheck(test_move, this)) {
+						if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 							moves.add(test_move);
 						}
 					}
 					else{
-						if (!Board.kingBlack.checkCheck(test_move, this)) {
+						if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 							moves.add(test_move);
 						}
 					}
@@ -214,18 +215,22 @@ public class King extends Piece {
 	public boolean checkCheck(Move test_move, Piece test_piece){
 		List<Piece> piecesCopy = new ArrayList<Piece>();
 
+
+		//clone board
 		for (Piece piece : Board.pieces) {
 			piecesCopy.add(piece.getClone());
 		}
 
+		//simulate move
 		for (Piece piece : piecesCopy) {
 			if (piece.position[0] == test_piece.position[0] && piece.position[1] == test_piece.position[1]) {
 				piece.makeMove(test_move);
+				break;
 			}
 		}
 
 		for (Piece piece : piecesCopy) {
-			for (Move move : piece.getMoves()) {
+			for (Move move : piece.getMoves(false)) {
 				if (move.destinationX == position[0] && move.destinationY == position[1]) {
 					return true;
 				}

@@ -7,6 +7,7 @@ public abstract class Piece implements Cloneable{
 
 	public boolean isWhite;
 	public int[] position = new int[2];
+	public String fen;
 
 	public Piece(boolean isWhite, int[] position){
 		this.isWhite = isWhite;
@@ -18,8 +19,11 @@ public abstract class Piece implements Cloneable{
 		return ((isWhite) ? "White " : "Black ") + String.format("%s: X=%d Y=%d", this.getClass().getSimpleName(), position[0], position[1]);  
 	}
 
-	public abstract Move[] getMoves();
+	public abstract Move[] getMoves(boolean checking);
 
+	public Move[] getMoves(){
+		return getMoves(true);
+	}
 	public abstract Piece getClone();
 
 	public void makeMove(Move move){

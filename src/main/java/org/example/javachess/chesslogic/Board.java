@@ -32,8 +32,8 @@ public class Board {
 	public static List<Piece> pieces = new ArrayList<Piece>();
 	public static List<Piece> capturedPieces = new ArrayList<Piece>();
 
-	public static Piece kingWhite;
-	public static Piece kingBlack;
+	public static King kingWhite;
+	public static King kingBlack;
 
 	public static void initialize() {
 		pieces.add(new Rook(true, new int[] {0,0} ));
@@ -71,5 +71,43 @@ public class Board {
 			if( Arrays.equals(position, piece.position)) return piece;
 		}
 		return null;
+	}
+
+	public static String getFEN(){
+		StringBuilder out = new StringBuilder("");
+
+		for (byte i = 7; i >= 0; i--) {
+			int emptycounter = 0;
+			for (byte j = 0; j < 8; j++) {
+				Piece test = getPosition(j, i);
+				//System.out.println(test);
+				if (test == null) {
+					emptycounter++;
+				}
+				else{
+					if (emptycounter > 0) {
+						out.append(emptycounter);
+						emptycounter = 0;
+					}
+
+					if(test.isWhite){
+						//System.out.println(test.fen);
+						out.append(test.fen.toUpperCase());
+					}
+					else{
+						//System.out.println();
+						out.append(test.fen.toLowerCase());
+					}
+				}
+			}
+			if (emptycounter > 0) {
+				out.append(emptycounter);
+				emptycounter = 0;
+			}
+			out.append('/');
+		}
+
+		
+		return out.toString();
 	}
 }

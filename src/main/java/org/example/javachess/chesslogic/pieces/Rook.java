@@ -11,6 +11,7 @@ public class Rook extends Piece {
 
 	public Rook(boolean isWhite, int[] position){
 		super(isWhite, position);
+		super.fen = "r";
 	}
 
 	public Rook(boolean isWhite, int[] position, boolean rochade){
@@ -20,7 +21,7 @@ public class Rook extends Piece {
 
 
 	@Override
-	public Move[] getMoves() {
+	public Move[] getMoves(boolean checking) {
 
 		List<Move> moves = new ArrayList<Move>();
 		
@@ -30,12 +31,12 @@ public class Rook extends Piece {
 		while (position[0] + i < 8 && (Board.getPosition(position[0] + i, position[1]) == null || Board.getPosition(position[0] + i, position[1]).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] + i, position[1], Board.getPosition(position[0] + i, position[1]));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -46,12 +47,12 @@ public class Rook extends Piece {
 		while (position[0] - i >= 0 && (Board.getPosition(position[0] - i, position[1]) == null || Board.getPosition(position[0] - i, position[1]).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] - i, position[1], Board.getPosition(position[0] - i, position[1]));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -62,12 +63,12 @@ public class Rook extends Piece {
 		while (position[1] + i < 8 && (Board.getPosition(position[0], position[1] + i) == null || Board.getPosition(position[0], position[1] + i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0], position[1] + i, Board.getPosition(position[0] - i, position[1] + i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -78,12 +79,12 @@ public class Rook extends Piece {
 		while (position[1] - i >= 0 && (Board.getPosition(position[0], position[1] - i) == null || Board.getPosition(position[0], position[1] - i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0], position[1] - i, Board.getPosition(position[0], position[1] - i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}

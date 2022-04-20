@@ -12,6 +12,7 @@ public class Pawn extends Piece {
 
 	public Pawn(boolean isWhite, int[] position){
 		super(isWhite, position);
+		super.fen = "p";
 	}
 
 	public Pawn(boolean isWhite, int[] position, boolean enpassant){
@@ -20,7 +21,7 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public Move[] getMoves() {
+	public Move[] getMoves(boolean checking) {
 		List<Move> moves = new ArrayList<Move>();
 		if(isWhite){
 
@@ -28,12 +29,12 @@ public class Pawn extends Piece {
 			if (eins_vor == null) {
 				Move test_move = new Move(position[0], position[1] + 1);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -43,12 +44,12 @@ public class Pawn extends Piece {
 			if (position[1] == 2 && eins_vor == null && zwei_vor == null) {
 				Move test_move = new Move(position[0], position[1] + 2);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -58,12 +59,12 @@ public class Pawn extends Piece {
 			if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
 				Move test_move = new Move(position[0]+1, position[1] + 1, schlagen_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -73,12 +74,12 @@ public class Pawn extends Piece {
 			if (schlagen_links != null && !schlagen_links.isWhite) {
 				Move test_move = new Move(position[0]-1, position[1] + 1, schlagen_links);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -88,12 +89,12 @@ public class Pawn extends Piece {
 			if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
 				Move test_move = new Move(position[0]+1, position[1] + 1, enpassant_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -103,12 +104,12 @@ public class Pawn extends Piece {
 			if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
 				Move test_move = new Move(position[0]-1, position[1] + 1, enpassant_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -120,12 +121,12 @@ public class Pawn extends Piece {
 			if (eins_vor == null) {
 				Move test_move = new Move(position[0], position[1] - 1);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -135,12 +136,12 @@ public class Pawn extends Piece {
 			if (position[1] == 2 && eins_vor == null && zwei_vor == null) {
 				Move test_move = new Move(true, position[0], position[1] - 2);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -150,12 +151,12 @@ public class Pawn extends Piece {
 			if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
 				Move test_move = new Move(position[0]+1, position[1] - 1, schlagen_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -165,12 +166,12 @@ public class Pawn extends Piece {
 			if (schlagen_links != null && !schlagen_links.isWhite) {
 				Move test_move = new Move(position[0]-1, position[1] - 1, schlagen_links);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -180,12 +181,12 @@ public class Pawn extends Piece {
 			if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
 				Move test_move = new Move(position[0]+1, position[1] - 1, enpassant_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -195,12 +196,12 @@ public class Pawn extends Piece {
 			if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
 				Move test_move = new Move(position[0]-1, position[1] - 1, enpassant_rechts);
 				if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}

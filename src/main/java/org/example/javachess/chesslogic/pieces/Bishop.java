@@ -7,12 +7,14 @@ import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 
 public class Bishop extends Piece {
+
 	public Bishop(boolean isWhite, int[] position){
 		super(isWhite, position);
+		super.fen = "b";
 	}
 
 	@Override
-	public Move[] getMoves() {
+	public Move[] getMoves(boolean checking) {
 		List<Move> moves = new ArrayList<Move>();
 		
 		int i;
@@ -21,12 +23,12 @@ public class Bishop extends Piece {
 		while (position[0] + i < 8 && position[1] + i < 8 && (Board.getPosition(position[0] + i, position[1] + i) == null || Board.getPosition(position[0] + i, position[1] + i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] + i, position[1] + i, Board.getPosition(position[0] + i, position[1] + i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -37,12 +39,12 @@ public class Bishop extends Piece {
 		while (position[0] + i < 8 && position[1] - i >= 0 && (Board.getPosition(position[0] + i, position[1] - i) == null || Board.getPosition(position[0] + i, position[1] - i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] + i, position[1] - i, Board.getPosition(position[0] + i, position[1] - i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -53,12 +55,12 @@ public class Bishop extends Piece {
 		while (position[0] - i >= 0 && position[1] - i >= 0 && (Board.getPosition(position[0] - i, position[1] - i) == null || Board.getPosition(position[0] - i, position[1] - i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] - i, position[1] - i, Board.getPosition(position[0] - i, position[1] - i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
@@ -69,12 +71,12 @@ public class Bishop extends Piece {
 		while (position[0] - i >= 0 && position[1] + i < 8 && (Board.getPosition(position[0] - i, position[1] + i) == null || Board.getPosition(position[0] - i, position[1] + i).isWhite != isWhite )) {
 			Move test_move = new Move(position[0] - i, position[1] + i, Board.getPosition(position[0] - i, position[1] + i));
 			if (isWhite) {
-				if (!Board.kingWhite.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
 			else{
-				if (!Board.kingBlack.checkCheck(test_move, this)) {
+				if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
 					moves.add(test_move);
 				}
 			}
