@@ -6,10 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.Objects;
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         try {
             URL fxmlFileUrl = getClass().getClassLoader().getResource("menu.fxml");
             // URL cssFileUrl = getClass().getClassLoader().getResource("application.css");
