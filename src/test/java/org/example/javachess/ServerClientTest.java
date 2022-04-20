@@ -1,5 +1,11 @@
 package org.example.javachess;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Random;
+
 import org.example.javachess.client.ConnectionHandler;
 import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
@@ -7,19 +13,14 @@ import org.example.javachess.server.Server;
 import org.example.javachess.server.ServerBuilder;
 import org.junit.jupiter.api.Test;
 
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class ServerClientTest {
 
     /**
      * Tests whether a connection between a server and a client can be established.
      */
     @Test
-    void clientServerConnectTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+    void clientServerConnectTest()
+            throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 
@@ -47,7 +48,8 @@ public class ServerClientTest {
      * Tests whether a connection with a duplicate username gets rejected.
      */
     @Test
-    void invalidUsernameTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+    void invalidUsernameTest()
+            throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 
@@ -77,7 +79,8 @@ public class ServerClientTest {
      * Tests whether a connection gets refused when too many users are connected.
      */
     @Test
-    void tooManyUsersTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+    void tooManyUsersTest()
+            throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 

@@ -1,24 +1,26 @@
 package org.example.javachess.server;
 
-import org.example.javachess.helper.messages.*;
-import org.java_websocket.WebSocket;
-import org.java_websocket.framing.CloseFrame;
-import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Server extends WebSocketServer{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.javachess.helper.messages.ClientMessage;
+import org.example.javachess.helper.messages.MessageType;
+import org.example.javachess.helper.messages.ServerMessage;
+import org.java_websocket.WebSocket;
+import org.java_websocket.framing.CloseFrame;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
+
+public class Server extends WebSocketServer {
 
     private static final Logger log = LogManager.getLogger(Server.class);
 
     private final HashMap<UUID, String> users = new HashMap<>();
 
-    Server (InetSocketAddress address){
+    Server(InetSocketAddress address) {
         super(address);
     }
 
@@ -26,7 +28,7 @@ public class Server extends WebSocketServer{
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         log.info("New connection from " + webSocket.getRemoteSocketAddress());
 
-        if(users.size() > 1){
+        if (users.size() > 1) {
             log.warn("Refusing connection because there already are two players!");
             webSocket.close(CloseFrame.UNEXPECTED_CONDITION, "There already are two players!");
             return;
@@ -38,18 +40,21 @@ public class Server extends WebSocketServer{
 
         log.debug("Connection header is being parsed");
 
-        if(clientHandshake.hasFieldValue("username")){
+        if (clientHandshake.hasFieldValue("username")) {
             String username = clientHandshake.getFieldValue("username");
-            if(users.containsValue(username)){
+            if (users.containsValue(username)) {
                 log.info("Username " + username + " already exists! Closing connection.");
-                webSocket.send(new ServerMessage(MessageType.SERVERERROR, "Username already in use!").toJSON());
+                webSocket
+                        .send(new ServerMessage(MessageType.SERVERERROR, "Username already in use!")
+                                .toJSON());
                 webSocket.close(CloseFrame.REFUSE, "Username is already used!");
             } else {
                 log.info("Username of new user is " + username);
                 users.put(u, username);
 
-                if(users.size() == 2){
-                    ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + username + " joined. The match begins!");
+                if (users.size() == 2) {
+                    ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH,
+                            "Player " + username + " joined. The match begins!");
                     broadcast(msg.toJSON());
                     log.info("Match begins.");
                 }
@@ -65,10 +70,12 @@ public class Server extends WebSocketServer{
         UUID u = webSocket.getAttachment();
         String username = users.get(u);
         log.info("Client " + username + " disconnected!");
-        ServerMessage msg = new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
+        ServerMessage msg =
+                new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
         broadcast(msg.toJSON());
-        log.info("Connection from " + webSocket.getRemoteSocketAddress() + " was terminated with exit code " + exitCode + ". Reason: " + reason);
-        for(WebSocket ws : getConnections()){
+        log.info("Connection from " + webSocket.getRemoteSocketAddress()
+                + " was terminated with exit code " + exitCode + ". Reason: " + reason);
+        for (WebSocket ws : getConnections()) {
             ws.close(CloseFrame.GOING_AWAY);
         }
     }
@@ -94,25 +101,28 @@ public class Server extends WebSocketServer{
 
     /**
      * Handles received messages according to their type.
+     * 
      * @param cmsg ClientMessage to be handled.
      * @param webSocket WebSocket that sent the Message.
      */
-    private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket){
+    private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
         UUID webSocketUUID = webSocket.getAttachment();
         switch (cmsg.getType()) {
             case CHATMESSAGE -> {
                 log.info("New chat message received: " + cmsg.getMessage());
                 String username = users.get(webSocketUUID);
-                ServerMessage msg = new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
+                ServerMessage msg =
+                        new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
                 broadcast(msg.toJSON());
             }
             case NEWMOVE -> {
                 String username = users.get(webSocketUUID);
                 log.info("Client " + username + " has made a new move");
 
-                //TODO: Implement check on move once according method has been implemented.
+                // TODO: Implement check on move once according method has been implemented.
 
-                ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
+                ServerMessage msg =
+                        new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
                 broadcast(msg.toJSON());
             }
         }
@@ -121,7 +131,7 @@ public class Server extends WebSocketServer{
     /**
      * @return String-Array with all current usernames.
      */
-    public String[] getUsers(){
+    public String[] getUsers() {
         return users.values().toArray(new String[0]);
     }
 }
