@@ -1,21 +1,31 @@
 package org.example.javachess.mainpackage;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // _TODO: Implement JavaFX startup
-        /*
-         * 
-         * URL fxmlFileUrl = getClass().getClassLoader().getResource("main.fxml"); Parent root =
-         * FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl)); primaryStage.setTitle("JavaChess");
-         * primaryStage.setScene(new Scene(root, 300, 275)); primaryStage.show();
-         * 
-         */
+    public void start(Stage stage) throws Exception {
+        try {
+            URL fxmlFileUrl = getClass().getClassLoader().getResource("menu.fxml");
+            // URL cssFileUrl = getClass().getClassLoader().getResource("application.css");
+            Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
+            Scene scene = new Scene(root);
+            // scene.getStylesheets().add(cssFileUrl.toExternalForm());
+            stage.setTitle("Hello World");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
