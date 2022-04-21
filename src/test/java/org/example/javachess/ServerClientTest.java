@@ -62,17 +62,17 @@ public class ServerClientTest {
         testConnection1.connect("TestUser");
         testConnection2.connect("TestUser");
 
-        boolean isDisonnected = false;
+        boolean isDisconnected = false;
         // This waits one seconds if the client gets disconnected, if not, the test fails.
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() - start < 1000) {
             if (!testConnection2.getConnectionStatus()) {
-                isDisonnected = true;
+                isDisconnected = true;
                 break;
             }
         }
 
-        assertTrue(isDisonnected);
+        assertTrue(isDisconnected);
     }
 
     /**
@@ -95,17 +95,17 @@ public class ServerClientTest {
         testConnection2.connect("TestUser2");
         testConnection3.connect("TestUser3");
 
-        boolean isDisonnected = false;
+        boolean isDisconnected = false;
         // This waits one seconds if the client gets disconnected, if not, the test fails.
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() - start < 1000) {
             if (!testConnection3.getConnectionStatus()) {
-                isDisonnected = true;
+                isDisconnected = true;
                 break;
             }
         }
 
-        assertTrue(isDisonnected);
+        assertTrue(isDisconnected);
     }
 
 }
