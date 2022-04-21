@@ -45,11 +45,14 @@ public class ServerCommandListener implements Runnable {
 
     public void parseCommand(String cmd) {
         switch (cmd) {
+            case "exit" -> {
+                log.info("Exiting...");
+                System.exit(1);
+            }
             case "stop" -> {
                 try {
                     log.info("Server is preparing to stop!");
                     server.stop(20);
-                    System.exit(1);
                 } catch (InterruptedException e) {
                     log.error(e.getMessage());
                 }
