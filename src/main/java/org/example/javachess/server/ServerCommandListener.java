@@ -2,6 +2,7 @@ package org.example.javachess.server;
 
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,8 +56,15 @@ public class ServerCommandListener implements Runnable {
             }
             case "list" -> {
                 String users = "";
-                for (String s : server.getUsers()) {
-                    users = users.concat(s + ", ");
+                Stream<String> serverUserStream = Stream.of(server.getUsers()).sorted();
+                String[] serverUsers = serverUserStream.toArray(String[]::new);
+                for (int i = 0; i < serverUsers.length; i++) {
+                    String s = serverUsers[i];
+                    if(i == serverUsers.length - 1){
+                        users = users.concat(s);
+                    } else {
+                        users = users.concat(s + ", ");
+                    }
                 }
                 log.info("The following users are connected: " + users);
             }
