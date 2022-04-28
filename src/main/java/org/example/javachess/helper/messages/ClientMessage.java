@@ -1,6 +1,7 @@
 package org.example.javachess.helper.messages;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ public class ClientMessage implements Message {
     private static final Logger log = LogManager.getLogger(ClientMessage.class);
 
     private final String message;
-    private final Date time;
+    private Date time;
     private final MessageType type;
 
     /**
@@ -27,27 +28,21 @@ public class ClientMessage implements Message {
      * @param type Type of ClientMessage.
      */
     public ClientMessage(String message, Date time, MessageType type) {
-        log.debug("Constructing ClientMessage with message, date and message type.");
-        if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR
-                || type == MessageType.BEGINMATCH) {
-            throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
-        }
-        this.message = message;
+        this(message, type);
+        log.debug("Adding date to constructed ClientMessage");
         this.time = time;
-        this.type = type;
     }
 
     /**
-     * Constructs a ClientMessage from a message and a MessageType. The time of creation is set to
-     * the actual time of creation.
+     * Constructs a ClientMessage from a message and a MessageType. The time of creation is set to the
+     * actual time of creation.
      * 
      * @param message Message to be sent.
      * @param type Type of ClientMessage.
      */
     public ClientMessage(String message, MessageType type) {
         log.debug("Constructing ClientMessage with message and message type.");
-        if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR
-                || type == MessageType.BEGINMATCH) {
+        if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR || type == MessageType.BEGINMATCH) {
             throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
         }
         this.message = message;
@@ -61,22 +56,18 @@ public class ClientMessage implements Message {
      * @param m Move to be sent.
      */
     public ClientMessage(Move m) {
-        this.type = MessageType.NEWMOVE;
-        this.time = new Date();
-        this.message = new Gson().toJson(m);
+        this(new Gson().toJson(m), MessageType.NEWMOVE);
+        log.debug("Constructing ClientMessage from Move Object");
     }
 
     /**
      * Constructs a ClientMessage from JSON.
      */
     public ClientMessage(String json) {
+        this(new Gson().fromJson(json, ClientMessage.class).getMessage(), new Gson().fromJson(json, ClientMessage.class).getTime(),
+                new Gson().fromJson(json, ClientMessage.class).getType());
         log.debug("Constructing ClientMessage from JSON");
-        Gson g = new Gson();
-        this.message = g.fromJson(json, ClientMessage.class).getMessage();
-        this.time = g.fromJson(json, ClientMessage.class).getTime();
-        this.type = g.fromJson(json, ClientMessage.class).getType();
     }
-
 
     @Override
     public String getMessage() {
@@ -96,5 +87,20 @@ public class ClientMessage implements Message {
     @Override
     public MessageType getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ClientMessage that = (ClientMessage) o;
+        return Objects.equals(message, that.message) && Objects.equals(time.toString(), that.time.toString()) && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(message, time, type);
     }
 }
