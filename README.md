@@ -40,7 +40,7 @@ To start the client application you may run the following command:
 
 However, if you intend to host a dedicated server there are a few advanced features.
 
-- `-d`: Start a dedicated server.
+- `-s`: Start a dedicated server.
 - `-p <port>`: Choose a port for the server to listen on.
 - `-H <hostname>`: Choose a hostname for the server to listen on.
 
