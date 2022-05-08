@@ -21,6 +21,8 @@ public class Main extends Application {
             // scene.getStylesheets().add(cssFileUrl.toExternalForm());
             stage.setTitle("Hello World");
             stage.setScene(scene);
+            stage.setMinHeight(600);
+            stage.setMinWidth(400);
             stage.show();
 
         } catch (Exception e) {
