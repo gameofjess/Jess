@@ -5,29 +5,31 @@ import java.util.List;
 
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
+import org.example.javachess.chesslogic.Position;
 
 public class King extends Piece {
     public boolean rochade = true;
 
-    public King(boolean isWhite, int[] position) {
-        super(isWhite, position);
+    public King(boolean isWhite) {
+        super(isWhite);
         super.fen = "k";
     }
 
-    public King(boolean isWhite, int[] position, boolean rochade) {
-        super(isWhite, position);
+    public King(boolean isWhite, boolean rochade) {
+        super(isWhite);
         this.rochade = rochade;
     }
 
     @Override
     public Move[] getMoves(boolean checking) {
         List<Move> moves = new ArrayList<Move>();
+		Position position = Board.getPosition(this);
 
         Piece test;
         // hoch
-        test = Board.getPosition(position[0], position[1] + 1);
-        if (position[1] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0], position[1] + 1, test);
+        test = Board.board.get( new Position(position.x, position.y + 1));
+        if (position.y + 1 < 8 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x, position.y + 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -39,10 +41,10 @@ public class King extends Piece {
             }
         }
         // hoch rechts
-        test = Board.getPosition(position[0] + 1, position[1] + 1);
-        if (position[0] + 1 < 8 && position[1] + 1 < 8
+        test = Board.board.get( new Position(position.x + 1, position.y + 1));
+        if (position.x + 1 < 8 && position.y + 1 < 8
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + 1, position[1] + 1, test);
+            Move test_move = new Move(new Position(position.x + 1, position.y + 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -54,9 +56,9 @@ public class King extends Piece {
             }
         }
         // rechts
-        test = Board.getPosition(position[0] + 1, position[1]);
-        if (position[0] + 1 < 8 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + 1, position[1], test);
+        test = Board.board.get( new Position(position.x + 1, position.y));
+        if (position.x + 1 < 8 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x + 1, position.y), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -68,10 +70,10 @@ public class King extends Piece {
             }
         }
         // runter rechts
-        test = Board.getPosition(position[0] + 1, position[1] - 1);
-        if (position[0] + 1 < 8 && position[1] - 1 >= 0
+        test = Board.board.get( new Position(position.x + 1, position.y - 1));
+        if (position.x + 1 < 8 && position.y - 1 >= 0
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + 1, position[1] - 1, test);
+            Move test_move = new Move(new Position(position.x + 1, position.y - 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -83,9 +85,9 @@ public class King extends Piece {
             }
         }
         // runter
-        test = Board.getPosition(position[0], position[1] - 1);
-        if (position[1] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0], position[1] - 1, test);
+        test = Board.board.get( new Position(position.x, position.y - 1));
+        if (position.y - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x, position.y - 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -97,10 +99,10 @@ public class King extends Piece {
             }
         }
         // runter links
-        test = Board.getPosition(position[0] - 1, position[1] - 1);
-        if (position[0] - 1 >= 0 && position[1] - 1 >= 0
+        test = Board.board.get( new Position(position.x - 1, position.y - 1));
+        if (position.x - 1 >= 0 && position.y - 1 >= 0
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - 1, position[1] - 1, test);
+            Move test_move = new Move(new Position(position.x - 1, position.y - 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -112,9 +114,9 @@ public class King extends Piece {
             }
         }
         // links
-        test = Board.getPosition(position[0] - 1, position[1]);
-        if (position[0] - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - 1, position[1], test);
+        test = Board.board.get( new Position(position.x - 1, position.y));
+        if (position.x - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x - 1, position.y), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -126,10 +128,10 @@ public class King extends Piece {
             }
         }
         // hoch links
-        test = Board.getPosition(position[0] - 1, position[1] + 1);
-        if (position[0] - 1 >= 0 && position[1] + 1 < 8
+        test = Board.board.get( new Position(position.x - 1, position.y + 1));
+        if (position.x - 1 >= 0 && position.y + 1 < 8
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - 1, position[1] + 1, test);
+            Move test_move = new Move(new Position(position.x - 1, position.y + 1), test);
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -141,12 +143,12 @@ public class King extends Piece {
             }
         }
 
-        if (rochade && Board.getPosition(5, position[1]) == null
-                && Board.getPosition(6, position[1]) == null) {
-            Piece rook = Board.getPosition(7, position[1]);
+        if (rochade && Board.board.get( new Position(5, position.y)) == null
+                && Board.board.get( new Position(6, position.y)) == null) {
+            Piece rook = Board.board.get( new Position(7, position.y));
             if (rook instanceof Rook) {
                 if (((Rook) rook).rochade) {
-                    Move test_move = new Move(7, position[1], true);
+                    Move test_move = new Move(new Position(7, position.y), true);
                     if (isWhite) {
                         if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                             moves.add(test_move);
@@ -160,13 +162,13 @@ public class King extends Piece {
             }
         }
 
-        if (rochade && Board.getPosition(1, position[1]) == null
-                && Board.getPosition(2, position[1]) == null
-                && Board.getPosition(3, position[1]) == null) {
-            Piece rook = Board.getPosition(0, position[1]);
+        if (rochade && Board.board.get( new Position(1, position.y)) == null
+                && Board.board.get( new Position(2, position.y)) == null
+                && Board.board.get( new Position(3, position.y)) == null) {
+            Piece rook = Board.board.get( new Position(0, position.y));
             if (rook instanceof Rook) {
                 if (((Rook) rook).rochade) {
-                    Move test_move = new Move(0, position[1], true);
+                    Move test_move = new Move(new Position(0, position.y), true);
                     if (isWhite) {
                         if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                             moves.add(test_move);
@@ -186,31 +188,37 @@ public class King extends Piece {
     @Override
     public void makeMove(Move move) {
         rochade = false;
+
         if (move.rochade) {
-            Board.getPosition(move.destinationX, move.destinationY).position = position;
+            //TODO
         }
-        position[0] = move.destinationX;
-        position[1] = move.destinationY;
+
         if (move.capture != null) {
-            move.capture.position = null;
-            Board.capturedPieces.add(move.capture);
-            Board.pieces.remove(move.capture);
-        }
+			Board.capturedPieces.add(move.capture);
+		}
+		Board.board.remove(Board.getPosition(this));
+        Board.board.put(move.destination , this);
     }
 
     public boolean checkCheck() {
+		
+		//TODO
+		/**
         for (Piece piece : Board.pieces) {
             for (Move move : piece.getMoves()) {
-                if (move.destinationX == position[0] && move.destinationY == position[1]) {
+                if (move.destinationX == position.x && move.destinationY == position.y) {
                     return true;
                 }
             }
         }
+		**/
         return false;
     }
 
     public boolean checkCheck(Move test_move, Piece test_piece) {
-        List<Piece> piecesCopy = new ArrayList<Piece>();
+        /*
+		TODO
+		List<Piece> piecesCopy = new ArrayList<Piece>();
 
 
         // clone board
@@ -220,8 +228,8 @@ public class King extends Piece {
 
         // simulate move
         for (Piece piece : piecesCopy) {
-            if (piece.position[0] == test_piece.position[0]
-                    && piece.position[1] == test_piece.position[1]) {
+            if (piece.position.x == test_piece.position.x
+                    && piece.position.y == test_piece.position.y) {
                 piece.makeMove(test_move);
                 break;
             }
@@ -229,16 +237,17 @@ public class King extends Piece {
 
         for (Piece piece : piecesCopy) {
             for (Move move : piece.getMoves(false)) {
-                if (move.destinationX == position[0] && move.destinationY == position[1]) {
+                if (move.destinationX == position.x && move.destinationY == position.y) {
                     return true;
                 }
             }
         }
+		*/
         return false;
     }
 
     @Override
     public King getClone() {
-        return new King(isWhite, position, rochade);
+        return new King(isWhite, rochade);
     }
 }

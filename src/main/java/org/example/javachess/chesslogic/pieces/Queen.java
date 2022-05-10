@@ -6,26 +6,28 @@ import java.util.List;
 
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
+import org.example.javachess.chesslogic.Position;
 
 public class Queen extends Piece {
 
-    public Queen(boolean isWhite, int[] position) {
-        super(isWhite, position);
+    public Queen(boolean isWhite) {
+        super(isWhite);
         super.fen = "q";
     }
 
     @Override
     public Move[] getMoves(boolean checking) {
         List<Move> moves = new ArrayList<Move>();
+		Position position = Board.getPosition(this);
 
         int i;
         // hoch rechts
         i = 1;
-        while (position[0] + i < 8 && position[1] + i < 8 && (Board.getPosition(position[0] + i,
-                position[1] + i) == null
-                || Board.getPosition(position[0] + i, position[1] + i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + i, position[1] + i,
-                    Board.getPosition(position[0] + i, position[1] + i));
+        while (position.x + i < 8 && position.y + i < 8 && (Board.board.get( new Position(position.x + i,
+                position.y + i)) == null
+                || Board.board.get( new Position(position.x + i, position.y + i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x + i, position.y + i),
+                    Board.board.get( new Position(position.x + i, position.y + i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -39,11 +41,11 @@ public class Queen extends Piece {
         }
         // runter rechts
         i = 1;
-        while (position[0] + i < 8 && position[1] - i >= 0 && (Board.getPosition(position[0] + i,
-                position[1] - i) == null
-                || Board.getPosition(position[0] + i, position[1] - i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + i, position[1] - i,
-                    Board.getPosition(position[0] + i, position[1] - i));
+        while (position.x + i < 8 && position.y - i >= 0 && (Board.board.get( new Position(position.x + i,
+                position.y - i)) == null
+                || Board.board.get( new Position(position.x + i, position.y - i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x + i, position.y - i),
+                    Board.board.get( new Position(position.x + i, position.y - i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -57,11 +59,11 @@ public class Queen extends Piece {
         }
         // runter links
         i = 1;
-        while (position[0] - i >= 0 && position[1] - i >= 0 && (Board.getPosition(position[0] - i,
-                position[1] - i) == null
-                || Board.getPosition(position[0] - i, position[1] - i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - i, position[1] - i,
-                    Board.getPosition(position[0] - i, position[1] - i));
+        while (position.x - i >= 0 && position.y - i >= 0 && (Board.board.get( new Position(position.x - i,
+                position.y - i)) == null
+                || Board.board.get( new Position(position.x - i, position.y - i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x - i, position.y - i),
+                    Board.board.get( new Position(position.x - i, position.y - i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -75,11 +77,11 @@ public class Queen extends Piece {
         }
         // hoch links
         i = 1;
-        while (position[0] - i >= 0 && position[1] + i < 8 && (Board.getPosition(position[0] - i,
-                position[1] + i) == null
-                || Board.getPosition(position[0] - i, position[1] + i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - i, position[1] + i,
-                    Board.getPosition(position[0] - i, position[1] + i));
+        while (position.x - i >= 0 && position.y + i < 8 && (Board.board.get( new Position(position.x - i,
+                position.y + i)) == null
+                || Board.board.get( new Position(position.x - i, position.y + i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x - i, position.y + i),
+                    Board.board.get( new Position(position.x - i, position.y + i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -93,10 +95,10 @@ public class Queen extends Piece {
         }
         // rechts
         i = 1;
-        while (position[0] + i < 8 && (Board.getPosition(position[0] + i, position[1]) == null
-                || Board.getPosition(position[0] + i, position[1]).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] + i, position[1],
-                    Board.getPosition(position[0] + i, position[1]));
+        while (position.x + i < 8 && (Board.board.get( new Position(position.x + i, position.y)) == null
+                || Board.board.get( new Position(position.x + i, position.y)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x + i, position.y),
+                    Board.board.get( new Position(position.x + i, position.y)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -110,10 +112,10 @@ public class Queen extends Piece {
         }
         // links
         i = 1;
-        while (position[0] - i >= 0 && (Board.getPosition(position[0] - i, position[1]) == null
-                || Board.getPosition(position[0] - i, position[1]).isWhite != isWhite)) {
-            Move test_move = new Move(position[0] - i, position[1],
-                    Board.getPosition(position[0] - i, position[1]));
+        while (position.x - i >= 0 && (Board.board.get( new Position(position.x - i, position.y)) == null
+                || Board.board.get( new Position(position.x - i, position.y)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x - i, position.y),
+                    Board.board.get( new Position(position.x - i, position.y)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -127,10 +129,10 @@ public class Queen extends Piece {
         }
         // hoch
         i = 1;
-        while (position[1] + i < 8 && (Board.getPosition(position[0], position[1] + i) == null
-                || Board.getPosition(position[0], position[1] + i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0], position[1] + i,
-                    Board.getPosition(position[0] - i, position[1] + i));
+        while (position.y + i < 8 && (Board.board.get( new Position(position.x, position.y + i)) == null
+                || Board.board.get( new Position(position.x, position.y + i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x, position.y + i),
+                    Board.board.get( new Position(position.x - i, position.y + i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -144,10 +146,10 @@ public class Queen extends Piece {
         }
         // runter
         i = 1;
-        while (position[1] - i >= 0 && (Board.getPosition(position[0], position[1] - i) == null
-                || Board.getPosition(position[0], position[1] - i).isWhite != isWhite)) {
-            Move test_move = new Move(position[0], position[1] - i,
-                    Board.getPosition(position[0], position[1] - i));
+        while (position.y - i >= 0 && (Board.board.get( new Position(position.x, position.y - i)) == null
+                || Board.board.get( new Position(position.x, position.y - i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.x, position.y - i),
+                    Board.board.get( new Position(position.x, position.y - i)));
             if (isWhite) {
                 if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
                     moves.add(test_move);
@@ -164,6 +166,6 @@ public class Queen extends Piece {
 
     @Override
     public Queen getClone() {
-        return new Queen(isWhite, position);
+        return new Queen(isWhite);
     }
 }

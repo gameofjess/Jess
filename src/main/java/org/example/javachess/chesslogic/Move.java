@@ -4,31 +4,27 @@ package org.example.javachess.chesslogic;
 import org.example.javachess.chesslogic.pieces.Piece;
 
 public class Move {
-    public int destinationX;
-    public int destinationY;
+	public Position destination;
     public Piece capture = null;
     public boolean rochade = false;
     public boolean enpassant = false;
 
-    public Move(int destinationX, int destinationY) {
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
+    public Move(Position destination) {
+        this.destination = destination;
+	}
+
+    public Move(boolean enpassant, Position destination) {
+        this.destination = destination;
+		this.enpassant = enpassant;
     }
 
-    public Move(boolean enpassant, int destinationX, int destinationY) {
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
-    }
-
-    public Move(int destinationX, int destinationY, Piece capture) {
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
+    public Move(Position destination, Piece capture) {
+		this.destination = destination;
         this.capture = capture;
     }
 
-    public Move(int destinationX, int destinationY, boolean rochade) {
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
+    public Move(Position destination, boolean rochade) {
+		this.destination = destination;
         this.rochade = rochade;
     }
 }

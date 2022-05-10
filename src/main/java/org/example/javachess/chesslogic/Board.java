@@ -6,7 +6,6 @@ import java.util.Map;
 import org.example.javachess.chesslogic.pieces.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /*
@@ -23,85 +22,59 @@ import java.util.HashMap;
 
 public class Board {
 
-	public Map<Position, Piece> board = new HashMap<Position, Piece>();
+	public static Map<Position, Piece> board = new HashMap<Position, Piece>();
 
-	public static List<Piece> pieces = new ArrayList<Piece>();
 	public static List<Piece> capturedPieces = new ArrayList<Piece>();
 
 	public static King kingWhite;
 	public static King kingBlack;
 
-	public static void initialize() {
-		pieces.add(new Rook(true, new int[] {0, 0}));
-		pieces.add(new Knight(true, new int[] {1, 0}));
-		pieces.add(new Bishop(true, new int[] {2, 0}));
-		pieces.add(new Queen(true, new int[] {3, 0}));
-		kingWhite = new King(true, new int[] {4, 0});
-		pieces.add(kingWhite);
-		pieces.add(new Bishop(true, new int[] {5, 0}));
-		pieces.add(new Knight(true, new int[] {6, 0}));
-		pieces.add(new Rook(true, new int[] {7, 0}));
-
-		for (int i = 0; i < 8; i++) {
-			pieces.add(new Pawn(true, new int[] {i, 1}));
-		}
-
-		pieces.add(new Rook(false, new int[] {0, 7}));
-		pieces.add(new Knight(false, new int[] {1, 7}));
-		pieces.add(new Bishop(false, new int[] {2, 7}));
-		pieces.add(new Queen(false, new int[] {3, 7}));
-		kingBlack = new King(false, new int[] {4, 7});
-		pieces.add(kingBlack);
-		pieces.add(new Bishop(false, new int[] {5, 7}));
-		pieces.add(new Knight(false, new int[] {6, 7}));
-		pieces.add(new Rook(false, new int[] {7, 7}));
-
-		for (int i = 0; i < 8; i++) {
-			pieces.add(new Pawn(false, new int[] {i, 6}));
-		}
-	}
-
-	public static Piece getPosition(int x, int y) {
-		int[] position = {x, y};
-		for (Piece piece : pieces) {
-			if (Arrays.equals(position, piece.position))
-				return piece;
-		}
-		return null;
-	}
-
-	public static String getFEN() {
-		StringBuilder out = new StringBuilder("");
-
-		for (byte i = 7; i >= 0; i--) {
-			int emptycounter = 0;
-			for (byte j = 0; j < 8; j++) {
-				Piece test = getPosition(j, i);
-				// System.out.println(test);
-				if (test == null) {
-					emptycounter++;
-				} else {
-					if (emptycounter > 0) {
-						out.append(emptycounter);
-						emptycounter = 0;
-					}
-
-					if (test.isWhite) {
-						// System.out.println(test.fen);
-						out.append(test.fen.toUpperCase());
-					} else {
-						// System.out.println();
-						out.append(test.fen.toLowerCase());
-					}
+	public static Position getPosition(Piece piece){
+			for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+				if (entry.getValue().equals(piece)) {
+					return entry.getKey();
 				}
 			}
-			if (emptycounter > 0) {
-				out.append(emptycounter);
-				emptycounter = 0;
-			}
-			out.append('/');
+			return null;
+	}
+
+	public static void initialize() {
+		board.put(new Position(0, 0), new Rook(true));
+		board.put(new Position(1, 0), new Knight(true));
+		board.put(new Position(2, 0), new Bishop(true));
+		board.put(new Position(3, 0), new Queen(true));
+		kingWhite = new King(true);
+		board.put(new Position(4, 0), kingWhite);
+		board.put(new Position(5, 0), new Bishop(true));
+		board.put(new Position(6, 0), new Knight(true));
+		board.put(new Position(7, 0), new Rook(true));
+
+		for (int i = 0; i < 8; i++) {
+			board.put(new Position(i, 1), new Pawn(true));
 		}
 
-		return out.toString();
+		board.put(new Position(0, 7), new Rook(false));
+		board.put(new Position(1, 7), new Knight(false));
+		board.put(new Position(2, 7), new Bishop(false));
+		board.put(new Position(3, 7), new Queen(false));
+		kingBlack = new King(false);
+		board.put(new Position(4, 7), kingBlack);
+		board.put(new Position(5, 7), new Bishop(false));
+		board.put(new Position(6, 7), new Knight(false));
+		board.put(new Position(7, 7), new Rook(false));
+
+		for (int i = 0; i < 8; i++) {
+			board.put(new Position(i, 6), new Pawn(false));
+		}
+
+	}
+
+	public static void print(){
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				System.out.print(Board.board.get(new Position(j, i)));
+			}
+			System.out.print("\n");
+		}
 	}
 }
