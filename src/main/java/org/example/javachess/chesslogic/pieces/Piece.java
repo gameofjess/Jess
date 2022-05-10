@@ -4,11 +4,14 @@ import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 public abstract class Piece implements Cloneable {
 
+	Board Board;
 	public boolean isWhite;
     public String fen;
 
-    public Piece(boolean isWhite) {
+    public Piece(Board Board, boolean isWhite) {
+		this.Board = Board;
         this.isWhite = isWhite;
+
     }
 
     public abstract Move[] getMoves(boolean checking);
@@ -16,8 +19,6 @@ public abstract class Piece implements Cloneable {
     public Move[] getMoves() {
         return getMoves(true);
     }
-
-    public abstract Piece getClone();
 
     public void makeMove(Move move) {
 		if (move.capture != null) {
@@ -28,7 +29,7 @@ public abstract class Piece implements Cloneable {
     }
 
 	public String toString(){
-		return fen;
+		return " "+fen+"  ";
 	}
 
 }

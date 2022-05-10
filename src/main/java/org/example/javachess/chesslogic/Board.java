@@ -22,14 +22,14 @@ import java.util.HashMap;
 
 public class Board {
 
-	public static Map<Position, Piece> board = new HashMap<Position, Piece>();
+	public  Map<Position, Piece> board = new HashMap<Position, Piece>();
 
-	public static List<Piece> capturedPieces = new ArrayList<Piece>();
+	public  List<Piece> capturedPieces = new ArrayList<Piece>();
 
-	public static King kingWhite;
-	public static King kingBlack;
+	public  King kingWhite;
+	public  King kingBlack;
 
-	public static Position getPosition(Piece piece){
+	public  Position getPosition(Piece piece){
 			for (Map.Entry<Position, Piece> entry : board.entrySet()) {
 				if (entry.getValue().equals(piece)) {
 					return entry.getKey();
@@ -38,41 +38,41 @@ public class Board {
 			return null;
 	}
 
-	public static void initialize() {
-		board.put(new Position(0, 0), new Rook(true));
-		board.put(new Position(1, 0), new Knight(true));
-		board.put(new Position(2, 0), new Bishop(true));
-		board.put(new Position(3, 0), new Queen(true));
-		kingWhite = new King(true);
+	public  void initialize() {
+		board.put(new Position(0, 0), new Rook(this, true));
+		board.put(new Position(1, 0), new Knight(this, true));
+		board.put(new Position(2, 0), new Bishop(this, true));
+		board.put(new Position(3, 0), new Queen(this, true));
+		kingWhite = new King(this, true);
 		board.put(new Position(4, 0), kingWhite);
-		board.put(new Position(5, 0), new Bishop(true));
-		board.put(new Position(6, 0), new Knight(true));
-		board.put(new Position(7, 0), new Rook(true));
+		board.put(new Position(5, 0), new Bishop(this, true));
+		board.put(new Position(6, 0), new Knight(this, true));
+		board.put(new Position(7, 0), new Rook(this, true));
 
 		for (int i = 0; i < 8; i++) {
-			board.put(new Position(i, 1), new Pawn(true));
+			board.put(new Position(i, 1), new Pawn(this, true));
 		}
 
-		board.put(new Position(0, 7), new Rook(false));
-		board.put(new Position(1, 7), new Knight(false));
-		board.put(new Position(2, 7), new Bishop(false));
-		board.put(new Position(3, 7), new Queen(false));
-		kingBlack = new King(false);
+		board.put(new Position(0, 7), new Rook(this, false));
+		board.put(new Position(1, 7), new Knight(this, false));
+		board.put(new Position(2, 7), new Bishop(this, false));
+		board.put(new Position(3, 7), new Queen(this, false));
+		kingBlack = new King(this, false);
 		board.put(new Position(4, 7), kingBlack);
-		board.put(new Position(5, 7), new Bishop(false));
-		board.put(new Position(6, 7), new Knight(false));
-		board.put(new Position(7, 7), new Rook(false));
+		board.put(new Position(5, 7), new Bishop(this, false));
+		board.put(new Position(6, 7), new Knight(this, false));
+		board.put(new Position(7, 7), new Rook(this, false));
 
 		for (int i = 0; i < 8; i++) {
-			board.put(new Position(i, 6), new Pawn(false));
+			board.put(new Position(i, 6), new Pawn(this, false));
 		}
 
 	}
 
-	public static void print(){
+	public void print(){
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				System.out.print(Board.board.get(new Position(j, i)));
+				System.out.print(board.get(new Position(j, i)));
 			}
 			System.out.print("\n");
 		}

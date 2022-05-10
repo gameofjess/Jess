@@ -11,18 +11,19 @@ import org.example.javachess.chesslogic.Position;
 public class Pawn extends Piece {
     public boolean enpassant = false;
 
-    public Pawn(boolean isWhite) {
-        super(isWhite);
+    public Pawn(Board Board, boolean isWhite) {
+        super(Board, isWhite);
         super.fen = "p";
     }
 
-    public Pawn(boolean isWhite, boolean enpassant) {
-        super(isWhite);
+    public Pawn(Board Board, boolean isWhite, boolean enpassant) {
+        super(Board, isWhite);
         this.enpassant = enpassant;
     }
 
     @Override
     public Move[] getMoves(boolean checking) {
+		checking = false;
         List<Move> moves = new ArrayList<Move>();
 		Position position = Board.getPosition(this);
 
@@ -212,10 +213,5 @@ public class Pawn extends Piece {
 		}
 		Board.board.remove(Board.getPosition(this));
         Board.board.put(move.destination , this);
-    }
-
-    @Override
-    public Pawn getClone() {
-        return new Pawn(isWhite, enpassant);
     }
 }

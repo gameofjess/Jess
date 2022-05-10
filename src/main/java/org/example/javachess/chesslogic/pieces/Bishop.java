@@ -8,13 +8,14 @@ import org.example.javachess.chesslogic.Position;
 
 public class Bishop extends Piece {
 
-    public Bishop(boolean isWhite) {
-        super(isWhite);
+    public Bishop(Board Board, boolean isWhite) {
+        super(Board, isWhite);
         super.fen = "b";
     }
 
     @Override
     public Move[] getMoves(boolean checking) {
+		checking = false;
         List<Move> moves = new ArrayList<Move>();
 		Position position = Board.getPosition(this);
 
@@ -91,10 +92,5 @@ public class Bishop extends Piece {
         }
 
         return moves.toArray(new Move[moves.size()]);
-    }
-
-    @Override
-    public Bishop getClone() {
-        return new Bishop(isWhite);
     }
 }

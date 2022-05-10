@@ -10,19 +10,19 @@ import org.example.javachess.chesslogic.Position;
 public class Rook extends Piece {
     public boolean rochade = true;
 
-    public Rook(boolean isWhite) {
-        super(isWhite);
+    public Rook(Board Board, boolean isWhite) {
+        super(Board, isWhite);
         super.fen = "r";
     }
 
-    public Rook(boolean isWhite, boolean rochade) {
-        super(isWhite);
+    public Rook(Board Board, boolean isWhite, boolean rochade) {
+        super(Board, isWhite);
         this.rochade = rochade;
     }
 
     @Override
     public Move[] getMoves(boolean checking) {
-
+		checking = false;
         List<Move> moves = new ArrayList<Move>();
 		Position position = Board.getPosition(this);
 
@@ -109,10 +109,5 @@ public class Rook extends Piece {
         Board.board.put(move.destination , this);
     }
 
-
-    @Override
-    public Rook getClone() {
-        return new Rook(isWhite, rochade);
-    }
 
 }
