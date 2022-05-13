@@ -13,7 +13,12 @@ public class Bishop extends Piece {
         super.fen = "b";
     }
 
-    @Override
+    
+	/** 
+	 * @param checking
+	 * @return Move[]
+	 */
+	@Override
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();

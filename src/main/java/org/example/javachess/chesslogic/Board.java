@@ -21,6 +21,9 @@ import java.util.HashMap;
  */
 
 public class Board {
+	/**
+	 * The Class representing the Chessboard 
+	 */
 
 	public  Map<Position, Piece> board = new HashMap<Position, Piece>();
 
@@ -29,6 +32,12 @@ public class Board {
 	public  King kingWhite;
 	public  King kingBlack;
 
+	
+	/** 
+	 * 
+	 * @param piece
+	 * @return Position Position Object of the passed Piece
+	 */
 	public  Position getPosition(Piece piece){
 			for (Map.Entry<Position, Piece> entry : board.entrySet()) {
 				if (entry.getValue().equals(piece)) {
@@ -38,6 +47,9 @@ public class Board {
 			return null;
 	}
 
+	/**
+	 * Set the Board to the basic position
+	 */
 	public  void initialize() {
 		board.put(new Position(0, 0), new Rook(this, true));
 		board.put(new Position(1, 0), new Knight(this, true));
@@ -69,6 +81,10 @@ public class Board {
 
 	}
 
+	/**
+	 * FOR DEBUGGING:
+	 * Print the current state of the Board to the console
+	 */
 	public void print(){
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {

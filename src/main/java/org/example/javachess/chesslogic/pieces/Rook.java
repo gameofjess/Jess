@@ -20,7 +20,12 @@ public class Rook extends Piece {
         this.rochade = rochade;
     }
 
-    @Override
+    
+	/** 
+	 * @param checking
+	 * @return Move[]
+	 */
+	@Override
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
@@ -99,7 +104,11 @@ public class Rook extends Piece {
         return moves.toArray(new Move[moves.size()]);
     }
 
-    @Override
+    
+	/** 
+	 * @param move
+	 */
+	@Override
     public void makeMove(Move move) {
 		rochade = false;
 		if (move.capture != null) {

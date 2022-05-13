@@ -20,7 +20,12 @@ public class King extends Piece {
         this.rochade = rochade;
     }
 
-    @Override
+    
+	/** 
+	 * @param checking
+	 * @return Move[]
+	 */
+	@Override
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
@@ -186,7 +191,11 @@ public class King extends Piece {
         return moves.toArray(new Move[moves.size()]);
     }
 
-    @Override
+    
+	/** 
+	 * @param move
+	 */
+	@Override
     public void makeMove(Move move) {
         rochade = false;
 
@@ -214,7 +223,11 @@ public class King extends Piece {
         Board.board.put(move.destination , this);
     }
 
-    public boolean checkCheck() {
+    
+	/** 
+	 * @return boolean
+	 */
+	public boolean checkCheck() {
 		
 		for (Piece piece : Board.board.values()) {
 
@@ -227,7 +240,13 @@ public class King extends Piece {
         return false;
     }
 
-    public boolean checkCheck(Move test_move, Piece test_piece) {
+    
+	/** 
+	 * @param test_move
+	 * @param test_piece
+	 * @return boolean
+	 */
+	public boolean checkCheck(Move test_move, Piece test_piece) {
         /*
 		TODO
 
