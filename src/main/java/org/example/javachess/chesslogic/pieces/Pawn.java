@@ -21,7 +21,12 @@ public class Pawn extends Piece {
         this.enpassant = enpassant;
     }
 
-    @Override
+    
+	/** 
+	 * @param checking
+	 * @return Move[]
+	 */
+	@Override
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
@@ -205,7 +210,11 @@ public class Pawn extends Piece {
         return moves.toArray(new Move[moves.size()]);
     }
 
-    @Override
+    
+	/** 
+	 * @param move
+	 */
+	@Override
     public void makeMove(Move move) {
         enpassant = move.enpassant;
 		if (move.capture != null) {

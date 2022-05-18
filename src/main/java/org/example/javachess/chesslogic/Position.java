@@ -1,6 +1,9 @@
 package org.example.javachess.chesslogic;
 
 public class Position {
+	/**
+	 * This Class represents a position on the Chessboard
+	 */
 	public final int x;
 	public final int y;
 

@@ -14,7 +14,13 @@ public class Knight extends Piece {
         super.fen = "n";
     }
 
-    @Override
+    
+	/** 
+	 * {@link org.example.javachess.chesslogic.pieces.Piece#getMoves getMoves(boolean checking)}
+	 * @param checking
+	 * @return Move[]
+	 */
+	@Override
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();

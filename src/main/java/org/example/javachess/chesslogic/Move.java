@@ -4,6 +4,10 @@ package org.example.javachess.chesslogic;
 import org.example.javachess.chesslogic.pieces.Piece;
 
 public class Move {
+	/**
+	 * This Class represents a Move from a Piece on the Chessboard,
+	 * including the Variations: Capture, Castling and Enpassant
+	 */
 	public Position destination;
     public Piece capture = null;
     public boolean rochade = false;

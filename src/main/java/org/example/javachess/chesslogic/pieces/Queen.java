@@ -15,6 +15,11 @@ public class Queen extends Piece {
 		super.fen = "q";
 	}
 
+	
+	/** 
+	 * @param checking
+	 * @return Move[]
+	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
 		checking = false;
