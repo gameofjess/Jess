@@ -1,6 +1,9 @@
 package org.example.javachess.server;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -29,11 +32,15 @@ public class ServerCommandListener implements Runnable {
      * Run-method that continually scans for input
      */
     public void run() {
-        Scanner scanner = new Scanner(stream);
-        while (true) {
-            if (scanner.hasNext()) {
-                parseCommand(scanner.nextLine());
+        BufferedReader stdinReader = new BufferedReader(new InputStreamReader(stream));
+        String inputLine;
+
+        try {
+            while((inputLine = stdinReader.readLine()) != null){
+                parseCommand(inputLine);
             }
+        } catch(IOException ex){
+            log.error(ex.getMessage());
         }
     }
 
