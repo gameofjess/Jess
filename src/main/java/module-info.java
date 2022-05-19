@@ -15,4 +15,5 @@ module JavaChess {
 
     opens org.example.javachess.mainpackage;
     opens org.example.javachess.gui;
+    opens org.example.javachess.helper.messages;
 }
