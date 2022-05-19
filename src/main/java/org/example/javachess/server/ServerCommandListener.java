@@ -4,17 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.java_websocket.server.WebSocketServer;
 
 public class ServerCommandListener implements Runnable {
 
     private static final Logger log = LogManager.getLogger(ServerCommandListener.class);
 
-    private final Server server;
+    private Server server;
     private final InputStream stream;
 
     /**
@@ -52,16 +56,72 @@ public class ServerCommandListener implements Runnable {
 
     public void parseCommand(String cmd) {
         switch (cmd) {
+            case "start" -> {
+                // To read out whether the server got closed, reflections are needed due to lack of such a method in the websocket API.
+                try {
+                    Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
+                    isClosedField.setAccessible(true);
+
+                    if (!((AtomicBoolean) isClosedField.get(server)).get()) {
+                        log.error("Server is already started!");
+                        break;
+                    }
+
+                    int port = server.getPort();
+                    String host = server.getAddress().getHostName();
+
+                    ServerBuilder sb = new ServerBuilder();
+                    log.debug("Setting server port to {} and host to {}", port, host);
+                    sb.setPort(port);
+                    sb.setHost(host);
+
+                    server = sb.build();
+
+                    log.info("Starting server...");
+                    server.start();
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             case "exit" -> {
                 log.info("Exiting...");
-                System.exit(1);
+                System.exit(0);
             }
             case "stop" -> {
                 try {
                     log.info("Server is preparing to stop!");
+
+                    boolean isClosed = false;
+
+                    // To read out whether the server got closed, reflections are needed due to lack of a getter-method in the websocket API.
+                    Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
+                    isClosedField.setAccessible(true);
+
+                    long start = System.currentTimeMillis();
                     server.stop(20);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss,SSSS");
+                    log.debug("Starting stop procedure at {}.", simpleDateFormat.format(new Date(start)));
+                    while (System.currentTimeMillis() - start < 1000) {
+                        if (((AtomicBoolean) isClosedField.get(server)).get()) {
+                            isClosed = true;
+                            break;
+                        }
+                    }
+                    long end = System.currentTimeMillis();
+
+                    if(isClosed){
+                        log.info("Server successfully closed within {} ms!", end-start);
+                        log.debug("Exact closing time: " + simpleDateFormat.format(new Date(end)));
+                        log.info("Continue with 'exit' to exit or with 'start' to start again");
+                    } else {
+                        throw new RuntimeException("Could not stop server in time!");
+                    }
+
                 } catch (InterruptedException e) {
-                    log.error(e.getMessage());
+                    log.error("Interrupted with message: {}", e.getMessage());
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
             }
             case "list" -> {
@@ -81,5 +141,4 @@ public class ServerCommandListener implements Runnable {
             default -> log.info("Unknown command: " + cmd);
         }
     }
-
 }
