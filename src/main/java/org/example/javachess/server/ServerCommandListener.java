@@ -49,96 +49,138 @@ public class ServerCommandListener implements Runnable {
     }
 
     /**
-     * Parses a given command and executes methods accordingly-
+     * Parses a given command and executes methods accordingly.
      * 
      * @param cmd Command
      */
 
     public void parseCommand(String cmd) {
         switch (cmd) {
-            case "start" -> {
-                // To read out whether the server got closed, reflections are needed due to lack of such a method in the websocket API.
-                try {
-                    Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-                    isClosedField.setAccessible(true);
-
-                    if (!((AtomicBoolean) isClosedField.get(server)).get()) {
-                        log.error("Server is already started!");
-                        break;
-                    }
-
-                    int port = server.getPort();
-                    String host = server.getAddress().getHostName();
-
-                    ServerBuilder sb = new ServerBuilder();
-                    log.debug("Setting server port to {} and host to {}", port, host);
-                    sb.setPort(port);
-                    sb.setHost(host);
-
-                    server = sb.build();
-
-                    log.info("Starting server...");
-                    server.start();
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            case "exit" -> {
-                log.info("Exiting...");
-                System.exit(0);
-            }
+            case "start" -> start();
             case "stop" -> {
-                try {
-                    log.info("Server is preparing to stop!");
-
-                    boolean isClosed = false;
-
-                    // To read out whether the server got closed, reflections are needed due to lack of a getter-method in the websocket API.
-                    Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-                    isClosedField.setAccessible(true);
-
-                    long start = System.currentTimeMillis();
-                    server.stop(20);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss,SSSS");
-                    log.debug("Starting stop procedure at {}.", simpleDateFormat.format(new Date(start)));
-                    while (System.currentTimeMillis() - start < 1000) {
-                        if (((AtomicBoolean) isClosedField.get(server)).get()) {
-                            isClosed = true;
-                            break;
-                        }
-                    }
-                    long end = System.currentTimeMillis();
-
-                    if(isClosed){
-                        log.info("Server successfully closed within {} ms!", end-start);
-                        log.debug("Exact closing time: " + simpleDateFormat.format(new Date(end)));
-                        log.info("Continue with 'exit' to exit or with 'start' to start again");
-                    } else {
-                        throw new RuntimeException("Could not stop server in time!");
-                    }
-
-                } catch (InterruptedException e) {
-                    log.error("Interrupted with message: {}", e.getMessage());
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
+                stop();
+                log.info("Continue with 'exit' to exit or with 'start' to start again");
             }
-            case "list" -> {
-                String users = "";
-                Stream<String> serverUserStream = Stream.of(server.getUsers()).sorted();
-                String[] serverUsers = serverUserStream.toArray(String[]::new);
-                for (int i = 0; i < serverUsers.length; i++) {
-                    String s = serverUsers[i];
-                    if(i == serverUsers.length - 1){
-                        users = users.concat(s);
-                    } else {
-                        users = users.concat(s + ", ");
-                    }
-                }
-                log.info("The following users are connected: " + users);
-            }
+            case "restart" -> restart();
+            case "exit" -> exit();
+            case "list" -> list();
             default -> log.info("Unknown command: " + cmd);
+        }
+    }
+    private void start(){
+        // To read out whether the server got closed, reflections are needed due to lack of such a method in the websocket API.
+        try {
+            Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
+            isClosedField.setAccessible(true);
+
+            if (!((AtomicBoolean) isClosedField.get(server)).get()) {
+                log.error("Server is already started!");
+                return;
+            }
+
+            int port = server.getPort();
+            String host = server.getAddress().getHostName();
+
+            ServerBuilder sb = new ServerBuilder();
+            log.debug("Setting server port to {} and host to {}", port, host);
+            sb.setPort(port);
+            sb.setHost(host);
+
+            server = sb.build();
+
+            log.info("Starting server...");
+            server.start();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void stop(){
+        log.info("Server is preparing to stop!");
+
+        boolean isClosed = false;
+
+        long start = System.currentTimeMillis();
+
+        try {
+            server.stop(20);
+        } catch (InterruptedException ex) {
+            log.error(ex.getMessage());
+        }
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss,SSSS");
+        log.debug("Starting stop procedure at {}.", simpleDateFormat.format(new Date(start)));
+
+        while (System.currentTimeMillis() - start < 1000) {
+            if (isServerClosed()) {
+                isClosed = true;
+                break;
+            }
+        }
+
+        long end = System.currentTimeMillis();
+
+        if(isClosed){
+            log.info("Server successfully closed within {} ms!", end-start);
+            log.debug("Exact closing time: " + simpleDateFormat.format(new Date(end)));
+        } else {
+            throw new RuntimeException("Could not stop server in time!");
+        }
+    }
+
+    private void restart(){
+        stop();
+        start();
+    }
+
+    private void exit(){
+        if(isServerClosed()){
+            log.info("Exiting...");
+            System.exit(0);
+        } else {
+            log.info("Server is not stopped yet. Proceeding to stop, then exit.");
+            stop();
+
+            boolean isClosed = false;
+            long start =  System.currentTimeMillis();
+            while (System.currentTimeMillis() - start < 1000) {
+                if (isServerClosed()) {
+                    isClosed = true;
+                    break;
+                }
+            }
+
+            if(!isClosed){
+                log.error("Could not stop server. Proceeding to exit unsafely");
+            }
+
+            System.exit(0);
+        }
+    }
+
+    private void list(){
+        String users = "";
+        Stream<String> serverUserStream = Stream.of(server.getUsers()).sorted();
+        String[] serverUsers = serverUserStream.toArray(String[]::new);
+        for (int i = 0; i < serverUsers.length; i++) {
+            String s = serverUsers[i];
+            if(i == serverUsers.length - 1){
+                users = users.concat(s);
+            } else {
+                users = users.concat(s + ", ");
+            }
+        }
+        log.info("The following users are connected: " + users);
+    }
+
+    private boolean isServerClosed(){
+        try {
+            // To read out whether the server got closed, reflections are needed due to lack of a getter-method in the websocket API.
+            Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
+            isClosedField.setAccessible(true);
+            return ((AtomicBoolean) isClosedField.get(server)).get();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 }

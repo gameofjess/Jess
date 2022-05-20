@@ -127,4 +127,26 @@ public class ServerCommandListenerTest {
         assertFalse(((AtomicBoolean) isClosedField.get(testServer)).get());
     }
 
+    @Test
+    void restartTest() throws NoSuchFieldException, IllegalAccessException {
+        Random random = new Random();
+        int port = random.nextInt(1000, 65535);
+
+        Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.start();
+
+        String command = "restart";
+        InputStream inputStream =
+                new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
+
+        ServerCommandListener cl = new ServerCommandListener(testServer, inputStream);
+        Thread commandListenerThread = new Thread(cl);
+        commandListenerThread.start();
+
+        Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
+        isClosedField.setAccessible(true);
+
+        assertFalse(((AtomicBoolean) isClosedField.get(testServer)).get());
+    }
+
 }
