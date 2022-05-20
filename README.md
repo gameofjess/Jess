@@ -47,6 +47,8 @@ However, if you intend to host a dedicated server there are a few advanced featu
 When using a dedicated server there are commands you can run to monitor the running server and manipulate its operation:
 
 - `stop`: Stop the server.
+- `start`: Start the server after it has been stopped.
+- 'restart': Restart the server.
 - `list`: Show the players' name.
 - `exit`: Exit the program. We advice to only run this command when the server is already stopped.
 
