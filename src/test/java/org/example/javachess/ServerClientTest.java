@@ -19,7 +19,7 @@ public class ServerClientTest {
      * Tests whether a connection between a server and a client can be established.
      */
     @Test
-    void clientServerConnectTest()
+    public void clientServerConnectTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
@@ -48,7 +48,7 @@ public class ServerClientTest {
      * Tests whether a connection with a duplicate username gets rejected.
      */
     @Test
-    void invalidUsernameTest()
+    public void invalidUsernameTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
@@ -79,7 +79,7 @@ public class ServerClientTest {
      * Tests whether a connection gets refused when too many users are connected.
      */
     @Test
-    void tooManyUsersTest()
+    public void tooManyUsersTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
