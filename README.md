@@ -1,5 +1,7 @@
 # JavaChess
 
+[![Java CI with Maven](https://github.com/maxknerrich/JavaChess/actions/workflows/maven.yml/badge.svg)](https://github.com/maxknerrich/JavaChess/actions/workflows/maven.yml)
+
 ## About
 
 This repository will be used for a uni project for the module "Software Development 2" in the course "Medieninformatik", second semester.
