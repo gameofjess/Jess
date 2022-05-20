@@ -6,6 +6,8 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.javachess.client.ConnectionHandler;
 import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
@@ -15,12 +17,17 @@ import org.junit.jupiter.api.Test;
 
 public class ServerClientTest {
 
+    Logger log = LogManager.getLogger(ServerClientTest.class);
+
     /**
      * Tests whether a connection between a server and a client can be established.
      */
     @Test
     public void clientServerConnectTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+
+        log.info("Testing connection of client to server!");
+
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 
@@ -50,6 +57,9 @@ public class ServerClientTest {
     @Test
     public void invalidUsernameTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+
+        log.info("Testing client connecting with invalid username.");
+
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 
@@ -59,8 +69,8 @@ public class ServerClientTest {
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
 
-        testConnection1.connect("TestUser");
-        testConnection2.connect("TestUser");
+        testConnection1.connect("InvalidTestUser");
+        testConnection2.connect("InvalidTestUser");
 
         boolean isDisconnected = false;
         // This waits one seconds if the client gets disconnected, if not, the test fails.
@@ -81,6 +91,9 @@ public class ServerClientTest {
     @Test
     public void tooManyUsersTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+
+        log.info("Testing connection of too many clients to server!");
+
         Random random = new Random();
         int port = random.nextInt(1000, 65535);
 
@@ -91,9 +104,9 @@ public class ServerClientTest {
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
         ConnectionHandler testConnection3 = new ConnectionHandler("127.0.0.1", port);
 
-        testConnection1.connect("TestUser1");
-        testConnection2.connect("TestUser2");
-        testConnection3.connect("TestUser3");
+        testConnection1.connect("TooManyTestUser1");
+        testConnection2.connect("TooManyTestUser2");
+        testConnection3.connect("TooManyTestUser3");
 
         boolean isDisconnected = false;
         // This waits one seconds if the client gets disconnected, if not, the test fails.
