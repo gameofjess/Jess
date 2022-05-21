@@ -40,9 +40,9 @@ public class ServerClientTest {
 
         boolean isConnected = false;
 
-        // This waits one seconds if the client gets connected, if not, the test fails.
+        // This waits three seconds if the client gets connected, if not, the test fails.
         long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 1000) {
+        while (System.currentTimeMillis() - start < 3000) {
             if (Arrays.stream(testServer.getUsers()).toList().contains("TestUser")) {
                 isConnected = true;
                 break;
