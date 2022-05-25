@@ -20,6 +20,8 @@ public class Server extends WebSocketServer {
 
     private final HashMap<UUID, String> users = new HashMap<>();
 
+    private boolean isOpen = false;
+
     Server(InetSocketAddress address) {
         super(address);
     }
@@ -133,5 +135,45 @@ public class Server extends WebSocketServer {
      */
     public String[] getUsers() {
         return users.values().toArray(new String[0]);
+    }
+
+    /**
+     * Stops the server after the specified timeout and sets boolean isOpen accordingly.
+     * @param timeout timeout for server stop
+     * @throws InterruptedException on Interrupt
+     * @see org.java_websocket.server.WebSocketServer
+     */
+    @Override
+    public void stop(int timeout) throws InterruptedException {
+        isOpen = false;
+        super.stop(timeout);
+    }
+
+    /**
+     * Stops the server and sets boolean isOpen accordingly.
+     * @throws InterruptedException on Interrupt
+     * @see org.java_websocket.server.WebSocketServer
+     */
+    @Override
+    public void stop() throws InterruptedException {
+        isOpen = false;
+        super.stop();
+    }
+
+    /**
+     * Starts the server and sets boolean isOpen accordingly.
+     * @see org.java_websocket.server.WebSocketServer
+     */
+    @Override
+    public void start() {
+        isOpen = true;
+        super.start();
+    }
+
+    /**
+     * @return true, if server is open - false, if not
+     */
+    public boolean getServerStatus() {
+        return isOpen;
     }
 }

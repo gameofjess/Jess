@@ -67,32 +67,25 @@ public class ServerCommandListener implements Runnable {
             default -> log.info("Unknown command: " + cmd);
         }
     }
+
     private void start(){
-        // To read out whether the server got closed, reflections are needed due to lack of such a method in the websocket API.
-        try {
-            Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-            isClosedField.setAccessible(true);
-
-            if (!((AtomicBoolean) isClosedField.get(server)).get()) {
-                log.error("Server is already started!");
-                return;
-            }
-
-            int port = server.getPort();
-            String host = server.getAddress().getHostName();
-
-            ServerBuilder sb = new ServerBuilder();
-            log.debug("Setting server port to {} and host to {}", port, host);
-            sb.setPort(port);
-            sb.setHost(host);
-
-            server = sb.build();
-
-            log.info("Starting server...");
-            server.start();
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (server.getServerStatus()) {
+            log.error("Server is already started!");
+            return;
         }
+
+        int port = server.getPort();
+        String host = server.getAddress().getHostName();
+
+        ServerBuilder sb = new ServerBuilder();
+        log.debug("Setting server port to {} and host to {}", port, host);
+        sb.setPort(port);
+        sb.setHost(host);
+
+        server = sb.build();
+
+        log.info("Starting server...");
+        server.start();
     }
 
     private void stop(){
@@ -112,7 +105,7 @@ public class ServerCommandListener implements Runnable {
         log.debug("Starting stop procedure at {}.", simpleDateFormat.format(new Date(start)));
 
         while (System.currentTimeMillis() - start < 1000) {
-            if (isServerClosed()) {
+            if (!server.getServerStatus()) {
                 isClosed = true;
                 break;
             }
@@ -134,7 +127,7 @@ public class ServerCommandListener implements Runnable {
     }
 
     private void exit(){
-        if(isServerClosed()){
+        if(!server.getServerStatus()){
             log.info("Exiting...");
             System.exit(0);
         } else {
@@ -144,7 +137,7 @@ public class ServerCommandListener implements Runnable {
             boolean isClosed = false;
             long start =  System.currentTimeMillis();
             while (System.currentTimeMillis() - start < 1000) {
-                if (isServerClosed()) {
+                if (!server.getServerStatus()) {
                     isClosed = true;
                     break;
                 }
@@ -171,16 +164,5 @@ public class ServerCommandListener implements Runnable {
             }
         }
         log.info("The following users are connected: " + users);
-    }
-
-    private boolean isServerClosed(){
-        try {
-            // To read out whether the server got closed, reflections are needed due to lack of a getter-method in the websocket API.
-            Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-            isClosedField.setAccessible(true);
-            return ((AtomicBoolean) isClosedField.get(server)).get();
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
