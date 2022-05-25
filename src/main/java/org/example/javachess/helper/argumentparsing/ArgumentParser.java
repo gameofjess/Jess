@@ -20,7 +20,7 @@ public class ArgumentParser {
      * @return It returns an array of options depending on what arguments have been passed to the
      *         method
      * @throws InvalidPortException thrown when the given port is invalid - i.e. outside of the
-     *         range 1000-65535
+     *         range 1024-65535
      * @throws InvalidOptionException thrown when an unknown argument is passed to the method
      * @throws InvalidHostnameException thrown when an invalid hostname is passed to the method
      */
