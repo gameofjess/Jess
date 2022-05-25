@@ -57,7 +57,7 @@ public class ArgumentParserTest {
     @Test
     void regularPortTest()
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
-        for (int port = 1000; port <= 65535; port++) {
+        for (int port = 1024; port <= 65535; port++) {
             String[] args = {"-p", String.valueOf(port)};
             Option portOption = Option.port;
             portOption.setValue(String.valueOf(port));
