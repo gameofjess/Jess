@@ -52,7 +52,7 @@ public class ArgumentParser {
                             throw new InvalidPortException(args[i + 1]);
                         }
                         log.debug("Successfully parsed potential port " + port);
-                        if (port <= 65535 && port >= 1000) {
+                        if (port <= 65535 && port >= 1024) {
                             option.setValue(args[i + 1]);
                             log.debug("Set port value to " + port);
                         } else {

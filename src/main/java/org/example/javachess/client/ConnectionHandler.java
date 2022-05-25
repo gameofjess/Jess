@@ -24,7 +24,7 @@ public class ConnectionHandler {
                 "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
 
         if (host.matches(regexHostname) || host.matches(regexIP)) {
-            if (port <= 65535 && port >= 1000) {
+            if (port <= 65535 && port >= 1024) {
                 client = new Client(new URI("ws://" + host + ":" + port));
             } else {
                 throw new InvalidPortException(String.valueOf(port));
