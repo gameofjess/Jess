@@ -72,9 +72,9 @@ public class ConnectionHandler {
 
     /**
      * Closes the connection
-     * 
+     *
      * @param code Close code (as seen here:
-     *        https://www.javadoc.io/static/org.java-websocket/Java-WebSocket/1.5.3/org/java_websocket/framing/CloseFrame.html)
+     *        <a href="https://www.javadoc.io/static/org.java-websocket/Java-WebSocket/1.5.3/org/java_websocket/framing/CloseFrame.html">...</a>)
      * @param reason Reason for closing the connection
      */
     public void disconnect(int code, String reason) {
