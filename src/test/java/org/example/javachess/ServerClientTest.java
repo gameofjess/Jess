@@ -1,10 +1,12 @@
 package org.example.javachess;
 
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,31 +26,22 @@ public class ServerClientTest {
      */
     @Test
     public void clientServerConnectTest()
-            throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+            throws InvalidHostnameException, URISyntaxException, InvalidPortException, InterruptedException {
 
         log.info("Testing connection of client to server!");
 
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+        int port = 2005;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         ConnectionHandler testConnection = new ConnectionHandler("127.0.0.1", port);
 
         assertTrue(testConnection.connect("TestUser"));
 
-        boolean isConnected = false;
-
-        // This waits three seconds if the client gets connected, if not, the test fails.
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 3000) {
-            if (Arrays.stream(testServer.getUsers()).toList().contains("TestUser")) {
-                isConnected = true;
-                break;
-            }
-        }
-        assertTrue(isConnected);
+        await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TestUser"), equalTo(true));
+        testServer.stop();
     }
 
     /**
@@ -60,10 +53,10 @@ public class ServerClientTest {
 
         log.info("Testing client connecting with invalid username.");
 
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+        int port = 2006;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
@@ -72,17 +65,7 @@ public class ServerClientTest {
         testConnection1.connect("InvalidTestUser");
         testConnection2.connect("InvalidTestUser");
 
-        boolean isDisconnected = false;
-        // This waits one seconds if the client gets disconnected, if not, the test fails.
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 1000) {
-            if (!testConnection2.getConnectionStatus()) {
-                isDisconnected = true;
-                break;
-            }
-        }
-
-        assertTrue(isDisconnected);
+        await().atMost(5, TimeUnit.SECONDS).until(testConnection2::getConnectionStatus, equalTo(false));
     }
 
     /**
@@ -94,10 +77,10 @@ public class ServerClientTest {
 
         log.info("Testing connection of too many clients to server!");
 
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+        int port = 2007;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
@@ -108,17 +91,9 @@ public class ServerClientTest {
         testConnection2.connect("TooManyTestUser2");
         testConnection3.connect("TooManyTestUser3");
 
-        boolean isDisconnected = false;
-        // This waits one seconds if the client gets disconnected, if not, the test fails.
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 1000) {
-            if (!testConnection3.getConnectionStatus()) {
-                isDisconnected = true;
-                break;
-            }
-        }
-
-        assertTrue(isDisconnected);
+        await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TooManyTestUser1"), equalTo(true));
+        await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TooManyTestUser2"), equalTo(true));
+        await().atMost(5, TimeUnit.SECONDS).until(testConnection3::getConnectionStatus, equalTo(false));
     }
 
 }

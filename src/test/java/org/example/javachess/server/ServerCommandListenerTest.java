@@ -1,22 +1,22 @@
 package org.example.javachess.server;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Level;
 import org.example.javachess.client.ConnectionHandler;
 import org.example.javachess.extensions.AssertLoggedExtension;
 import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
-import org.java_websocket.server.WebSocketServer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -32,10 +32,10 @@ public class ServerCommandListenerTest {
      */
     @Test
     void stopTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+        int port = 2001;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         ConnectionHandler testConnection = new ConnectionHandler("127.0.0.1", port);
@@ -49,17 +49,8 @@ public class ServerCommandListenerTest {
         Thread commandListenerThread = new Thread(cl);
         commandListenerThread.start();
 
-        boolean isDisonnected = false;
-        // This waits one seconds if the client gets disconnected, if not, the test fails.
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 1000) {
-            if (!testConnection.getConnectionStatus()) {
-                isDisonnected = true;
-                break;
-            }
-        }
+        await().atMost(5, TimeUnit.SECONDS).until(testConnection::getConnectionStatus, equalTo(false));
 
-        assertTrue(isDisonnected);
         assertEquals(0, testServer.getConnections().size());
     }
 
@@ -70,10 +61,10 @@ public class ServerCommandListenerTest {
      */
     @Test
     void listTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+        int port = 2002;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
@@ -89,15 +80,9 @@ public class ServerCommandListenerTest {
         Thread commandListenerThread = new Thread(cl);
         commandListenerThread.start();
 
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 1000) {
-            if (!testConnection1.getConnectionStatus()) {
-                break;
-            }
-        }
+        await().atMost(5, TimeUnit.SECONDS).until(testConnection1::getConnectionStatus, equalTo(false));
 
-        assertLogged.assertLogged("The following users are connected: TestUser, TestUser2",
-                Level.INFO);
+        assertLogged.assertLogged("The following users are connected: TestUser, TestUser2", Level.INFO);
     }
 
     /**
@@ -106,11 +91,11 @@ public class ServerCommandListenerTest {
      * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
      */
     @Test
-    void startTest() throws NoSuchFieldException, IllegalAccessException {
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+    void startTest() {
+        int port = 2003;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         String command = "stop\nstart";
@@ -121,18 +106,15 @@ public class ServerCommandListenerTest {
         Thread commandListenerThread = new Thread(cl);
         commandListenerThread.start();
 
-        Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-        isClosedField.setAccessible(true);
-
-        assertFalse(((AtomicBoolean) isClosedField.get(testServer)).get());
+        assertTrue(testServer.getServerStatus());
     }
 
     @Test
-    void restartTest() throws NoSuchFieldException, IllegalAccessException {
-        Random random = new Random();
-        int port = random.nextInt(1000, 65535);
+    void restartTest() {
+        int port = 2004;
 
         Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
         testServer.start();
 
         String command = "restart";
@@ -143,10 +125,7 @@ public class ServerCommandListenerTest {
         Thread commandListenerThread = new Thread(cl);
         commandListenerThread.start();
 
-        Field isClosedField = WebSocketServer.class.getDeclaredField("isclosed");
-        isClosedField.setAccessible(true);
-
-        assertFalse(((AtomicBoolean) isClosedField.get(testServer)).get());
+        assertTrue(testServer.getServerStatus());
     }
 
 }
