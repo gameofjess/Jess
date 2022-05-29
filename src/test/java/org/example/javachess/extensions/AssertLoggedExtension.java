@@ -1,9 +1,14 @@
 package org.example.javachess.extensions;
 
+import static org.awaitility.Awaitility.await;
+
+import java.util.concurrent.TimeUnit;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.test.appender.ListAppender;
+import org.awaitility.core.ConditionTimeoutException;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -34,10 +39,12 @@ public class AssertLoggedExtension
      * @param level Logging level (e.g. Level.WARN, Level.INFO, ...)
      */
     public void assertLogged(String message, Level level) {
-        listAppender.getEvents().stream().filter(e -> e.getLevel().equals(level))
-                .filter(e -> e.getMessage().getFormattedMessage().equals(message)).findAny()
-                .orElseThrow(() -> new AssertionFailedError("Log message '" + message
-                        + "' with level '" + level + "' was expected, but not logged."));
+        try {
+            await().atMost(5, TimeUnit.SECONDS)
+                    .until(() -> listAppender.getEvents().stream().filter(e -> e.getLevel().equals(level)).anyMatch(e -> e.getMessage().getFormattedMessage().equals(message)));
+        } catch (ConditionTimeoutException e) {
+            throw new AssertionFailedError("Log message '" + message + "' with level '" + level + "' was expected, but not logged.");
+        }
     }
 
 
