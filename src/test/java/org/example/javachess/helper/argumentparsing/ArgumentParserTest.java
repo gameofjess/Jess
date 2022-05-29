@@ -151,9 +151,12 @@ public class ArgumentParserTest {
         }
 
         // String Test
-        String[] args = {"--thisisatest", "--anotherarg", "--invalidarg"};
+        String[] args = {"--thisisatest", "--anotherarg", "--invalidarg", "argwithoutdashes"};
 
         assertThrows(InvalidOptionException.class, () -> ArgumentParser.getOpts(args));
+
+        assertThrows(InvalidOptionException.class, () -> ArgumentParser.getOpts(new String[] {"-p"}));
+        assertThrows(InvalidOptionException.class, () -> ArgumentParser.getOpts(new String[] {"-H"}));
     }
 
     /**
