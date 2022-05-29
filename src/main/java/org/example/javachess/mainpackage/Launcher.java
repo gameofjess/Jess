@@ -13,7 +13,7 @@ import org.example.javachess.server.ServerCommandListener;
 
 /**
  * This class is needed to fix the issue with starting JavaFX Applications pointed out here:
- * https://stackoverflow.com/questions/52144931/how-to-add-javafx-runtime-to-eclipse-in-java-11
+ * <a href="https://stackoverflow.com/questions/52144931/how-to-add-javafx-runtime-to-eclipse-in-java-11">...</a>
  *
  * Also, it is used to determine whether the user wants to start a dedicated server or client.
  */
@@ -52,13 +52,13 @@ public class Launcher {
                 log.debug("Started ServerCommandListener Thread");
 
                 log.info("Starting server on " + server.getAddress().toString());
-                server.run();
+                server.start();
             } else {
                 log.info("Starting client application");
                 Main.main(args);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.info(e.getMessage());
         }
 
 
