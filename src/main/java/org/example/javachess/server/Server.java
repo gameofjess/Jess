@@ -1,8 +1,8 @@
 package org.example.javachess.server;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class Server extends WebSocketServer {
 
     private static final Logger log = LogManager.getLogger(Server.class);
 
-    private final HashMap<UUID, String> users = new HashMap<>();
+    private final ConcurrentHashMap<UUID, String> users = new ConcurrentHashMap<>();
 
     private boolean isOpen = false;
 
