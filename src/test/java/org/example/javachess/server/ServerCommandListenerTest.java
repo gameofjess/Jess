@@ -109,6 +109,11 @@ public class ServerCommandListenerTest {
         assertTrue(testServer.getServerStatus());
     }
 
+    /**
+     * Tests the restart command.
+     *
+     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     */
     @Test
     void restartTest() {
         int port = 2004;
