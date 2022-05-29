@@ -52,7 +52,7 @@ public class Launcher {
                 log.debug("Started ServerCommandListener Thread");
 
                 log.info("Starting server on " + server.getAddress().toString());
-                server.start();
+                commandListener.parseCommand("start");
             } else {
                 log.info("Starting client application");
                 Main.main(args);
