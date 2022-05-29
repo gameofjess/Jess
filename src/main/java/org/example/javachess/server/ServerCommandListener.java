@@ -4,15 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.java_websocket.server.WebSocketServer;
 
 public class ServerCommandListener implements Runnable {
 
@@ -20,6 +17,8 @@ public class ServerCommandListener implements Runnable {
 
     private Server server;
     private final InputStream stream;
+
+    volatile boolean stop = false;
 
     /**
      * Constructor ServerCommandListener
@@ -42,9 +41,14 @@ public class ServerCommandListener implements Runnable {
         try {
             while((inputLine = stdinReader.readLine()) != null){
                 parseCommand(inputLine);
+                if (stop) {
+                    Thread.currentThread().interrupt();
+                    log.debug("Returning due to boolean stop set to true!");
+                    return;
+                }
             }
-        } catch(IOException ex){
-            log.error(ex.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -126,10 +130,10 @@ public class ServerCommandListener implements Runnable {
         start();
     }
 
-    private void exit(){
+    private void exit() {
         if(!server.getServerStatus()){
             log.info("Exiting...");
-            System.exit(0);
+            stop = true;
         } else {
             log.info("Server is not stopped yet. Proceeding to stop, then exit.");
             stop();
@@ -147,7 +151,7 @@ public class ServerCommandListener implements Runnable {
                 log.error("Could not stop server. Proceeding to exit unsafely");
             }
 
-            System.exit(0);
+            stop = true;
         }
     }
 
