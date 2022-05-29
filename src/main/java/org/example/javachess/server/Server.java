@@ -94,6 +94,7 @@ public class Server extends WebSocketServer {
     public void onError(WebSocket webSocket, Exception e) {
         log.error("An error occurred in the server instance: " + e.getMessage());
         ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, e.getMessage());
+        broadcast(msg.toJSON());
     }
 
     @Override
