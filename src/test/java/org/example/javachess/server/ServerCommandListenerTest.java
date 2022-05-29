@@ -133,4 +133,69 @@ public class ServerCommandListenerTest {
         assertTrue(testServer.getServerStatus());
     }
 
+    /**
+     * Tests the exit command.
+     *
+     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     */
+    @Test
+    void exitTest() {
+        Server testServer = new ServerBuilder().build();
+
+        String command = "exit";
+        InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
+
+        ServerCommandListener cl = new ServerCommandListener(testServer, inputStream);
+        Thread commandListenerThread = new Thread(cl);
+        commandListenerThread.start();
+
+        await().atMost(1, TimeUnit.SECONDS).until(commandListenerThread::isInterrupted, equalTo(true));
+    }
+
+    /**
+     * Tests the message logged whenever an unknown command is called.
+     *
+     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     */
+    @Test
+    void unknownCommandTest() {
+        int port = 5001;
+
+        Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
+        testServer.start();
+
+        String command = "unknownCommand";
+        InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
+
+        ServerCommandListener cl = new ServerCommandListener(testServer, inputStream);
+        Thread commandListenerThread = new Thread(cl);
+        commandListenerThread.start();
+
+        assertLogged.assertLogged("Unknown command: unknownCommand", Level.INFO);
+    }
+
+    /**
+     * Tests the start command when a server is already started.
+     *
+     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     */
+    @Test
+    void alreadyStartedTest() {
+        int port = 5002;
+
+        Server testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
+        testServer.start();
+
+        String command = "start";
+        InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
+
+        ServerCommandListener cl = new ServerCommandListener(testServer, inputStream);
+        Thread commandListenerThread = new Thread(cl);
+        commandListenerThread.start();
+
+        assertLogged.assertLogged("Server is already started!", Level.ERROR);
+    }
+
 }
