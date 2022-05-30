@@ -15,26 +15,40 @@ import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
 import org.example.javachess.server.Server;
 import org.example.javachess.server.ServerBuilder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ServerClientTest {
 
     Logger log = LogManager.getLogger(ServerClientTest.class);
 
+    static Server testServer;
+    static int port = 9887;
+
+    @BeforeAll
+    static void beforeAll() {
+        testServer = new ServerBuilder().build();
+    }
+
+    @BeforeEach
+    void beforeEach() throws InterruptedException {
+        if (testServer.getServerStatus())
+            testServer.stop();
+        port++;
+        testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
+        testServer.start();
+    }
+
     /**
      * Tests whether a connection between a server and a client can be established.
      */
     @Test
-    public void clientServerConnectTest()
+    void clientServerConnectTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException, InterruptedException {
 
         log.info("Testing connection of client to server!");
-
-        int port = 2005;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
 
         ConnectionHandler testConnection = new ConnectionHandler("127.0.0.1", port);
 
@@ -48,16 +62,10 @@ public class ServerClientTest {
      * Tests whether a connection with a duplicate username gets rejected.
      */
     @Test
-    public void invalidUsernameTest()
+    void invalidUsernameTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
 
         log.info("Testing client connecting with invalid username.");
-
-        int port = 2006;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
@@ -72,16 +80,10 @@ public class ServerClientTest {
      * Tests whether a connection gets refused when too many users are connected.
      */
     @Test
-    public void tooManyUsersTest()
+    void tooManyUsersTest()
             throws InvalidHostnameException, URISyntaxException, InvalidPortException {
 
         log.info("Testing connection of too many clients to server!");
-
-        int port = 2007;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);

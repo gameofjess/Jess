@@ -17,6 +17,8 @@ import org.example.javachess.client.ConnectionHandler;
 import org.example.javachess.extensions.AssertLoggedExtension;
 import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -25,6 +27,25 @@ public class ServerCommandListenerTest {
     @RegisterExtension
     AssertLoggedExtension assertLogged = new AssertLoggedExtension();
 
+
+    static Server testServer;
+    static int port = 8887;
+
+    @BeforeAll
+    static void beforeAll() {
+        testServer = new ServerBuilder().build();
+    }
+
+    @BeforeEach
+    void beforeEach() throws InterruptedException {
+        if (testServer.getServerStatus())
+            testServer.stop();
+        port++;
+        testServer = new ServerBuilder().setPort(port).build();
+        testServer.setReuseAddr(true);
+        testServer.start();
+    }
+
     /**
      * Tests the stop command
      *
@@ -32,12 +53,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void stopTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
-        int port = 2001;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         ConnectionHandler testConnection = new ConnectionHandler("127.0.0.1", port);
         testConnection.connect("TestUser");
 
@@ -61,12 +76,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void listTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
-        int port = 2002;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
         testConnection1.connect("TestUser");
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
@@ -92,12 +101,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void startTest() {
-        int port = 2003;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         String command = "stop\nstart";
         InputStream inputStream =
                 new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
@@ -116,12 +119,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void restartTest() {
-        int port = 2004;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         String command = "restart";
         InputStream inputStream =
                 new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
@@ -140,8 +137,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void exitTest() {
-        Server testServer = new ServerBuilder().build();
-
         String command = "exit";
         InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
 
@@ -159,12 +154,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void unknownCommandTest() {
-        int port = 5001;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         String command = "unknownCommand";
         InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
 
@@ -182,12 +171,6 @@ public class ServerCommandListenerTest {
      */
     @Test
     void alreadyStartedTest() {
-        int port = 5002;
-
-        Server testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
-        testServer.start();
-
         String command = "start";
         InputStream inputStream = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
 
