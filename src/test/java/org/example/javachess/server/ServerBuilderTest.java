@@ -13,11 +13,11 @@ public class ServerBuilderTest {
     @Test
     void serverInstantiationTest() {
         ServerBuilder sb = new ServerBuilder();
-        sb.setPort(8888);
-        sb.setHost("localhost");
+        sb.setHost("127.0.0.1");
+        sb.setPort(10000);
         Server server = sb.build();
 
-        assertEquals(server.getPort(), 8888);
+        assertEquals(server.getPort(), 10000);
         assertTrue(server.getAddress().getHostName().contains("localhost"));
     }
 }
