@@ -1,4 +1,4 @@
-package com.gameofjess.javachess.gui;
+package com.gameofjess.javachess.gui.controller;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -22,7 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MenuController {
+public class MenuController implements IController {
 
     private static final Logger log = LogManager.getLogger(MenuController.class);
 

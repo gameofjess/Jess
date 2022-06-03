@@ -1,20 +1,21 @@
-package com.gameofjess.javachess.gui;
+package com.gameofjess.javachess.gui.controller;
 
-import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-public class GameController {
+public class GameController implements IController {
     private static final Logger log = LogManager.getLogger(GameController.class);
     @FXML
     GridPane main;
