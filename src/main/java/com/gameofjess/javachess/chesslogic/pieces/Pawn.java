@@ -51,7 +51,7 @@ public class Pawn extends Piece {
             }
 
             Piece zwei_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() + 2));
-            if (position.getY() == 2 && eins_vor == null && zwei_vor == null) {
+            if (position.getY() == 1 && eins_vor == null && zwei_vor == null) {
                 Move test_move = new Move(new Position(position.getX(), position.getY() + 2));
                 if (isWhite) {
                     if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
@@ -121,7 +121,10 @@ public class Pawn extends Piece {
                     }
                 }
             }
-        } else {
+        } 
+		
+		//SCHWARZ
+		else {
 
             Piece eins_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() - 1));
             if (eins_vor == null) {
@@ -138,7 +141,7 @@ public class Pawn extends Piece {
             }
 
             Piece zwei_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() - 2));
-            if (position.getY() == 2 && eins_vor == null && zwei_vor == null) {
+            if (position.getY() == 6 && eins_vor == null && zwei_vor == null) {
                 Move test_move = new Move(true, new Position(position.getX(), position.getY() - 2));
                 if (isWhite) {
                     if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
@@ -152,7 +155,7 @@ public class Pawn extends Piece {
             }
 
             Piece schlagen_rechts = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 1));
-            if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
+            if (schlagen_rechts != null && schlagen_rechts.isWhite) {
                 Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 1), schlagen_rechts);
                 if (isWhite) {
                     if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
@@ -166,7 +169,7 @@ public class Pawn extends Piece {
             }
 
             Piece schlagen_links = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 1));
-            if (schlagen_links != null && !schlagen_links.isWhite) {
+            if (schlagen_links != null && schlagen_links.isWhite) {
                 Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 1), schlagen_links);
                 if (isWhite) {
                     if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
