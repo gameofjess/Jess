@@ -2,6 +2,7 @@ package org.example.javachess.chesslogic.pieces;
 
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
+import javafx.scene.image.Image;
 public abstract class Piece implements Cloneable {
 	/**
 	 * Abstract Class to represent a chesspiece
@@ -48,5 +49,7 @@ public abstract class Piece implements Cloneable {
 	public String toString(){
 		return " "+fen+"  ";
 	}
+
+	public abstract Image getImage();
 
 }

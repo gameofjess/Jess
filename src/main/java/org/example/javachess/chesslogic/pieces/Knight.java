@@ -6,6 +6,7 @@ import java.util.List;
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 import org.example.javachess.chesslogic.Position;
+import javafx.scene.image.Image;
 
 public class Knight extends Piece {
 
@@ -16,7 +17,6 @@ public class Knight extends Piece {
 
     
 	/** 
-	 * {@link org.example.javachess.chesslogic.pieces.Piece#getMoves getMoves(boolean checking)}
 	 * @param checking
 	 * @return Move[]
 	 */
@@ -244,5 +244,16 @@ public class Knight extends Piece {
         }
         return moves.toArray(new Move[moves.size()]);
     }
+
+
+	@Override
+	public Image getImage() {
+		if (isWhite) {
+			return new Image(getClass().getResourceAsStream("/icons/wKnight.png"));
+		}
+		else{
+			return new Image(getClass().getResourceAsStream("/icons/bKnight.png"));
+		}
+	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 import org.example.javachess.chesslogic.Position;
+import javafx.scene.image.Image;
 
 public class King extends Piece {
     public boolean rochade = true;
@@ -278,4 +279,14 @@ public class King extends Piece {
 		*/
         return false;
     }
+
+	@Override
+	public Image getImage() {
+		if (isWhite) {
+			return new Image(getClass().getResourceAsStream("/icons/wKing.png"));
+		}
+		else{
+			return new Image(getClass().getResourceAsStream("/icons/bKing.png"));
+		}
+	}
 }

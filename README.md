@@ -72,3 +72,5 @@ It also uses the [log4j logging framework](https://logging.apache.org/log4j/2.x/
 
 JavaChess (c) 2022 [Max Knerrich](https://github.com/maxknerrich), [Kay Knöpfle](https://github.com/joystick01), 
 [Benjamin Mehl](https://github.com/BenniBM), [Lucca Greschner](https://github.com/Uggah)
+
+SPDX-License-Identifier: GPL-3.0
