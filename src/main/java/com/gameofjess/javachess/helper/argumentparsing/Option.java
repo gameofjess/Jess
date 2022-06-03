@@ -1,4 +1,4 @@
-package org.example.javachess.helper.argumentparsing;
+package com.gameofjess.javachess.helper.argumentparsing;
 
 /**
  * Represents all possible command line options for JavaChess.

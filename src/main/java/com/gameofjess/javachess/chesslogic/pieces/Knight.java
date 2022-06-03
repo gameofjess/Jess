@@ -1,11 +1,12 @@
-package org.example.javachess.chesslogic.pieces;
+package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.example.javachess.chesslogic.Board;
-import org.example.javachess.chesslogic.Move;
-import org.example.javachess.chesslogic.Position;
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.chesslogic.Move;
+import com.gameofjess.javachess.chesslogic.Position;
+
 import javafx.scene.image.Image;
 
 public class Knight extends Piece {

@@ -1,13 +1,13 @@
-package org.example.javachess.mainpackage;
+package com.gameofjess.javachess.mainpackage;
+
+import java.net.URL;
+import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.Objects;
 
 public class Main extends Application {
 

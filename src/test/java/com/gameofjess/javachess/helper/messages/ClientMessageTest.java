@@ -1,4 +1,4 @@
-package org.example.javachess.helper.messages;
+package com.gameofjess.javachess.helper.messages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,4 +1,6 @@
-package org.example.javachess.helper.argumentparsing;
+package com.gameofjess.javachess.helper.argumentparsing;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 
@@ -6,14 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 public class OptionTest {
 
     /**
      * Tests the getValue and setValue methods of the Option enum.
-     * @see org.example.javachess.helper.argumentparsing.Option
+     * 
+     * @see Option
      */
     @ParameterizedTest(name = "#{index} - Option Value Test with String {0}")
     @MethodSource("getRandomStrings")
@@ -24,7 +25,8 @@ public class OptionTest {
 
     /**
      * Tests the getByShortAlias method of the Option enum.
-     * @see org.example.javachess.helper.argumentparsing.Option
+     * 
+     * @see Option
      */
     @Test
     void getByShortAliasTest(){
@@ -35,7 +37,8 @@ public class OptionTest {
 
     /**
      * Tests the getByLongAlias method of the Option enum.
-     * @see org.example.javachess.helper.argumentparsing.Option
+     * 
+     * @see Option
      */
     @Test
     void getByLongAliasTest(){

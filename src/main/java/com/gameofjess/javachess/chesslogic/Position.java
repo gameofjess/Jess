@@ -1,4 +1,4 @@
-package org.example.javachess.chesslogic;
+package com.gameofjess.javachess.chesslogic;
 
 public class Position {
 	/**

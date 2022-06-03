@@ -1,4 +1,4 @@
-package org.example.javachess.client;
+package com.gameofjess.javachess.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,9 +6,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
-import org.example.javachess.helper.messages.ClientMessage;
+
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.helper.messages.ClientMessage;
 
 public class ConnectionHandler {
 

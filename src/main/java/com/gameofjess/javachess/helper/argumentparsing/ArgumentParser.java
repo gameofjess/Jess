@@ -1,13 +1,14 @@
-package org.example.javachess.helper.argumentparsing;
+package com.gameofjess.javachess.helper.argumentparsing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidOptionException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
+
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidOptionException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 
 public class ArgumentParser {
 

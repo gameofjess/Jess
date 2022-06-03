@@ -1,4 +1,4 @@
-package org.example.javachess.extensions;
+package com.gameofjess.javachess.extensions;
 
 import static org.awaitility.Awaitility.await;
 

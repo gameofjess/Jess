@@ -1,4 +1,4 @@
-package org.example.javachess.server;
+package com.gameofjess.javachess.server;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -18,7 +18,7 @@ public class ServerTest {
     /**
      * Tests the onOpen method
      * 
-     * @see org.example.javachess.server.Server#onOpen(WebSocket, ClientHandshake)
+     * @see Server#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenStandardTest() {
@@ -38,7 +38,7 @@ public class ServerTest {
     /**
      * Tests the onOpen method for handling of more than two users.
      * 
-     * @see org.example.javachess.server.Server#onOpen(WebSocket, ClientHandshake)
+     * @see Server#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenTooManyUsersTest() {
@@ -80,7 +80,7 @@ public class ServerTest {
     /**
      * Tests the onOpen method for handling duplicate usernames
      * 
-     * @see org.example.javachess.server.Server#onOpen(WebSocket, ClientHandshake)
+     * @see Server#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenDuplicateUsernameTest() {
@@ -108,7 +108,7 @@ public class ServerTest {
     /**
      * Tests the onOpen method with a client-handshake without a username field
      * 
-     * @see org.example.javachess.server.Server#onOpen(WebSocket, ClientHandshake)
+     * @see Server#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenNoUsernameFieldTest() {
@@ -127,7 +127,7 @@ public class ServerTest {
     /**
      * Tests the onClose method
      * 
-     * @see org.example.javachess.server.Server#onOpen(WebSocket, ClientHandshake)
+     * @see Server#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onCloseStandardTest() {

@@ -1,8 +1,9 @@
-package org.example.javachess.chesslogic;
+package com.gameofjess.javachess.chesslogic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.example.javachess.chesslogic.pieces.Piece;
+
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
 
 public class playground {
     public static void main(String[] args) {

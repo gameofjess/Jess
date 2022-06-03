@@ -1,4 +1,7 @@
-package org.example.javachess.gui.helper.objects;
+package com.gameofjess.javachess.gui.helper.objects;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
@@ -10,8 +13,6 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class BoardPane extends HBox {
 

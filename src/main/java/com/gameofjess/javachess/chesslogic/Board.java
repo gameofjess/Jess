@@ -1,12 +1,11 @@
-package org.example.javachess.chesslogic;
-
-import java.util.List;
-import java.util.Map;
-
-import org.example.javachess.chesslogic.pieces.*;
+package com.gameofjess.javachess.chesslogic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.gameofjess.javachess.chesslogic.pieces.*;
 
 /*
  * ----------------------------------------- 8 | 07 |*17*| 27 |*37*| 47 |*57*| 67 |*77*|
@@ -29,7 +28,7 @@ public class Board {
 
 	public  List<Piece> capturedPieces = new ArrayList<Piece>();
 
-	public  King kingWhite;
+    public King kingWhite;
 	public  King kingBlack;
 
 	

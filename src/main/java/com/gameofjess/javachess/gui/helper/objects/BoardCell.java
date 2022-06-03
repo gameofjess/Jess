@@ -1,4 +1,4 @@
-package org.example.javachess.gui.helper.objects;
+package com.gameofjess.javachess.gui.helper.objects;
 
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;

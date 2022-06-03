@@ -1,12 +1,12 @@
-package org.example.javachess.helper.messages;
+package com.gameofjess.javachess.helper.messages;
 
 import java.util.Date;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.chesslogic.Move;
 
+import com.gameofjess.javachess.chesslogic.Move;
 import com.google.gson.Gson;
 
 /**

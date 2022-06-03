@@ -1,4 +1,4 @@
-package org.example.javachess.server;
+package com.gameofjess.javachess.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

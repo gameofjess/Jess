@@ -1,4 +1,18 @@
-package org.example.javachess.gui;
+package com.gameofjess.javachess.gui;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Objects;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.server.Server;
+import com.gameofjess.javachess.server.ServerBuilder;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,17 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Objects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.javachess.client.ConnectionHandler;
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
-import org.example.javachess.server.Server;
-import org.example.javachess.server.ServerBuilder;
 
 public class MenuController {
 

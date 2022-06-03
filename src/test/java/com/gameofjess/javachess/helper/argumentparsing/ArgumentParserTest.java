@@ -1,4 +1,4 @@
-package org.example.javachess.helper.argumentparsing;
+package com.gameofjess.javachess.helper.argumentparsing;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,19 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidOptionException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidOptionException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 
 public class ArgumentParserTest {
 
     /**
      * Tests for regular operation with all possible arguments
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void regularTest()
@@ -37,7 +38,7 @@ public class ArgumentParserTest {
     /**
      * Tests for regular operation with the server argument
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void regularServerTest()
@@ -52,7 +53,7 @@ public class ArgumentParserTest {
     /**
      * Tests for regular operation with the port argument
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void regularPortTest()
@@ -69,7 +70,7 @@ public class ArgumentParserTest {
     /**
      * Tests for regular operation with the host argument and random selection of hostnames
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void regularHostnameTest()
@@ -89,10 +90,9 @@ public class ArgumentParserTest {
     }
 
     /**
-     * Tests for regular operation with the host argument and random selection of valid IPv4
-     * addresses.
+     * Tests for regular operation with the host argument and random selection of valid IPv4 addresses.
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @ParameterizedTest(name = "#{index} - IP Test with valid IPv4 address {0}")
     @MethodSource("validIPv4Addresses")
@@ -107,10 +107,10 @@ public class ArgumentParserTest {
     }
 
     /**
-     * Tests for InvalidHostnameException with the host argument and random selection of invalid
-     * IPv4 addresses.
+     * Tests for InvalidHostnameException with the host argument and random selection of invalid IPv4
+     * addresses.
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @ParameterizedTest(name = "#{index} - IP Test with invalid IPv4 address {0}")
     @MethodSource("invalidIPv4Addresses")
@@ -122,7 +122,7 @@ public class ArgumentParserTest {
     /**
      * Tests for InvalidOptionException
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void invalidOptionExceptionTest() {
@@ -162,7 +162,7 @@ public class ArgumentParserTest {
     /**
      * Tests for InvalidPortException
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void invalidPortExceptionTest() {
@@ -191,7 +191,7 @@ public class ArgumentParserTest {
     /**
      * Tests for InvalidHostnameException with hostnames
      *
-     * @see org.example.javachess.helper.argumentparsing.ArgumentParser#getOpts(String[])
+     * @see ArgumentParser#getOpts(String[])
      */
     @Test
     void invalidHostnameExceptionTest() {

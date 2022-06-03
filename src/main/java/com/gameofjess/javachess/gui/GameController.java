@@ -1,10 +1,9 @@
-package org.example.javachess.gui;
+package com.gameofjess.javachess.gui;
 
-import org.example.javachess.chesslogic.Board;
-import org.example.javachess.chesslogic.Position;
-import org.example.javachess.gui.helper.objects.BoardPane;
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.gui.helper.objects.BoardPane;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class GameController {

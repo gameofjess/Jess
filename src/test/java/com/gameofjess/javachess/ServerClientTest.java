@@ -1,4 +1,4 @@
-package org.example.javachess;
+package com.gameofjess.javachess;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -10,15 +10,16 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.client.ConnectionHandler;
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
-import org.example.javachess.server.Server;
-import org.example.javachess.server.ServerBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.server.Server;
+import com.gameofjess.javachess.server.ServerBuilder;
 
 public class ServerClientTest {
 

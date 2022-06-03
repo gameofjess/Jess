@@ -1,7 +1,8 @@
-package org.example.javachess.chesslogic.pieces;
+package com.gameofjess.javachess.chesslogic.pieces;
 
-import org.example.javachess.chesslogic.Board;
-import org.example.javachess.chesslogic.Move;
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.chesslogic.Move;
+
 import javafx.scene.image.Image;
 public abstract class Piece implements Cloneable {
 	/**

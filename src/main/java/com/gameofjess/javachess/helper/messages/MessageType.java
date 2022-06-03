@@ -1,4 +1,4 @@
-package org.example.javachess.helper.messages;
+package com.gameofjess.javachess.helper.messages;
 
 /**
  * This enum is used to determine a message's type. There are the following rules:

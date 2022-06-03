@@ -1,4 +1,4 @@
-package org.example.javachess.server;
+package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
 

@@ -1,4 +1,4 @@
-package org.example.javachess.server;
+package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
@@ -6,13 +6,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.helper.messages.ClientMessage;
-import org.example.javachess.helper.messages.MessageType;
-import org.example.javachess.helper.messages.ServerMessage;
 import org.java_websocket.WebSocket;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+
+import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.MessageType;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 
 public class Server extends WebSocketServer {
 

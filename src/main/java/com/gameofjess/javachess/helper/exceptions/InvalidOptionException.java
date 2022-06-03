@@ -1,4 +1,4 @@
-package org.example.javachess.helper.exceptions;
+package com.gameofjess.javachess.helper.exceptions;
 
 /**
  * Invalid argument / option

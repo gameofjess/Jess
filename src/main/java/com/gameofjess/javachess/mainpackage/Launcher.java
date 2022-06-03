@@ -1,15 +1,16 @@
-package org.example.javachess.mainpackage;
+package com.gameofjess.javachess.mainpackage;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.helper.argumentparsing.ArgumentParser;
-import org.example.javachess.helper.argumentparsing.Option;
-import org.example.javachess.server.Server;
-import org.example.javachess.server.ServerBuilder;
-import org.example.javachess.server.ServerCommandListener;
+
+import com.gameofjess.javachess.helper.argumentparsing.ArgumentParser;
+import com.gameofjess.javachess.helper.argumentparsing.Option;
+import com.gameofjess.javachess.server.Server;
+import com.gameofjess.javachess.server.ServerBuilder;
+import com.gameofjess.javachess.server.ServerCommandListener;
 
 /**
  * This class is needed to fix the issue with starting JavaFX Applications pointed out here:

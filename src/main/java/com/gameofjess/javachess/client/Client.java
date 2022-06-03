@@ -1,12 +1,13 @@
-package org.example.javachess.client;
+package com.gameofjess.javachess.client;
 
 import java.net.URI;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.javachess.helper.messages.ServerMessage;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 
 public class Client extends WebSocketClient {
 

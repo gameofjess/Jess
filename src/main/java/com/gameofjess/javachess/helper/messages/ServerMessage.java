@@ -1,4 +1,4 @@
-package org.example.javachess.helper.messages;
+package com.gameofjess.javachess.helper.messages;
 
 import java.util.Date;
 

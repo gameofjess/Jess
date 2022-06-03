@@ -1,7 +1,7 @@
-package org.example.javachess.chesslogic;
+package com.gameofjess.javachess.chesslogic;
 
 
-import org.example.javachess.chesslogic.pieces.Piece;
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
 
 public class Move {
 	/**

@@ -1,4 +1,4 @@
-package org.example.javachess.server;
+package com.gameofjess.javachess.server;
 
 
 import static org.awaitility.Awaitility.await;
@@ -13,15 +13,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Level;
-import org.example.javachess.client.ConnectionHandler;
-import org.example.javachess.extensions.AssertLoggedExtension;
-import org.example.javachess.helper.exceptions.InvalidHostnameException;
-import org.example.javachess.helper.exceptions.InvalidPortException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.extensions.AssertLoggedExtension;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 
 public class ServerCommandListenerTest {
 
@@ -55,7 +56,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the stop command
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void stopTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
@@ -78,7 +79,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the list command
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void listTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
@@ -103,7 +104,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the start command.
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void startTest() {
@@ -121,7 +122,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the restart command.
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void restartTest() {
@@ -139,7 +140,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the exit command.
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void exitTest() {
@@ -156,7 +157,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the message logged whenever an unknown command is called.
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void unknownCommandTest() {
@@ -173,7 +174,7 @@ public class ServerCommandListenerTest {
     /**
      * Tests the start command when a server is already started.
      *
-     * @see org.example.javachess.server.ServerCommandListener#parseCommand(String)
+     * @see ServerCommandListener#parseCommand(String)
      */
     @Test
     void alreadyStartedTest() {
