@@ -25,7 +25,7 @@ public class BoardCell extends StackPane {
         this.getChildren().add(piece);
     }
 
-    public void setImage(Image img) {
+    public synchronized void setImage(Image img) {
         piece.setImage(img);
         piece.setPreserveRatio(true);
     }
