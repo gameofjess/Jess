@@ -3,6 +3,7 @@ module JavaChess {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
+	requires transitive javafx.graphics;
 
     // Log4j
     requires org.apache.logging.log4j;
