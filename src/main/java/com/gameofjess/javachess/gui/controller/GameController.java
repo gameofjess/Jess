@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-public class GameController implements IController {
+public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
     @FXML
     GridPane main;

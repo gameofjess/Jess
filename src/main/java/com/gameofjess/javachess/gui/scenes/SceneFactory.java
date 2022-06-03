@@ -2,13 +2,13 @@ package com.gameofjess.javachess.gui.scenes;
 
 import java.io.IOException;
 
-import com.gameofjess.javachess.gui.controller.IController;
+import com.gameofjess.javachess.gui.controller.Controller;
 
 import javafx.scene.Scene;
 
 public class SceneFactory {
     private final SceneType type;
-    private IController controller;
+    private Controller controller;
 
     public SceneFactory(SceneType type) {
         this.type = type;
@@ -36,7 +36,7 @@ public class SceneFactory {
     }
 
 
-    public IController getController() {
+    public Controller getController() {
         return controller;
     }
 }

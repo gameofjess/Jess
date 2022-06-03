@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            URL fxmlFileUrl = getClass().getClassLoader().getResource("play.fxml");
+            URL fxmlFileUrl = getClass().getClassLoader().getResource("menu.fxml");
             // URL cssFileUrl = getClass().getClassLoader().getResource("application.css");
             Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
             Scene scene = new Scene(root);

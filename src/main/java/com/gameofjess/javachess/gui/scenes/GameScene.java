@@ -7,8 +7,8 @@ import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.gameofjess.javachess.gui.controller.Controller;
 import com.gameofjess.javachess.gui.controller.GameController;
-import com.gameofjess.javachess.gui.controller.IController;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +17,7 @@ public class GameScene {
 
     private static final Logger log = LogManager.getLogger(GameScene.class);
     private static final URL fxmlFileURL = GameScene.class.getClassLoader().getResource("play.fxml");
-    private final IController controller;
+    private final Controller controller;
     private final Scene scene;
 
     GameScene() throws IOException {
