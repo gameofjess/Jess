@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-          prefWidth="400.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/18"
+          prefWidth="400.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/16"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gameofjess.javachess.gui.controller.MenuController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0"/>
@@ -35,8 +35,8 @@
                         <Font name="System Bold" size="64.0"/>
                     </font>
                 </Text>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your IP: 187.69.42.69" GridPane.halignment="CENTER"
-                      GridPane.rowIndex="1"/>
+                <Text fx:id="ipAddressText" strokeType="OUTSIDE" strokeWidth="0.0" text="Your IP: 187.69.42.69"
+                      GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                     <children>
                         <Label prefHeight="17.0" prefWidth="216.0" text="USERNAME">
@@ -61,7 +61,7 @@
                                         <Font size="18.0"/>
                                     </font>
                                 </TextField>
-                                <Button onAction="#hostGame" mnemonicParsing="false"
+                                <Button mnemonicParsing="false" onAction="#hostGame"
                                         style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;"
                                         text="HOST">
                                     <padding>

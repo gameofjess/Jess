@@ -1,7 +1,11 @@
 package com.gameofjess.javachess.gui.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.net.*;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,15 +19,53 @@ import com.gameofjess.javachess.server.ServerBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 public class MenuController extends Controller {
 
     private static final Logger log = LogManager.getLogger(MenuController.class);
 
+    private ConnectionHandler connectionHandler;
+
+    @FXML
+    private Text ipAddressText;
     @FXML
     private TextField address;
     @FXML
     private TextField username;
+
+    public void initialize() {
+        if (ipAddressText != null) {
+            try {
+                String localIPAddress = InetAddress.getLocalHost().getHostAddress();
+                String remoteIPAddress;
+
+                URL url = new URL("https://ipaddr.gameofjess.com");
+                HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.connect();
+
+                if (100 <= con.getResponseCode() && con.getResponseCode() <= 399) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    remoteIPAddress = br.readLine();
+                } else {
+                    remoteIPAddress = "Could not establish connection to server!";
+                }
+
+
+                ipAddressText.setText("Your local IP Address: " + localIPAddress + "\n" + "Your remote IP Address: " + remoteIPAddress);
+            } catch (UnknownHostException ex) {
+                ipAddressText.setStyle("-fx-text-fill: #550000");
+                ipAddressText.setText("Could not determine your IP-Address!");
+            } catch (ProtocolException e) {
+                throw new RuntimeException(e);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     /**
      * Gets user inputs and calls the connect method.
