@@ -6,18 +6,15 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class BoardCell extends StackPane {
     private static final Logger log = LogManager.getLogger(BoardCell.class);
 
-    private Pane marker;
     private ImageView piece;
     String style;
 
     public BoardCell() {
-        marker = new Pane();
         piece = new ImageView();
         style = "";
 
@@ -26,7 +23,6 @@ public class BoardCell extends StackPane {
         piece.fitWidthProperty().bind(widthProperty());
 
         this.getChildren().add(piece);
-        this.getChildren().add(marker);
     }
 
     public void setImage(Image img) {

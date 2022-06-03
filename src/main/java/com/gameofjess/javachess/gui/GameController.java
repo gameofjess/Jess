@@ -47,8 +47,8 @@ public class GameController {
                     boardPane.setSelectedByCell(true, pos.getY(), pos.getX());
 
                     for (Move m : possibleMoves) {
-                        int destX = m.destination.x;
-                        int destY = m.destination.y;
+                        int destX = m.destination.getX();
+                        int destY = m.destination.getY();
 
                         boardPane.setActivationStatusByCell(true, destY, destX);
                     }
