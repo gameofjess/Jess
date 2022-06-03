@@ -129,5 +129,12 @@ public class BoardPane extends HBox {
         return result;
     }
 
+    public void resetImages() {
+        for (Node n : boardGrid.getChildren()) {
+            BoardCell cell = (BoardCell) n;
+            cell.setImage(null);
+        }
+    }
+
 
 }

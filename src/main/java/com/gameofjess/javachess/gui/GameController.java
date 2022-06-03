@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -51,6 +52,16 @@ public class GameController {
                         int destY = m.destination.getY();
 
                         boardPane.setActivationStatusByCell(true, destY, destX);
+                        boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                log.debug("Destination Clicked");
+                                Piece piece = board.getBoardMap().get(pos);
+                                // piece.m.movePiece(pos, m.destination);
+                                piece.makeMove(m);
+                                updatePieces();
+                            }
+                        }, destY, destX);
                     }
                 }
             }, pos.getY(), pos.getX());
@@ -59,6 +70,7 @@ public class GameController {
     }
 
     private void drawPieces() {
+        boardPane.resetImages();
         board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
             Position pos = entry.getKey();
             Image icon = entry.getValue().getImage();
