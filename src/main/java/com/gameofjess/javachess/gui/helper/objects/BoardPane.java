@@ -80,10 +80,11 @@ public class BoardPane extends HBox {
         }
     }
 
-    public void resetActivationStatus() {
+    public void resetStatus() {
         for (Node n : boardGrid.getChildren()) {
             BoardCell cell = (BoardCell) n;
             cell.changeActivationStatus(false);
+            cell.selectedCell(false);
         }
     }
 
@@ -92,12 +93,25 @@ public class BoardPane extends HBox {
         getCellByIndex(row, column).changeActivationStatus(status);
     }
 
+    public void setSelectedByCell(boolean status, int row, int column) {
+        log.debug("Selecting at coordinate ({}|{})", column, row);
+        getCellByIndex(row, column).selectedCell(status);
+    }
+
     public void setImageByCell(Image img, int row, int column) {
         getCellByIndex(row, column).setImage(img);
     }
 
     public void setPieceEventHandlerByCell(EventHandler<MouseEvent> handler, int row, int column) {
+        log.debug("Setting event handler at coordinate ({}|{})", column, row);
         getCellByIndex(row, column).addEventHandlerToPiece(handler);
+    }
+
+    public void resetEventHandlers() {
+        for (Node n : boardGrid.getChildren()) {
+            BoardCell cell = (BoardCell) n;
+            cell.resetEventHandler();
+        }
     }
 
     private BoardCell getCellByIndex(int row, int column) {
