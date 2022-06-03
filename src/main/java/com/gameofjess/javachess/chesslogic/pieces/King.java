@@ -10,7 +10,7 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class King extends Piece {
-    public boolean rochade = true;
+    boolean rochade = true;
 
     public King(Board Board, boolean isWhite) {
         super(Board, isWhite);
@@ -35,134 +35,134 @@ public class King extends Piece {
 
         Piece test;
         // hoch
-        test = Board.board.get( new Position(position.x, position.y + 1));
-        if (position.y + 1 < 8 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x, position.y + 1), test);
+        test = Board.getBoardMap().get( new Position(position.getX(), position.getY() + 1));
+        if (position.getY() + 1 < 8 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX(), position.getY() + 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // hoch rechts
-        test = Board.board.get( new Position(position.x + 1, position.y + 1));
-        if (position.x + 1 < 8 && position.y + 1 < 8
+        test = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() + 1));
+        if (position.getX() + 1 < 8 && position.getY() + 1 < 8
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x + 1, position.y + 1), test);
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() + 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // rechts
-        test = Board.board.get( new Position(position.x + 1, position.y));
-        if (position.x + 1 < 8 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x + 1, position.y), test);
+        test = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY()));
+        if (position.getX() + 1 < 8 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY()), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // runter rechts
-        test = Board.board.get( new Position(position.x + 1, position.y - 1));
-        if (position.x + 1 < 8 && position.y - 1 >= 0
+        test = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 1));
+        if (position.getX() + 1 < 8 && position.getY() - 1 >= 0
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x + 1, position.y - 1), test);
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // runter
-        test = Board.board.get( new Position(position.x, position.y - 1));
-        if (position.y - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x, position.y - 1), test);
+        test = Board.getBoardMap().get( new Position(position.getX(), position.getY() - 1));
+        if (position.getY() - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX(), position.getY() - 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // runter links
-        test = Board.board.get( new Position(position.x - 1, position.y - 1));
-        if (position.x - 1 >= 0 && position.y - 1 >= 0
+        test = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 1));
+        if (position.getX() - 1 >= 0 && position.getY() - 1 >= 0
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x - 1, position.y - 1), test);
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // links
-        test = Board.board.get( new Position(position.x - 1, position.y));
-        if (position.x - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x - 1, position.y), test);
+        test = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY()));
+        if (position.getX() - 1 >= 0 && (test == null || test.isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY()), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // hoch links
-        test = Board.board.get( new Position(position.x - 1, position.y + 1));
-        if (position.x - 1 >= 0 && position.y + 1 < 8
+        test = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() + 1));
+        if (position.getX() - 1 >= 0 && position.getY() + 1 < 8
                 && (test == null || test.isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x - 1, position.y + 1), test);
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() + 1), test);
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
 		//rochade rechts
-        if (rochade && Board.board.get( new Position(5, position.y)) == null
-                && Board.board.get( new Position(6, position.y)) == null) {
-            Piece rook = Board.board.get( new Position(7, position.y));
+        if (rochade && Board.getBoardMap().get( new Position(5, position.getY())) == null
+                && Board.getBoardMap().get( new Position(6, position.getY())) == null) {
+            Piece rook = Board.getBoardMap().get( new Position(7, position.getY()));
             if (rook instanceof Rook) {
                 if (((Rook) rook).rochade) {
-                    Move test_move = new Move(new Position(6, position.y), true);
+                    Move test_move = new Move(new Position(6, position.getY()), true);
                     if (isWhite) {
-                        if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                        if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                             moves.add(test_move);
                         }
                     } else {
-                        if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                        if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                             moves.add(test_move);
                         }
                     }
@@ -170,19 +170,19 @@ public class King extends Piece {
             }
         }
 
-        if (rochade && Board.board.get( new Position(1, position.y)) == null
-                && Board.board.get( new Position(2, position.y)) == null
-                && Board.board.get( new Position(3, position.y)) == null) {
-            Piece rook = Board.board.get( new Position(0, position.y));
+        if (rochade && Board.getBoardMap().get( new Position(1, position.getY())) == null
+                && Board.getBoardMap().get( new Position(2, position.getY())) == null
+                && Board.getBoardMap().get( new Position(3, position.getY())) == null) {
+            Piece rook = Board.getBoardMap().get( new Position(0, position.getY()));
             if (rook instanceof Rook) {
                 if (((Rook) rook).rochade) {
-                    Move test_move = new Move(new Position(2, position.y), true);
+                    Move test_move = new Move(new Position(2, position.getY()), true);
                     if (isWhite) {
-                        if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                        if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                             moves.add(test_move);
                         }
                     } else {
-                        if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                        if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                             moves.add(test_move);
                         }
                     }
@@ -203,15 +203,15 @@ public class King extends Piece {
 
         if (move.rochade) {
 			//rechts
-            if (move.destination.x == 6) {
-				Position rookpos = new Position(7, move.destination.y);
-				Position kingpos = new Position(4, move.destination.y);
-				Rook rook = (Rook) Board.board.get(rookpos);
-				King king = (King) Board.board.get(kingpos);
-				Board.board.remove(rookpos);
-				Board.board.remove(kingpos);
-				Board.board.put(move.destination, king);
-				Board.board.put(new Position(5, move.destination.y), rook);
+            if (move.destination.getX() == 6) {
+				Position rookpos = new Position(7, move.destination.getY());
+				Position kingpos = new Position(4, move.destination.getY());
+				Rook rook = (Rook) Board.getBoardMap().get(rookpos);
+				King king = (King) Board.getBoardMap().get(kingpos);
+				Board.boardMapRemove(rookpos);
+				Board.boardMapRemove(kingpos);
+				Board.boardMapAdd(move.destination, king);
+				Board.boardMapAdd(new Position(5, move.destination.getY()), rook);
 				rook.rochade = false;
 				king.rochade = false;
 
@@ -219,10 +219,10 @@ public class King extends Piece {
         }
 
         if (move.capture != null) {
-			Board.capturedPieces.add(move.capture);
+			Board.addCapturedPiece(move.capture);
 		}
-		Board.board.remove(Board.getPosition(this));
-        Board.board.put(move.destination , this);
+		Board.boardMapRemove(Board.getPosition(this));
+        Board.boardMapAdd(move.destination , this);
     }
 
     
@@ -231,7 +231,7 @@ public class King extends Piece {
 	 */
 	public boolean checkCheck() {
 		
-		for (Piece piece : Board.board.values()) {
+		for (Piece piece : Board.getBoardMap().values()) {
 
 			for (Move move : piece.getMoves()) {
 				if(move.destination == Board.getPosition(this)){
@@ -263,8 +263,8 @@ public class King extends Piece {
 
         // simulate move
         for (Piece piece : piecesCopy) {
-            if (piece.position.x == test_piece.position.x
-                    && piece.position.y == test_piece.position.y) {
+            if (piece.position.getX() == test_piece.position.x
+                    && piece.position.getY() == test_piece.position.getY()) {
                 piece.makeMove(test_move);
                 break;
             }
@@ -272,7 +272,7 @@ public class King extends Piece {
 
         for (Piece piece : piecesCopy) {
             for (Move move : piece.getMoves(false)) {
-                if (move.destinationX == position.x && move.destinationY == position.y) {
+                if (move.destinationX == position.getX() && move.destinationY == position.getY()) {
                     return true;
                 }
             }
@@ -290,4 +290,5 @@ public class King extends Piece {
 			return new Image(getClass().getResourceAsStream("/icons/bKing.png"));
 		}
 	}
+
 }

@@ -30,17 +30,17 @@ public class Bishop extends Piece {
         int i;
         // hoch rechts
         i = 1;
-        while (position.x + i < 8 && position.y + i < 8 && (Board.board.get(new Position(position.x + i,
-                position.y + i)) == null
-                || Board.board.get(new Position(position.x + i, position.y + i)).isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x + i, position.y + i),
-                    Board.board.get(new Position(position.x + i, position.y + i)));
+        while (position.getX() + i < 8 && position.getY() + i < 8 && (Board.getBoardMap().get(new Position(position.getX() + i,
+                position.getY() + i)) == null
+                || Board.getBoardMap().get(new Position(position.getX() + i, position.getY() + i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() + i, position.getY() + i),
+                    Board.getBoardMap().get(new Position(position.getX() + i, position.getY() + i)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
@@ -48,17 +48,17 @@ public class Bishop extends Piece {
         }
         // runter rechts
         i = 1;
-        while (position.x + i < 8 && position.y - i >= 0 && (Board.board.get(new Position(position.x + i,
-                position.y - i)) == null
-                || Board.board.get(new Position(position.x + i, position.y - i)).isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x + i, position.y - i),
-                    Board.board.get(new Position(position.x + i, position.y - i)));
+        while (position.getX() + i < 8 && position.getY() - i >= 0 && (Board.getBoardMap().get(new Position(position.getX() + i,
+                position.getY() - i)) == null
+                || Board.getBoardMap().get(new Position(position.getX() + i, position.getY() - i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() + i, position.getY() - i),
+                    Board.getBoardMap().get(new Position(position.getX() + i, position.getY() - i)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
@@ -66,15 +66,15 @@ public class Bishop extends Piece {
         }
         // runter links
         i = 1;
-        while (position.x - i >= 0 && position.y - i >= 0 && (Board.board.get(new Position(position.x - i, position.y - i)) == null || Board.board.get(new Position(position.x - i, position.y - i)).isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x - i, position.y - i),
-                    Board.board.get(new Position(position.x - i, position.y - i)));
+        while (position.getX() - i >= 0 && position.getY() - i >= 0 && (Board.getBoardMap().get(new Position(position.getX() - i, position.getY() - i)) == null || Board.getBoardMap().get(new Position(position.getX() - i, position.getY() - i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() - i, position.getY() - i),
+                    Board.getBoardMap().get(new Position(position.getX() - i, position.getY() - i)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
@@ -82,17 +82,17 @@ public class Bishop extends Piece {
         }
         // hoch links
         i = 1;
-        while (position.x - i >= 0 && position.y + i < 8 && (Board.board.get(new Position(position.x - i,
-                position.y + i)) == null
-                || Board.board.get(new Position(position.x - i, position.y + i)).isWhite != isWhite)) {
-            Move test_move = new Move(new Position(position.x - i, position.y + i),
-                    Board.board.get(new Position(position.x - i, position.y + i)));
+        while (position.getX() - i >= 0 && position.getY() + i < 8 && (Board.getBoardMap().get(new Position(position.getX() - i,
+                position.getY() + i)) == null
+                || Board.getBoardMap().get(new Position(position.getX() - i, position.getY() + i)).isWhite != isWhite)) {
+            Move test_move = new Move(new Position(position.getX() - i, position.getY() + i),
+                    Board.getBoardMap().get(new Position(position.getX() - i, position.getY() + i)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
