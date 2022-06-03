@@ -25,7 +25,6 @@ public class GameController {
 
     public void setupPieces() {
         board.initialize();
-<<<<<<< HEAD
         // for (int y = 0; y < 8; y++) {
         // for (int x = 0; x < 8; x++) {
         // String fen = board.board.get(new Position(x, y)) == null ? "" : board.board.get(new Position(x,
@@ -34,15 +33,5 @@ public class GameController {
         // field.setText(fen);
         // }
         // }
-=======
-        for (int y = 0; y < 8; y++) {
-            for (int x = 0; x < 8; x++) {
-                String fen = board.board.get(new Position(x, y)) == null ? "" : board.board.get(new Position(x, y)).toString();
-                System.out.print(fen);
-                TextField field = (TextField) (chessBoard.getChildren().get(y * 8 + x));
-                field.setText(fen);
-            }
-        }
->>>>>>> 30ae370fbbc4b2780997181962075cd609a5c6c1
     }
 }
