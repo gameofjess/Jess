@@ -38,7 +38,7 @@ public class BoardCell extends StackPane {
     }
 
     public void changeBackgroundColorToBlack() {
-        this.setStyle("-fx-background-color: #000000;");
+        this.setStyle("-fx-background-color: #3D4753;");
     }
 
     public void addEventHandlerToPiece(EventHandler<MouseEvent> handler) {
