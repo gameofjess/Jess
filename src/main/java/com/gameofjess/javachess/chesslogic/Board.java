@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.chesslogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ public class Board {
 	 * The Class representing the Chessboard 
 	 */
 
-	public  Map<Position, Piece> board = new HashMap<Position, Piece>();
+	public Map<Position, Piece> board = new HashMap<Position, Piece>();
 
-	public  List<Piece> capturedPieces = new ArrayList<Piece>();
+	public List<Piece> capturedPieces = new ArrayList<Piece>();
 
     public King kingWhite;
 	public  King kingBlack;
@@ -91,5 +92,19 @@ public class Board {
 			}
 			System.out.print("\n");
 		}
+	}
+
+	/**
+	 * @return the board
+	 */
+	public Map<Position, Piece> getBoardMap() {
+		return Collections.unmodifiableMap(board);
+	}
+
+	/**
+	 * @return the capturedPieces
+	 */
+	public List<Piece> getCapturedPieces() {
+		return Collections.unmodifiableList(capturedPieces);
 	}
 }
