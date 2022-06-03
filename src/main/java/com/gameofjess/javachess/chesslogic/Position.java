@@ -29,4 +29,16 @@ public class Position {
 		return result;
 	}
 
+	/**
+	 * @return the x
+	 */
+	public int getX() {
+		return x;
+	}
+	/**
+	 * @return the y
+	 */
+	public int getY() {
+		return y;
+	}
 }
