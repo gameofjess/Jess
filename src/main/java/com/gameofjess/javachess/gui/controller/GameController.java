@@ -1,5 +1,7 @@
 package com.gameofjess.javachess.gui.controller;
 
+import java.text.SimpleDateFormat;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,10 +9,17 @@ import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
+import com.gameofjess.javachess.client.ConnectionHandler;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
+import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.MessageType;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -18,9 +27,14 @@ import javafx.scene.layout.GridPane;
 public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
     @FXML
-    GridPane main;
-    Board board;
-    BoardPane boardPane;
+    private GridPane main;
+    @FXML
+    private TextField chatField;
+    @FXML
+    private TextArea chatHistory;
+    private Board board;
+    private BoardPane boardPane;
+    private ConnectionHandler connectionHandler;
 
     public void initialize() {
         board = new Board();
@@ -122,5 +136,53 @@ public class GameController extends Controller {
         }
 
         setupPieceHandler();
+    }
+
+    /**
+     * Sets ConnectionHandler used to send and receive messages.
+     * 
+     * @param connectionHandler
+     */
+    void setConnectionHandler(ConnectionHandler connectionHandler) {
+        this.connectionHandler = connectionHandler;
+    }
+
+    /**
+     * Sends a chat message.
+     * 
+     * @param event
+     */
+    public void sendChatMessage(ActionEvent event) {
+        String message = chatField.getText();
+        ClientMessage cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
+        sendMessage(cmsg);
+        chatField.clear();
+    }
+
+    /**
+     * Receives a chat message.
+     *
+     */
+    public void receiveChatMessage(ServerMessage serverMessage) {
+        if (serverMessage.getType() == MessageType.CHATMESSAGE) {
+            String message = serverMessage.getMessage();
+            String username = serverMessage.getUsername();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            String formattedDate = dateFormat.format(serverMessage.getTime());
+
+            chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
+        } else {
+            throw new IllegalArgumentException("Received chat message that is not of type chat message!");
+        }
+    }
+
+    /**
+     * Sends a message via the ConnectionHandler
+     * 
+     * @param clientMessage
+     */
+    private void sendMessage(ClientMessage clientMessage) {
+        connectionHandler.send(clientMessage);
     }
 }

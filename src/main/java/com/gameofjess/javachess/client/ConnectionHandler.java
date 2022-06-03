@@ -7,15 +7,19 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 
 public class ConnectionHandler {
 
     private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
 
     private final Client client;
+
+    private GameController gameController;
 
     public ConnectionHandler(String host, int port)
             throws InvalidHostnameException, InvalidPortException, URISyntaxException {
@@ -26,7 +30,7 @@ public class ConnectionHandler {
 
         if (host.matches(regexHostname) || host.matches(regexIP)) {
             if (port <= 65535 && port >= 1024) {
-                client = new Client(new URI("ws://" + host + ":" + port));
+                client = new Client(new URI("ws://" + host + ":" + port), this);
             } else {
                 throw new InvalidPortException(String.valueOf(port));
             }
@@ -82,4 +86,39 @@ public class ConnectionHandler {
         client.close(code, reason);
     }
 
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    /**
+     * Handles received messages according to their type.
+     *
+     * @param msg ServerMessage to be handled.
+     */
+    void handleServerMessage(ServerMessage msg) {
+        switch (msg.getType()) {
+            case CHATMESSAGE -> {
+                log.debug("Received new chat message from " + msg.getUsername() + ":" + msg.getMessage());
+                gameController.receiveChatMessage(msg);
+            }
+            case NEWMOVE -> {
+                log.debug("Received new move from " + msg.getUsername() + ":" + msg.getMessage());
+                // TO BE IMPLEMENTED
+            }
+            case SERVERERROR -> {
+                log.error("Received new server error: " + msg.getMessage());
+                // TO BE IMPLEMENTED
+            }
+            case SERVERINFO -> {
+                log.info("Received new server info: " + msg.getMessage());
+                // TO BE IMPLEMENTED
+            }
+
+            case BEGINMATCH -> {
+                log.info(msg.getMessage());
+                // TO BE IMPLEMENTED
+            }
+        }
+    }
 }

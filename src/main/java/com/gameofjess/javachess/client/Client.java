@@ -13,8 +13,11 @@ public class Client extends WebSocketClient {
 
     private final static Logger log = LogManager.getLogger(Client.class);
 
-    Client(URI serverUri) {
+    private final ConnectionHandler connectionHandler;
+
+    Client(URI serverUri, ConnectionHandler connectionHandler) {
         super(serverUri);
+        this.connectionHandler = connectionHandler;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class Client extends WebSocketClient {
     public void onMessage(String message) {
         log.debug("Received message: " + message);
         ServerMessage smsg = new ServerMessage(message);
-        handleServerMessage(smsg);
+        connectionHandler.handleServerMessage(smsg);
     }
 
     @Override
@@ -37,37 +40,5 @@ public class Client extends WebSocketClient {
     @Override
     public void onError(Exception e) {
         log.error("An error occurred in the client instance: " + e.getMessage());
-    }
-
-    /**
-     * Handles received messages according to their type.
-     * 
-     * @param msg ServerMessage to be handled.
-     */
-    private void handleServerMessage(ServerMessage msg) {
-        switch (msg.getType()) {
-            case CHATMESSAGE -> {
-                log.debug("Received new chat message from " + msg.getUsername() + ":"
-                        + msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-            case NEWMOVE -> {
-                log.debug("Received new move from " + msg.getUsername() + ":" + msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-            case SERVERERROR -> {
-                log.error("Received new server error: " + msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-            case SERVERINFO -> {
-                log.info("Received new server info: " + msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-
-            case BEGINMATCH -> {
-                log.info(msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-        }
     }
 }

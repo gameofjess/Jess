@@ -75,11 +75,17 @@ public class MenuController extends Controller {
      * @throws InvalidPortException If the port is invalid.
      * @throws URISyntaxException If the URI is invalid.
      */
-    public void joinGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
-        // TODO spilt port from IP Adress
-        // TODO: start connection handler in thread
-        connect(address.getText(), 8887, username.getText());
-        log.debug("Joining game");
+    public void joinGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
+        String host = address.getText();
+        int port = 8887;
+        String usernameString = username.getText();
+        log.debug("Joining server on {}:{} with username {}", host, port, usernameString);
+        if (connect(host, port, usernameString)) {
+            log.debug("Connected successfully, now proceeding to switch to game scene.");
+            GameController gameController = switchGameScene(event);
+            gameController.setConnectionHandler(connectionHandler);
+            connectionHandler.setGameController(gameController);
+        }
     }
 
     /**
@@ -93,7 +99,7 @@ public class MenuController extends Controller {
      * @throws URISyntaxException If the URI is invalid.
      */
     public boolean connect(String address, int port, String username) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
-        ConnectionHandler connectionHandler = new ConnectionHandler(address, port);
+        connectionHandler = new ConnectionHandler(address, port);
         log.debug("Trying to connect to " + address + "using Port " + port + "as " + username);
         return connectionHandler.connect(username);
     }
@@ -113,12 +119,31 @@ public class MenuController extends Controller {
         serverBuilder.setPort(port);
 
         Server server = serverBuilder.build();
-        Thread serverThread = new Thread(server);
-        serverThread.start();
+        Thread serverThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                server.setReuseAddr(true);
+                server.start();
+            }
+        });
 
         // Connect to created Server and switch to game scene
-        if (connect(host, port, username.getText())) {
-            switchGameScene(event);
+        if (isServerOnline(new URL("http://" + host + ":" + port))) {
+            connect(host, port, username.getText());
+            GameController gameController = switchGameScene(event);
+            gameController.setConnectionHandler(connectionHandler);
+            connectionHandler.setGameController(gameController);
+        }
+    }
+
+    private boolean isServerOnline(URL url) {
+        try {
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.connect();
+            return con.getResponseCode() == 404;
+        } catch (Exception ex) {
+            return false;
         }
     }
 
