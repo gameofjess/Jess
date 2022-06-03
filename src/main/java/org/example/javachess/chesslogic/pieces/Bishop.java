@@ -5,6 +5,7 @@ import java.util.List;
 import org.example.javachess.chesslogic.Board;
 import org.example.javachess.chesslogic.Move;
 import org.example.javachess.chesslogic.Position;
+import javafx.scene.image.Image;
 
 public class Bishop extends Piece {
 
@@ -98,4 +99,14 @@ public class Bishop extends Piece {
 
         return moves.toArray(new Move[moves.size()]);
     }
+
+	@Override
+	public Image getImage() {
+		if (isWhite) {
+			return new Image(getClass().getResourceAsStream("/icons/wBishop.png"));
+		}
+		else{
+			return new Image(getClass().getResourceAsStream("/icons/bBishop.png"));
+		}
+	}
 }
