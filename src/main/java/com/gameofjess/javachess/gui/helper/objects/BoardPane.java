@@ -88,6 +88,11 @@ public class BoardPane extends HBox {
         }
     }
 
+    public boolean changeSelectedStatusByCell(int row, int column) {
+        return getCellByIndex(row, column).changeSelectedStatus();
+
+    }
+
     public void setActivationStatusByCell(boolean status, int row, int column) {
         log.debug("Activating at coordinate ({}|{})", column, row);
         getCellByIndex(row, column).changeActivationStatus(status);

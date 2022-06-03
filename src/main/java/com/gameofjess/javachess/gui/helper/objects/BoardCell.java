@@ -11,6 +11,8 @@ import javafx.scene.layout.StackPane;
 public class BoardCell extends StackPane {
     private static final Logger log = LogManager.getLogger(BoardCell.class);
 
+    private boolean selected = false;
+
     private ImageView piece;
     String style;
 
@@ -45,6 +47,17 @@ public class BoardCell extends StackPane {
         } else {
             this.setStyle(style);
         }
+    }
+
+    public boolean changeSelectedStatus() {
+        if (selected) {
+            selected = false;
+            this.setStyle(style);
+        } else {
+            selected = true;
+            this.setStyle("-fx-background-color: #0000FF;");
+        }
+        return selected;
     }
 
     public void changeBackgroundColorToBlack() {
