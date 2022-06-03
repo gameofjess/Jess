@@ -17,6 +17,7 @@ import org.example.javachess.client.ConnectionHandler;
 import org.example.javachess.extensions.AssertLoggedExtension;
 import org.example.javachess.helper.exceptions.InvalidHostnameException;
 import org.example.javachess.helper.exceptions.InvalidPortException;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,11 @@ public class ServerCommandListenerTest {
         testServer = new ServerBuilder().setPort(port).build();
         testServer.setReuseAddr(true);
         testServer.start();
+    }
+
+    @AfterAll
+    static void afterAll() throws InterruptedException {
+        testServer.stop();
     }
 
     /**
