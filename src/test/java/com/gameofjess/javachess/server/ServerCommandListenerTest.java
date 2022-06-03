@@ -151,7 +151,8 @@ public class ServerCommandListenerTest {
         Thread commandListenerThread = new Thread(cl);
         commandListenerThread.start();
 
-        await().atMost(1, TimeUnit.SECONDS).until(commandListenerThread::isInterrupted, equalTo(true));
+        // await().atMost(1, TimeUnit.SECONDS).until(commandListenerThread::isInterrupted, equalTo(true));
+        await().atMost(1, TimeUnit.SECONDS).until(testServer::getServerStatus, equalTo(false));
     }
 
     /**
