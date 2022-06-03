@@ -25,12 +25,12 @@ public class Board {
 	 * The Class representing the Chessboard 
 	 */
 
-	public Map<Position, Piece> board = new HashMap<Position, Piece>();
+	Map<Position, Piece> board = new HashMap<Position, Piece>();
 
-	public List<Piece> capturedPieces = new ArrayList<Piece>();
+	List<Piece> capturedPieces = new ArrayList<Piece>();
 
-    public King kingWhite;
-	public  King kingBlack;
+    King kingWhite;
+	King kingBlack;
 
 	
 	/** 
@@ -106,5 +106,31 @@ public class Board {
 	 */
 	public List<Piece> getCapturedPieces() {
 		return Collections.unmodifiableList(capturedPieces);
+	}
+
+	/**
+	 * @return the kingWhite
+	 */
+	public King getKingWhite() {
+		return kingWhite;
+	}
+
+	/**
+	 * @return the kingBlack
+	 */
+	public King getKingBlack() {
+		return kingBlack;
+	}
+
+	public void addCapturedPiece(Piece piece){
+		capturedPieces.add(piece);
+	}
+
+	public void boardMapRemove(Position position){
+		board.remove(position);
+	}
+
+	public void boardMapAdd(Position position, Piece piece){
+		board.put(position, piece);
 	}
 }

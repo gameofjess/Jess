@@ -8,6 +8,9 @@ public class Move {
 	 * This Class represents a Move from a Piece on the Chessboard,
 	 * including the Variations: Capture, Castling and Enpassant
 	 */
+
+//TODO geter seters
+
 	public Position destination;
     public Piece capture = null;
     public boolean rochade = false;
@@ -31,4 +34,26 @@ public class Move {
 		this.destination = destination;
         this.rochade = rochade;
     }
+
+	/**
+	 * @return the destination
+	 */
+	public Position getDestination() {
+		return destination;
+	}
+
+	/**
+	 * @return the capture
+	 */
+	public Piece getCapture() {
+		return capture;
+	}
+
+	public boolean getRochade() {
+		return rochade;
+	}
+
+	public boolean getEnpassant() {
+		return enpassant;
+	}
 }

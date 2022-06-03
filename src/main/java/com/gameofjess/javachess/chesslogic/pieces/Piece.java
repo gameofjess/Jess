@@ -10,8 +10,8 @@ public abstract class Piece implements Cloneable {
 	 */
 
 	Board Board;
-	public boolean isWhite;
-    public String fen;
+	boolean isWhite;
+    String fen;
 
     public Piece(Board Board, boolean isWhite) {
 		this.Board = Board;
@@ -37,10 +37,10 @@ public abstract class Piece implements Cloneable {
 	 */
 	public void makeMove(Move move) {
 		if (move.capture != null) {
-			Board.capturedPieces.add(move.capture);
+			Board.addCapturedPiece(move.capture);
 		}
-		Board.board.remove(Board.getPosition(this));
-        Board.board.put(move.destination , this);
+		Board.boardMapRemove(Board.getPosition(this));
+        Board.boardMapAdd(move.destination , this);
     }
 
 	
@@ -53,4 +53,17 @@ public abstract class Piece implements Cloneable {
 
 	public abstract Image getImage();
 
+	/**
+	 * @return the isWhite
+	 */
+	public boolean isWhite() {
+		return isWhite;
+	}
+
+	/**
+	 * @return the fen
+	 */
+	public String getFen() {
+		return fen;
+	}
 }

@@ -28,217 +28,217 @@ public class Knight extends Piece {
 		Position position = Board.getPosition(this);
 
         // hoch rechts
-        if (position.x < 7 && position.y < 6
-                && Board.board.get( new Position(position.x + 1, position.y + 2)) == null) {
-            Move test_move = new Move(new Position(position.x + 1, position.y + 2));
+        if (position.getX() < 7 && position.getY() < 6
+                && Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() + 2)) == null) {
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() + 2));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x < 7 && position.y < 6
-                && Board.board.get( new Position(position.x + 1, position.y + 2)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x + 1, position.y + 2),
-                    Board.board.get( new Position(position.x + 1, position.y + 2)));
+        } else if (position.getX() < 7 && position.getY() < 6
+                && Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() + 2)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() + 2),
+                    Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() + 2)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // rechts hoch
-        if (position.x < 6 && position.y < 7
-                && Board.board.get( new Position(position.x + 2, position.y + 1)) == null) {
-            Move test_move = new Move(new Position(position.x + 2, position.y + 1));
+        if (position.getX() < 6 && position.getY() < 7
+                && Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() + 1)) == null) {
+            Move test_move = new Move(new Position(position.getX() + 2, position.getY() + 1));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x < 6 && position.y < 7
-                && Board.board.get( new Position(position.x + 2, position.y + 1)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x + 2, position.y + 1),
-                    Board.board.get( new Position(position.x + 2, position.y + 1)));
+        } else if (position.getX() < 6 && position.getY() < 7
+                && Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() + 1)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() + 2, position.getY() + 1),
+                    Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() + 1)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // rechts runter
-        if (position.x < 6 && position.y > 0
-                && Board.board.get( new Position(position.x + 2, position.y - 1)) == null) {
-            Move test_move = new Move(new Position(position.x + 2, position.y - 1));
+        if (position.getX() < 6 && position.getY() > 0
+                && Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() - 1)) == null) {
+            Move test_move = new Move(new Position(position.getX() + 2, position.getY() - 1));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x < 6 && position.y > 0
-                && Board.board.get( new Position(position.x + 2, position.y - 1)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x + 2, position.y - 1),
-                    Board.board.get( new Position(position.x + 2, position.y - 1)));
+        } else if (position.getX() < 6 && position.getY() > 0
+                && Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() - 1)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() + 2, position.getY() - 1),
+                    Board.getBoardMap().get( new Position(position.getX() + 2, position.getY() - 1)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // runter rechts
-        if (position.x < 7 && position.y > 1
-                && Board.board.get( new Position(position.x + 1, position.y - 2)) == null) {
-            Move test_move = new Move(new Position(position.x + 1, position.y - 2));
+        if (position.getX() < 7 && position.getY() > 1
+                && Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 2)) == null) {
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 2));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x < 7 && position.y > 1
-                && Board.board.get( new Position(position.x + 1, position.y - 2)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x + 1, position.y - 2),
-                    Board.board.get( new Position(position.x + 1, position.y - 2)));
+        } else if (position.getX() < 7 && position.getY() > 1
+                && Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 2)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 2),
+                    Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 2)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // runter links
-        if (position.x > 0 && position.y > 1
-                && Board.board.get( new Position(position.x - 1, position.y - 2)) == null) {
-            Move test_move = new Move(new Position(position.x - 1, position.y - 2));
+        if (position.getX() > 0 && position.getY() > 1
+                && Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 2)) == null) {
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 2));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x > 0 && position.y > 1
-                && Board.board.get( new Position(position.x - 1, position.y - 2)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x - 1, position.y - 2),
-                    Board.board.get( new Position(position.x - 1, position.y - 2)));
+        } else if (position.getX() > 0 && position.getY() > 1
+                && Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 2)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 2),
+                    Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 2)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // Links runter
-        if (position.x > 1 && position.y > 0
-                && Board.board.get( new Position(position.x - 2, position.y - 1)) == null) {
-            Move test_move = new Move(new Position(position.x - 2, position.y - 1));
+        if (position.getX() > 1 && position.getY() > 0
+                && Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() - 1)) == null) {
+            Move test_move = new Move(new Position(position.getX() - 2, position.getY() - 1));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x > 1 && position.y > 0
-                && Board.board.get( new Position(position.x - 2, position.y - 1)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x - 2, position.y - 1),
-                    Board.board.get( new Position(position.x - 2, position.y - 1)));
+        } else if (position.getX() > 1 && position.getY() > 0
+                && Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() - 1)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() - 2, position.getY() - 1),
+                    Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() - 1)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // links hoch
-        if (position.x > 1 && position.y < 7
-                && Board.board.get( new Position(position.x - 2, position.y + 1)) == null) {
-            Move test_move = new Move(new Position(position.x - 2, position.y + 1));
+        if (position.getX() > 1 && position.getY() < 7
+                && Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() + 1)) == null) {
+            Move test_move = new Move(new Position(position.getX() - 2, position.getY() + 1));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x > 1 && position.y < 7
-                && Board.board.get( new Position(position.x - 2, position.y + 1)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x - 2, position.y + 1),
-                    Board.board.get( new Position(position.x - 2, position.y + 1)));
+        } else if (position.getX() > 1 && position.getY() < 7
+                && Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() + 1)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() - 2, position.getY() + 1),
+                    Board.getBoardMap().get( new Position(position.getX() - 2, position.getY() + 1)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
         }
         // hoch links
-        if (position.x > 0 && position.y < 6
-                && Board.board.get( new Position(position.x - 1, position.y + 2)) == null) {
-            Move test_move = new Move(new Position(position.x - 1, position.y + 2));
+        if (position.getX() > 0 && position.getY() < 6
+                && Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() + 2)) == null) {
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() + 2));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }
-        } else if (position.x > 0 && position.y < 6
-                && Board.board.get( new Position(position.x - 1, position.y + 2)).isWhite != isWhite) {
-            Move test_move = new Move(new Position(position.x - 1, position.y + 2),
-                    Board.board.get( new Position(position.x - 1, position.y + 2)));
+        } else if (position.getX() > 0 && position.getY() < 6
+                && Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() + 2)).isWhite != isWhite) {
+            Move test_move = new Move(new Position(position.getX() - 1, position.getY() + 2),
+                    Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() + 2)));
             if (isWhite) {
-                if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             } else {
-                if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                     moves.add(test_move);
                 }
             }

@@ -4,8 +4,8 @@ public class Position {
 	/**
 	 * This Class represents a position on the Chessboard
 	 */
-	public final int x;
-	public final int y;
+	final int x;
+	final int y;
 
 	public Position(int x, int y) {
 		this.x = x;

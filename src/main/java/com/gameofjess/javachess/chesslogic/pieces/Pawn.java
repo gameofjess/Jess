@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 
 
 public class Pawn extends Piece {
-    public boolean enpassant = false;
+    boolean enpassant = false;
 
     public Pawn(Board Board, boolean isWhite) {
         super(Board, isWhite);
@@ -36,174 +36,174 @@ public class Pawn extends Piece {
 
         if (isWhite) {
 
-            Piece eins_vor = Board.board.get( new Position(position.x, position.y + 1));
+            Piece eins_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() + 1));
             if (eins_vor == null) {
-                Move test_move = new Move(new Position(position.x, position.y + 1));
+                Move test_move = new Move(new Position(position.getX(), position.getY() + 1));
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece zwei_vor = Board.board.get( new Position(position.x, position.y + 2));
-            if (position.y == 2 && eins_vor == null && zwei_vor == null) {
-                Move test_move = new Move(new Position(position.x, position.y + 2));
+            Piece zwei_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() + 2));
+            if (position.getY() == 2 && eins_vor == null && zwei_vor == null) {
+                Move test_move = new Move(new Position(position.getX(), position.getY() + 2));
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece schlagen_rechts = Board.board.get( new Position(position.x + 1, position.y + 1));
+            Piece schlagen_rechts = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() + 1));
             if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
-                Move test_move = new Move(new Position(position.x + 1, position.y + 1), schlagen_rechts);
+                Move test_move = new Move(new Position(position.getX() + 1, position.getY() + 1), schlagen_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece schlagen_links = Board.board.get( new Position(position.x - 1, position.y + 1));
+            Piece schlagen_links = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() + 1));
             if (schlagen_links != null && !schlagen_links.isWhite) {
-                Move test_move = new Move(new Position(position.x - 1, position.y + 1), schlagen_links);
+                Move test_move = new Move(new Position(position.getX() - 1, position.getY() + 1), schlagen_links);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece enpassant_rechts = Board.board.get( new Position(position.x + 1, position.y));
+            Piece enpassant_rechts = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY()));
             if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite
                     && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
-                Move test_move = new Move(new Position(position.x + 1, position.y + 1), enpassant_rechts);
+                Move test_move = new Move(new Position(position.getX() + 1, position.getY() + 1), enpassant_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece enpassant_links = Board.board.get( new Position(position.x - 1, position.y));
+            Piece enpassant_links = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY()));
             if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite
                     && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
-                Move test_move = new Move(new Position(position.x - 1, position.y + 1), enpassant_rechts);
+                Move test_move = new Move(new Position(position.getX() - 1, position.getY() + 1), enpassant_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
         } else {
 
-            Piece eins_vor = Board.board.get( new Position(position.x, position.y - 1));
+            Piece eins_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() - 1));
             if (eins_vor == null) {
-                Move test_move = new Move(new Position(position.x, position.y - 1));
+                Move test_move = new Move(new Position(position.getX(), position.getY() - 1));
                 if (isWhite) {
-                    if (!!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece zwei_vor = Board.board.get( new Position(position.x, position.y - 2));
-            if (position.y == 2 && eins_vor == null && zwei_vor == null) {
-                Move test_move = new Move(true, new Position(position.x, position.y - 2));
+            Piece zwei_vor = Board.getBoardMap().get( new Position(position.getX(), position.getY() - 2));
+            if (position.getY() == 2 && eins_vor == null && zwei_vor == null) {
+                Move test_move = new Move(true, new Position(position.getX(), position.getY() - 2));
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece schlagen_rechts = Board.board.get( new Position(position.x + 1, position.y - 1));
+            Piece schlagen_rechts = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY() - 1));
             if (schlagen_rechts != null && !schlagen_rechts.isWhite) {
-                Move test_move = new Move(new Position(position.x + 1, position.y - 1), schlagen_rechts);
+                Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 1), schlagen_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece schlagen_links = Board.board.get( new Position(position.x - 1, position.y - 1));
+            Piece schlagen_links = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY() - 1));
             if (schlagen_links != null && !schlagen_links.isWhite) {
-                Move test_move = new Move(new Position(position.x - 1, position.y - 1), schlagen_links);
+                Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 1), schlagen_links);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece enpassant_rechts = Board.board.get( new Position(position.x + 1, position.y));
+            Piece enpassant_rechts = Board.getBoardMap().get( new Position(position.getX() + 1, position.getY()));
             if (schlagen_rechts == null && enpassant_rechts != null && !enpassant_rechts.isWhite
                     && enpassant_rechts instanceof Pawn && ((Pawn) enpassant_rechts).enpassant) {
-                Move test_move = new Move(new Position(position.x + 1, position.y - 1), enpassant_rechts);
+                Move test_move = new Move(new Position(position.getX() + 1, position.getY() - 1), enpassant_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
             }
 
-            Piece enpassant_links = Board.board.get( new Position(position.x - 1, position.y));
+            Piece enpassant_links = Board.getBoardMap().get( new Position(position.getX() - 1, position.getY()));
             if (schlagen_links == null && enpassant_links != null && !enpassant_links.isWhite
                     && enpassant_links instanceof Pawn && ((Pawn) enpassant_links).enpassant) {
-                Move test_move = new Move(new Position(position.x - 1, position.y - 1), enpassant_rechts);
+                Move test_move = new Move(new Position(position.getX() - 1, position.getY() - 1), enpassant_rechts);
                 if (isWhite) {
-                    if (!checking || !Board.kingWhite.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingWhite().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 } else {
-                    if (!checking || !Board.kingBlack.checkCheck(test_move, this)) {
+                    if (!checking || !Board.getKingBlack().checkCheck(test_move, this)) {
                         moves.add(test_move);
                     }
                 }
@@ -220,10 +220,10 @@ public class Pawn extends Piece {
     public void makeMove(Move move) {
         enpassant = move.enpassant;
 		if (move.capture != null) {
-			Board.capturedPieces.add(move.capture);
+			Board.addCapturedPiece(move.capture);
 		}
-		Board.board.remove(Board.getPosition(this));
-        Board.board.put(move.destination , this);
+		Board.boardMapRemove(Board.getPosition(this));
+        Board.boardMapAdd(move.destination , this);
     }
 
 	@Override
