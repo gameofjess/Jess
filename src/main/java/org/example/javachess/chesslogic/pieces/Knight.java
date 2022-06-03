@@ -16,7 +16,6 @@ public class Knight extends Piece {
 
     
 	/** 
-	 * {@link org.example.javachess.chesslogic.pieces.Piece#getMoves getMoves(boolean checking)}
 	 * @param checking
 	 * @return Move[]
 	 */
