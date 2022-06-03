@@ -30,12 +30,19 @@ public class GameController extends Controller {
         renderPieces();
     }
 
+    /**
+     * Renders all pieces on the board. Therefor, it sets up EventHandlers for the onClick-Event and
+     * displays the pieces' images.
+     */
     private void renderPieces() {
         setupPieceHandler();
         drawPieces();
 
     }
 
+    /**
+     * Sets up onClick-EventHandlers for all displayed pieces.
+     */
     private void setupPieceHandler() {
         log.debug("Setting up piece handler");
         board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
@@ -85,6 +92,9 @@ public class GameController extends Controller {
     }
 
 
+    /**
+     * Draws the pieces' images.
+     */
     private void drawPieces() {
 
         boardPane.resetImages();
@@ -96,6 +106,11 @@ public class GameController extends Controller {
         });
     }
 
+    /**
+     * Updates only one piece and all onClick-EventHandlers.
+     * 
+     * @param pos Position of piece to update.
+     */
     private void updatePosition(Position pos) {
         Piece piece = board.getBoardMap().get(pos);
 
