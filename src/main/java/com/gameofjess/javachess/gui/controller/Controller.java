@@ -19,7 +19,7 @@ public abstract class Controller {
     /**
      * Set the scene to the host scene.
      *
-     * @param event ActionEvent
+     * @param event GUI ActionEvent
      * @throws IOException If the corresponding fxml file is not found.
      */
 
@@ -30,7 +30,7 @@ public abstract class Controller {
     /**
      * Set the scene to the join scene.
      *
-     * @param event ActionEvent
+     * @param event GUI ActionEvent
      * @throws IOException If the corresponding fxml file is not found.
      */
 
@@ -41,7 +41,7 @@ public abstract class Controller {
     /**
      * Set the scene to the game scene.
      *
-     * @param event ActionEvent
+     * @param event GUI ActionEvent
      * @throws IOException If the corresponding fxml file is not found.
      */
     public GameController switchGameScene(ActionEvent event) throws IOException {
@@ -52,7 +52,7 @@ public abstract class Controller {
      * Set the scene to the type given.
      *
      * @param type Type of scene.
-     * @param event ActionEvent.
+     * @param event GUI ActionEvent.
      * @throws IOException If the fxml file cannot be loaded.
      */
 

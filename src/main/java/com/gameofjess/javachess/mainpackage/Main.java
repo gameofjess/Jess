@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /**
+     * Starts the GUI.
+     */
     @Override
     public void start(Stage stage) {
         try {

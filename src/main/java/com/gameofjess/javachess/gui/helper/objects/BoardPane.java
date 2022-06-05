@@ -21,6 +21,11 @@ public class BoardPane extends HBox {
     private final GridPane boardGrid;
     private final VBox vBox;
 
+    /**
+     * Constructs a square BoardPane with square cells. This is a variation of Marv's proposed solution
+     * as seen
+     * <a href="https://stackoverflow.com/questions/44979700/square-gridpane-of-square-cells">here</a>.
+     */
     public BoardPane() {
         vBox = new VBox();
 
@@ -80,6 +85,9 @@ public class BoardPane extends HBox {
         }
     }
 
+    /**
+     * Resets the cell's status.
+     */
     public void resetStatus() {
         for (Node n : boardGrid.getChildren()) {
             BoardCell cell = (BoardCell) n;
@@ -88,30 +96,68 @@ public class BoardPane extends HBox {
         }
     }
 
+    /**
+     * Changes a specific cell's selection status.
+     * 
+     * @param row Cell's row.
+     * @param column Cell's column.
+     * @return The selection status after calling the method.
+     */
     public boolean changeSelectedStatusByCell(int row, int column) {
         return getCellByIndex(row, column).changeSelectedStatus();
 
     }
 
+    /**
+     * Changes a specific cell's activation status.
+     * 
+     * @param status Status to which the activation status shall be set.
+     * @param row Cell's row.
+     * @param column Cell's column.
+     */
     public void setActivationStatusByCell(boolean status, int row, int column) {
         log.debug("Activating at coordinate ({}|{})", column, row);
         getCellByIndex(row, column).changeActivationStatus(status);
     }
 
+    /**
+     * Sets a specific cell's selection status.
+     * 
+     * @param status Status to which the activation status shall be set.
+     * @param row Cell's row.
+     * @param column Cell's column.
+     */
     public void setSelectedByCell(boolean status, int row, int column) {
         log.debug("Selecting at coordinate ({}|{})", column, row);
         getCellByIndex(row, column).selectedCell(status);
     }
 
+    /**
+     * Sets a specific cell's image.
+     * 
+     * @param img Image to be drawn.
+     * @param row Cell's row.
+     * @param column Cell's column.
+     */
     public void setImageByCell(Image img, int row, int column) {
         getCellByIndex(row, column).setImage(img);
     }
 
+    /**
+     * Sets a specific cell's event handler for the onClick-Event.
+     * 
+     * @param handler EventHandler for the onClick-Event.
+     * @param row Cell's row.
+     * @param column Cell's column.
+     */
     public void setPieceEventHandlerByCell(EventHandler<MouseEvent> handler, int row, int column) {
         log.debug("Setting event handler at coordinate ({}|{})", column, row);
         getCellByIndex(row, column).addEventHandlerToPiece(handler);
     }
 
+    /**
+     * Resets all the event handlers.
+     */
     public void resetEventHandlers() {
         for (Node n : boardGrid.getChildren()) {
             BoardCell cell = (BoardCell) n;
@@ -119,6 +165,13 @@ public class BoardPane extends HBox {
         }
     }
 
+    /**
+     * Gets a specific cell.
+     * 
+     * @param row Cell's row.
+     * @param column Cell's column.
+     * @return the cell specified.
+     */
     private BoardCell getCellByIndex(int row, int column) {
         BoardCell result = null;
         ObservableList<Node> childrens = boardGrid.getChildren();
@@ -134,6 +187,9 @@ public class BoardPane extends HBox {
         return result;
     }
 
+    /**
+     * Resets all the images.
+     */
     public void resetImages() {
         for (Node n : boardGrid.getChildren()) {
             BoardCell cell = (BoardCell) n;

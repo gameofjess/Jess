@@ -36,6 +36,9 @@ public class GameController extends Controller {
     private BoardPane boardPane;
     private ConnectionHandler connectionHandler;
 
+    /**
+     * Initializes the game GUI.
+     */
     public void initialize() {
         board = new Board();
         boardPane = new BoardPane();
@@ -141,7 +144,7 @@ public class GameController extends Controller {
     /**
      * Sets ConnectionHandler used to send and receive messages.
      * 
-     * @param connectionHandler
+     * @param connectionHandler that should be used to send messages from the GUI to the server.
      */
     void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
@@ -150,7 +153,7 @@ public class GameController extends Controller {
     /**
      * Sends a chat message.
      * 
-     * @param event
+     * @param event GUI ActionEvent
      */
     public void sendChatMessage(ActionEvent event) {
         String message = chatField.getText();
@@ -180,7 +183,7 @@ public class GameController extends Controller {
     /**
      * Sends a message via the ConnectionHandler
      * 
-     * @param clientMessage
+     * @param clientMessage ClientMessage to be sent.
      */
     private void sendMessage(ClientMessage clientMessage) {
         connectionHandler.send(clientMessage);

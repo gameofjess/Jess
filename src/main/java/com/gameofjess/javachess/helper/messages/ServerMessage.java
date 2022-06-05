@@ -19,6 +19,13 @@ public class ServerMessage implements Message {
     private final Date time;
     private final MessageType type;
 
+    /**
+     * Constructs a ServerMessage from a username, a MessageType, a Date and a message.
+     *
+     * @param type Type of the ServerMessage.
+     * @param message Message to be sent.
+     * @param time Custom date of creation.
+     */
     public ServerMessage(String username, MessageType type, Date time, String message) {
         this.username = username;
         this.type = type;

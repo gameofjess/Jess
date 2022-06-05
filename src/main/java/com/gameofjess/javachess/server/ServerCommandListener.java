@@ -11,6 +11,10 @@ import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The ServerCommandListener can be used to listen to user commands issued via CLI and processes
+ * them to take action on the server instance it is hokked up to.
+ */
 public class ServerCommandListener implements Runnable {
 
     private static final Logger log = LogManager.getLogger(ServerCommandListener.class);

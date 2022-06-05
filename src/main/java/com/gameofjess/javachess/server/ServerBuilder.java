@@ -3,7 +3,7 @@ package com.gameofjess.javachess.server;
 import java.net.InetSocketAddress;
 
 /**
- *
+ * This builder is used to build a Server.
  */
 
 public class ServerBuilder {

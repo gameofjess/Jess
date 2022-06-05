@@ -6,6 +6,9 @@ import com.gameofjess.javachess.gui.controller.Controller;
 
 import javafx.scene.Scene;
 
+/**
+ * This factory is used to construct the various scenes of the application.
+ */
 public class SceneFactory {
     private final SceneType type;
     private Controller controller;
@@ -35,7 +38,9 @@ public class SceneFactory {
         throw new IllegalArgumentException();
     }
 
-
+    /**
+     * @return the controller to the corresponding scene.
+     */
     public Controller getController() {
         return controller;
     }

@@ -15,6 +15,13 @@ public class Client extends WebSocketClient {
 
     private final ConnectionHandler connectionHandler;
 
+    /**
+     * Constructs a new client that connects to serverURI and uses connectionHandler for communication
+     * to the rest of the application.
+     * 
+     * @param serverUri URI of the server to connect to.
+     * @param connectionHandler ConnectionHandler to send messages to.
+     */
     Client(URI serverUri, ConnectionHandler connectionHandler) {
         super(serverUri);
         this.connectionHandler = connectionHandler;

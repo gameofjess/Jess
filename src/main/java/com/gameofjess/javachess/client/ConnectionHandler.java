@@ -21,6 +21,15 @@ public class ConnectionHandler {
 
     private GameController gameController;
 
+    /**
+     * Constructs a new connectionHandler that will construct a Client.
+     * 
+     * @param host Host to connect to.
+     * @param port Port the host is listening on.
+     * @throws InvalidHostnameException if the hostname is invalid.
+     * @throws InvalidPortException if the port is invalid.
+     * @throws URISyntaxException if the given string violates RFC 2396 in any other way.
+     */
     public ConnectionHandler(String host, int port)
             throws InvalidHostnameException, InvalidPortException, URISyntaxException {
         String regexHostname =

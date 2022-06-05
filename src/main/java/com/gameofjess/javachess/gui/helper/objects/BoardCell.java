@@ -2,6 +2,7 @@ package com.gameofjess.javachess.gui.helper.objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,9 @@ public class BoardCell extends StackPane {
     private ImageView piece;
     String style;
 
+    /**
+     * Constructs a BoardCell.
+     */
     public BoardCell() {
         piece = new ImageView();
         style = "";
@@ -27,11 +31,22 @@ public class BoardCell extends StackPane {
         this.getChildren().add(piece);
     }
 
+    /**
+     * Sets the Image that is drawn on a BoardCell.
+     * 
+     * @param img
+     */
     public synchronized void setImage(Image img) {
         piece.setImage(img);
         piece.setPreserveRatio(true);
     }
 
+    /**
+     * Changes the cells activation status. If it is active, the BoardCell displays that it is a
+     * possible move to make with the selected piece.
+     * 
+     * @param status true/false
+     */
     public void changeActivationStatus(boolean status) {
         if (status) {
             this.setStyle("-fx-background-color: #00FF00;");
@@ -40,6 +55,12 @@ public class BoardCell extends StackPane {
         }
     }
 
+    /**
+     * Changes the cells selection status. If it is active, the BoardCell displays that it is the
+     * selected piece.
+     * 
+     * @param status true/false
+     */
     public void selectedCell(boolean status) {
         log.debug("Cell changed {}", status);
         if (status) {
@@ -49,6 +70,11 @@ public class BoardCell extends StackPane {
         }
     }
 
+    /**
+     * Switches the selection status.
+     * 
+     * @return Whether the selection status after calling this method is true or false.
+     */
     public boolean changeSelectedStatus() {
         if (selected) {
             selected = false;
@@ -60,16 +86,27 @@ public class BoardCell extends StackPane {
         return selected;
     }
 
+    /**
+     * Changes the BoardCell's background color to black.
+     */
     public void changeBackgroundColorToBlack() {
         this.style = "-fx-background-color: #3D4753;";
         this.setStyle(style);
     }
 
+    /**
+     * Adds an event handler.
+     * 
+     * @param handler EventHandler for the onClickEvent.
+     */
     public void addEventHandlerToPiece(EventHandler<MouseEvent> handler) {
         log.debug("Setting event handler to piece");
         this.setOnMouseClicked(handler);
     }
 
+    /**
+     * Resets the EventHandler.
+     */
     public void resetEventHandler() {
         this.setOnMouseClicked(null);
     }

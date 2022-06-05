@@ -23,7 +23,7 @@ public class Launcher {
     private static final Logger log = LogManager.getLogger(Launcher.class);
 
     /**
-     * Start the application
+     * Starts the application. This method also parses the options given via command line.
      */
     public static void main(String[] args) {
         try {

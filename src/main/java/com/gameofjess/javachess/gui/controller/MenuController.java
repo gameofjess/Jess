@@ -38,6 +38,9 @@ public class MenuController extends Controller {
     @FXML
     private TextField username;
 
+    /**
+     * Initializes the menu.
+     */
     public void initialize() {
         if (ipAddressText != null) {
             try {
@@ -90,7 +93,7 @@ public class MenuController extends Controller {
     /**
      * Gets user inputs and calls the connect method.
      *
-     * @param event ActionEvent
+     * @param event GUI ActionEvent
      * @throws InvalidHostnameException If the hostname is invalid.
      * @throws InvalidPortException If the port is invalid.
      * @throws URISyntaxException If the URI is invalid.
@@ -127,7 +130,7 @@ public class MenuController extends Controller {
     /**
      * Starts the server and calls the connect function to connect to the server.
      *
-     * @param event ActionEvent
+     * @param event GUI ActionEvent
      * @throws InvalidPortException If the port is invalid.
      */
     public void hostGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
@@ -156,6 +159,13 @@ public class MenuController extends Controller {
         }
     }
 
+    /**
+     * Checks if the server is online via a simple HTTP GET-Request.
+     * 
+     * @param url server URL
+     * @return Whether a HTTP Response with response code 404 is returned. This indicated that the
+     *         upgrade to a WebSocket connection failed and thus that a WebSocket Server is started.
+     */
     private boolean isServerOnline(URL url) {
         try {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
