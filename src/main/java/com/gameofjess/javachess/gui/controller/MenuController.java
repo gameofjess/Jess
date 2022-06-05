@@ -120,7 +120,7 @@ public class MenuController extends Controller {
      */
     public boolean connect(String address, int port, String username) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
         connectionHandler = new ConnectionHandler(address, port);
-        log.debug("Trying to connect to " + address + "using Port " + port + "as " + username);
+        log.debug("Trying to connect to {} using port {} as {}.", address, port, username);
         return connectionHandler.connect(username);
     }
 

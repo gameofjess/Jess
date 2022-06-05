@@ -22,7 +22,7 @@ public class JoinScene {
     JoinScene() throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(fxmlFileURL));
         scene = new Scene(loader.load());
-        log.debug("Switching scene to " + fxmlFileURL.toExternalForm());
+        log.debug("Switching scene to {}.", fxmlFileURL.toExternalForm());
         controller = loader.getController();
     }
 

@@ -68,7 +68,7 @@ public class ServerCommandListener implements Runnable {
             case "restart" -> restart();
             case "exit" -> exit();
             case "list" -> list();
-            default -> log.info("Unknown command: " + cmd);
+            default -> log.info("Unknown command: {}", cmd);
         }
     }
 
@@ -118,8 +118,8 @@ public class ServerCommandListener implements Runnable {
         long end = System.currentTimeMillis();
 
         if(isClosed){
-            log.info("Server successfully closed within {} ms!", end-start);
-            log.debug("Exact closing time: " + simpleDateFormat.format(new Date(end)));
+            log.info("Server was closed successfully!");
+            log.debug("Closed within {} ms.", end - start);
         } else {
             throw new RuntimeException("Could not stop server in time!");
         }
@@ -167,6 +167,6 @@ public class ServerCommandListener implements Runnable {
                 users = users.concat(s + ", ");
             }
         }
-        log.info("The following users are connected: " + users);
+        log.info("The following users are connected: {}", users);
     }
 }

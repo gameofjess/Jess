@@ -27,18 +27,18 @@ public class Client extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        log.debug("Received message: " + message);
+        log.debug("Received message: {}", message);
         ServerMessage smsg = new ServerMessage(message);
         connectionHandler.handleServerMessage(smsg);
     }
 
     @Override
     public void onClose(int exitCode, String reason, boolean remote) {
-        log.info("Connection was terminated with exit code " + exitCode + ". Reason: " + reason);
+        log.info("Connection was terminated with exit code {}. Reason: {}", exitCode, reason);
     }
 
     @Override
     public void onError(Exception e) {
-        log.error("An error occurred in the client instance: " + e.getMessage());
+        log.error("An error occurred in the client instance: {}", e.getMessage());
     }
 }

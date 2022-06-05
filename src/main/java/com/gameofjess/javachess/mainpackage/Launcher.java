@@ -36,12 +36,12 @@ public class Launcher {
                     int port = Integer
                             .parseInt(optionList.get(optionList.indexOf(Option.port)).getValue());
                     sb.setPort(port);
-                    log.debug("Manually set server port to " + port);
+                    log.debug("Manually set server port to {}", port);
                 }
                 if (optionList.contains(Option.host)) {
                     String host = optionList.get(optionList.indexOf(Option.host)).getValue();
                     sb.setHost(host);
-                    log.debug("Manually set server hostname to " + host);
+                    log.debug("Manually set server hostname to {}", host);
                 }
                 Server server = sb.build();
                 log.debug("Successfully built server");
@@ -52,7 +52,7 @@ public class Launcher {
                 commandListenerThread.start();
                 log.debug("Started ServerCommandListener Thread");
 
-                log.info("Starting server on " + server.getAddress().toString());
+                log.info("Starting server on {}.", server.getAddress().toString());
                 commandListener.parseCommand("start");
             } else {
                 log.info("Starting client application");

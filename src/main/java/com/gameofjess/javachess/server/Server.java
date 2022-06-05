@@ -29,7 +29,7 @@ public class Server extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
-        log.info("New connection from " + webSocket.getRemoteSocketAddress());
+        log.info("New connection from {}.", webSocket.getRemoteSocketAddress());
 
         if (users.size() > 1) {
             log.warn("Refusing connection because there already are two players!");
@@ -38,7 +38,7 @@ public class Server extends WebSocketServer {
         }
 
         UUID u = UUID.randomUUID();
-        log.debug("Attaching unique ID " + u);
+        log.debug("Attaching unique ID {}.", u);
         webSocket.setAttachment(u);
 
         log.debug("Connection header is being parsed");
@@ -46,13 +46,13 @@ public class Server extends WebSocketServer {
         if (clientHandshake.hasFieldValue("username")) {
             String username = clientHandshake.getFieldValue("username");
             if (users.containsValue(username)) {
-                log.info("Username " + username + " already exists! Closing connection.");
+                log.info("Username {} already exists! Closing connection.", username);
                 webSocket
                         .send(new ServerMessage(MessageType.SERVERERROR, "Username already in use!")
                                 .toJSON());
                 webSocket.close(CloseFrame.REFUSE, "Username is already used!");
             } else {
-                log.info("Username of new user is " + username);
+                log.info("Username of new user is {} ", username);
                 users.put(u, username);
 
                 if (users.size() == 2) {
@@ -72,12 +72,11 @@ public class Server extends WebSocketServer {
     public void onClose(WebSocket webSocket, int exitCode, String reason, boolean remote) {
         UUID u = webSocket.getAttachment();
         String username = users.get(u);
-        log.info("Client " + username + " disconnected!");
+        log.info("Client {} from {} disconnected!", username, webSocket.getRemoteSocketAddress());
         ServerMessage msg =
                 new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
         broadcast(msg.toJSON());
-        log.info("Connection from " + webSocket.getRemoteSocketAddress()
-                + " was terminated with exit code " + exitCode + ". Reason: " + reason);
+        log.info("Connection from {} was terminated with exit code {}. Reason: {}", webSocket.getRemoteSocketAddress(), exitCode, reason);
         for (WebSocket ws : getConnections()) {
             ws.close(CloseFrame.GOING_AWAY);
         }
@@ -86,14 +85,14 @@ public class Server extends WebSocketServer {
     @Override
     public void onMessage(WebSocket webSocket, String message) {
         UUID u = webSocket.getAttachment();
-        log.debug("Received message from " + u + " with username " + users.get(u) + ": " + message);
+        log.debug("Received message from {} with username {}: {}", webSocket.getRemoteSocketAddress().getAddress(), users.get(u), message);
         ClientMessage cmsg = new ClientMessage(message);
         handleClientMessage(cmsg, webSocket);
     }
 
     @Override
     public void onError(WebSocket webSocket, Exception e) {
-        log.error("An error occurred in the server instance: " + e.getMessage());
+        log.error("An error occurred in the server instance: {}", e.getMessage());
         ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, e.getMessage());
         broadcast(msg.toJSON());
     }
@@ -113,7 +112,7 @@ public class Server extends WebSocketServer {
         UUID webSocketUUID = webSocket.getAttachment();
         switch (cmsg.getType()) {
             case CHATMESSAGE -> {
-                log.info("New chat message received: " + cmsg.getMessage());
+                log.info("New chat message received: {}", cmsg.getMessage());
                 String username = users.get(webSocketUUID);
                 ServerMessage msg =
                         new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
@@ -121,7 +120,7 @@ public class Server extends WebSocketServer {
             }
             case NEWMOVE -> {
                 String username = users.get(webSocketUUID);
-                log.info("Client " + username + " has made a new move");
+                log.info("Client {} has made a new move", username);
 
                 // TODO: Implement check on move once according method has been implemented.
 

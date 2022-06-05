@@ -41,7 +41,7 @@ public class ArgumentParser {
                 }
 
                 if (option != null) {
-                    log.debug("Got option " + option.getLongAlias());
+                    log.debug("Got option {}.", option.getLongAlias());
                 }
 
                 if (option == Option.port) {
@@ -52,10 +52,10 @@ public class ArgumentParser {
                         } catch (NumberFormatException e) {
                             throw new InvalidPortException(args[i + 1]);
                         }
-                        log.debug("Successfully parsed potential port " + port);
+                        log.debug("Successfully parsed potential port {}.", port);
                         if (port <= 65535 && port >= 1024) {
                             option.setValue(args[i + 1]);
-                            log.debug("Set port value to " + port);
+                            log.debug("Set port value to {}.", port);
                         } else {
                             throw new InvalidPortException(args[i + 1]);
                         }
@@ -67,7 +67,7 @@ public class ArgumentParser {
                 if (option == Option.host) {
                     if (!(args.length < i + 2)) {
                         String host = args[i + 1];
-                        log.debug("Got host-argument " + host);
+                        log.debug("Got host-argument {}.", host);
                         String regexHostname =
                                 "^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\\.[a-zA-Z]{2,3})$";
                         String regexIP =
@@ -75,7 +75,7 @@ public class ArgumentParser {
 
                         if (host.matches(regexIP) || host.matches(regexHostname)) {
                             option.setValue(args[i + 1]);
-                            log.debug("Set hostname value to " + host);
+                            log.debug("Set hostname value to {}.", host);
                         } else {
                             throw new InvalidHostnameException(host);
                         }

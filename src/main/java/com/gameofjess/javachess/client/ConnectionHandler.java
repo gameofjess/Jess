@@ -57,8 +57,8 @@ public class ConnectionHandler {
      */
     public boolean connect(String username) {
         try {
-            log.info("Attempting to connect to " + client.getURI());
-            log.debug("Attempting to assign username " + username);
+            log.info("Attempting to connect to {}.", client.getURI());
+            log.debug("Attempting to assign username {}.", username);
             client.addHeader("username", username);
             boolean connected = client.connectBlocking(40, TimeUnit.MILLISECONDS);
             if (connected) {
@@ -99,19 +99,19 @@ public class ConnectionHandler {
     void handleServerMessage(ServerMessage msg) {
         switch (msg.getType()) {
             case CHATMESSAGE -> {
-                log.debug("Received new chat message from " + msg.getUsername() + ":" + msg.getMessage());
+                log.debug("Received new chat message from {}: {}", msg.getUsername(), msg.getMessage());
                 gameController.receiveChatMessage(msg);
             }
             case NEWMOVE -> {
-                log.debug("Received new move from " + msg.getUsername() + ":" + msg.getMessage());
+                log.debug("Received new move from {}: {}", msg.getUsername(), msg.getMessage());
                 // TO BE IMPLEMENTED
             }
             case SERVERERROR -> {
-                log.error("Received new server error: " + msg.getMessage());
+                log.error("Received new server error: {}", msg.getMessage());
                 // TO BE IMPLEMENTED
             }
             case SERVERINFO -> {
-                log.info("Received new server info: " + msg.getMessage());
+                log.info("Received new server info: {}", msg.getMessage());
                 // TO BE IMPLEMENTED
             }
 
