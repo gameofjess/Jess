@@ -21,6 +21,7 @@ module JavaChess {
     opens com.gameofjess.javachess.gui.controller;
     opens com.gameofjess.javachess.gui.scenes;
     opens com.gameofjess.javachess.helper.argumentparsing;
+    opens com.gameofjess.javachess.helper.configuration;
     opens com.gameofjess.javachess.helper.exceptions;
     opens com.gameofjess.javachess.helper.messages;
     opens com.gameofjess.javachess.mainpackage;
@@ -35,4 +36,5 @@ module JavaChess {
     exports com.gameofjess.javachess.mainpackage;
     exports com.gameofjess.javachess.server;
     exports com.gameofjess.javachess.gui.controller;
+    exports com.gameofjess.javachess.helper.configuration;
 }
