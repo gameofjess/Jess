@@ -53,8 +53,9 @@
                         </Label>
                         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <TextField fx:id="username" maxWidth="-Infinity" prefHeight="31.0" prefWidth="143.0"
-                                           promptText="Jessplayer1" style="-fx-background-color: #EEECEC;">
+                                <TextField fx:id="username" maxWidth="-Infinity" onAction="#hostGame" prefHeight="31.0"
+                                           prefWidth="143.0" promptText="Jessplayer1"
+                                           style="-fx-background-color: #EEECEC;">
                                     <HBox.margin>
                                         <Insets right="10.0"/>
                                     </HBox.margin>

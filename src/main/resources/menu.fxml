@@ -43,7 +43,7 @@
                         </Label>
                         <TextField fx:id="address" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
                                    prefHeight="41.0" prefWidth="217.0" promptText="127.0.0.1"
-                                   style="-fx-background-color: #EEECEC;">
+                                   style="-fx-background-color: #EEECEC;" onAction="#joinGame">
                             <padding>
                                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0"/>
                             </padding>
@@ -62,7 +62,8 @@
                         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <TextField fx:id="username" maxWidth="-Infinity" prefHeight="31.0" prefWidth="143.0"
-                                           promptText="Jessplayer1" style="-fx-background-color: #EEECEC;">
+                                           promptText="Jessplayer1" style="-fx-background-color: #EEECEC;"
+                                           onAction="#joinGame">
                                     <HBox.margin>
                                         <Insets right="10.0"/>
                                     </HBox.margin>
@@ -71,8 +72,8 @@
                                     </padding>
                                     <font>
                                         <Font size="18.0"/>
-                           </font>
-                        </TextField>
+                                    </font>
+                                </TextField>
                         <Button mnemonicParsing="false" onAction="#joinGame" style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;" text="JOIN">
                            <padding>
                               <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info">
+<Configuration status="debug">
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-                    pattern="%d{dd-MM-yyyy HH:mm:ss} %-5p %c{1} - %m%n" />
+                    pattern="%d{dd-MM-yyyy HH:mm:ss} %-5p %c{1} - %m%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="info" additivity="false">
-            <AppenderRef ref="console" />
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="console"/>
         </Root>
     </Loggers>
 </Configuration>
