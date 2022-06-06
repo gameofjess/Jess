@@ -16,7 +16,7 @@ public class Config {
          * <strong>Possible values:</strong> true | false
          * </p>
          */
-        private final boolean showPublicIPAddress;
+        private final boolean loadPublicIPAddress;
         /**
          * <p>
          * This specifies a server that returns the IP address.
@@ -42,8 +42,8 @@ public class Config {
          */
         private final String ipAddressServer;
 
-        public HostMenuConfiguration(boolean showPublicIPAddress, String ipAddressServer) {
-            this.showPublicIPAddress = showPublicIPAddress;
+        public HostMenuConfiguration(boolean loadPublicIPAddress, String ipAddressServer) {
+            this.loadPublicIPAddress = loadPublicIPAddress;
             this.ipAddressServer = ipAddressServer;
         }
 
@@ -51,8 +51,8 @@ public class Config {
             return ipAddressServer;
         }
 
-        public boolean getShowPublicIPAddress() {
-            return showPublicIPAddress;
+        public boolean getLoadPublicIPAddress() {
+            return loadPublicIPAddress;
         }
     }
 
@@ -61,7 +61,7 @@ public class Config {
     }
 
     public boolean getShowPublicIPAddress() {
-        return hostMenuConfiguration.getShowPublicIPAddress();
+        return hostMenuConfiguration.getLoadPublicIPAddress();
     }
 
 
