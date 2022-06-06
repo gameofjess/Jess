@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.gui.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -14,6 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.helper.configuration.Config;
+import com.gameofjess.javachess.helper.configuration.ConfigHandler;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.server.Server;
@@ -29,6 +32,8 @@ public class MenuController extends Controller {
 
     private static final Logger log = LogManager.getLogger(MenuController.class);
 
+    private static Config config;
+
     private ConnectionHandler connectionHandler;
 
     @FXML
@@ -42,6 +47,14 @@ public class MenuController extends Controller {
      * Initializes the menu.
      */
     public void initialize() {
+
+        try {
+            config = new ConfigHandler().loadConfig(new File("config.json"));
+        } catch (IOException e) {
+            log.error("Could not read config file. Proceeding to use default values!");
+            config = new Config();
+        }
+
         if (ipAddressText != null) {
             try {
                 ipAddressText.setText("");
@@ -50,29 +63,33 @@ public class MenuController extends Controller {
                 Task<String> task = new Task<>() {
                     @Override
                     protected String call() throws Exception {
-                        String output;
                         String remoteIPAddress;
-                        try {
-                            log.debug("Establishing connection to IP-Return server.");
-                            URL url = new URL("https://ipaddr.gameofjess.com");
-                            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-                            con.setRequestMethod("GET");
-                            con.connect();
+                        if (config.getShowPublicIPAddress()) {
+                            try {
+                                String ipAddrServer = config.getIPAddressServer();
+                                log.debug("Establishing connection to IP-Return server {}.", ipAddrServer);
+                                URL url = new URL(ipAddrServer);
+                                HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+                                con.setRequestMethod("GET");
+                                con.connect();
 
-                            if (100 <= con.getResponseCode() && con.getResponseCode() <= 399) {
-                                log.debug("Connection to IP-Return server successful!");
-                                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                                remoteIPAddress = br.readLine();
-                            } else {
+                                if (100 <= con.getResponseCode() && con.getResponseCode() <= 399) {
+                                    log.debug("Connection to IP-Return server successful!");
+                                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                                    remoteIPAddress = br.readLine();
+                                } else {
+                                    log.error("Connection to IP-Return server failed!");
+                                    remoteIPAddress = "Could not establish connection to server!";
+                                }
+                            } catch (IOException e) {
                                 log.error("Connection to IP-Return server failed!");
                                 remoteIPAddress = "Could not establish connection to server!";
                             }
-                        } catch (IOException e) {
-                            log.error("Connection to IP-Return server failed!");
-                            remoteIPAddress = "Could not establish connection to server!";
+                        } else {
+                            remoteIPAddress = "Disabled in config!";
                         }
 
-                        return "Your local IP Address: " + localIPAddress + "\n" + "Your remote IP Address: " + remoteIPAddress;
+                        return "LOCAL IP: " + localIPAddress + "\n" + "PUBLIC IP: " + remoteIPAddress;
                     }
                 };
 
