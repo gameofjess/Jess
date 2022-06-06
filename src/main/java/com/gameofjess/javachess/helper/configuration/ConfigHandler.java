@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +17,8 @@ import com.google.gson.JsonParser;
 public class ConfigHandler {
 
     private static final Logger log = LogManager.getLogger(ConfigHandler.class);
+
+    private static final Map<File, Config> loadedConfigs = new HashMap<>();
 
     private final Gson gson;
 
@@ -30,25 +34,36 @@ public class ConfigHandler {
      * @throws IOException if an I/O-Error occurs.
      */
     public Config loadConfig(File file) throws IOException {
-        if (file.createNewFile()) {
-
-            log.info("Creating new config file {} in the working directory.", file.getName());
-
-            Config newConfig = new Config();
-
-            String json = gson.toJson(JsonParser.parseString(gson.toJson(newConfig)));
-
-            try (PrintWriter out = new PrintWriter(file)) {
-                out.println(json);
-            }
-
-            return newConfig;
-
+        if (loadedConfigs.containsKey(file)) {
+            log.debug("Using loaded config from {}", file.getAbsolutePath());
+            return loadedConfigs.get(file);
         } else {
+            if (file.createNewFile()) {
 
-            log.debug("Loading config file from {}.", file.getAbsolutePath());
+                log.info("Creating new config file {} in the working directory.", file.getName());
 
-            return gson.fromJson(new String(Files.readAllBytes(file.toPath())), Config.class);
+                Config newConfig = new Config();
+
+                String json = gson.toJson(JsonParser.parseString(gson.toJson(newConfig)));
+
+                try (PrintWriter out = new PrintWriter(file)) {
+                    out.println(json);
+                }
+
+                loadedConfigs.put(file, newConfig);
+
+                return newConfig;
+
+            } else {
+
+                log.debug("Loading config file from {}.", file.getAbsolutePath());
+
+                Config config = gson.fromJson(new String(Files.readAllBytes(file.toPath())), Config.class);
+
+                loadedConfigs.put(file, config);
+
+                return config;
+            }
         }
     }
 
