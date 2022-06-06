@@ -1,7 +1,7 @@
 package com.gameofjess.javachess.helper.configuration;
 
 public class Config {
-    private final HostMenuConfiguration hostControllerConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
+    private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
 
     class HostMenuConfiguration {
         /**
@@ -57,11 +57,11 @@ public class Config {
     }
 
     public String getIPAddressServer() {
-        return hostControllerConfiguration.getIpAddressServer();
+        return hostMenuConfiguration.getIpAddressServer();
     }
 
     public boolean getShowPublicIPAddress() {
-        return hostControllerConfiguration.getShowPublicIPAddress();
+        return hostMenuConfiguration.getShowPublicIPAddress();
     }
 
 
