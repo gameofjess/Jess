@@ -167,6 +167,8 @@ public class MenuController extends Controller {
             }
         });
 
+        serverThread.start();
+
         // Connect to created Server and switch to game scene
         if (isServerOnline(new URL("http://" + host + ":" + port))) {
             connect(host, port, username.getText());
