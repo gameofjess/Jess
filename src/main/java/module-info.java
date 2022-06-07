@@ -38,5 +38,4 @@ module JavaChess {
     exports com.gameofjess.javachess.server;
     exports com.gameofjess.javachess.gui.controller;
     exports com.gameofjess.javachess.helper.configuration;
-    exports com.gameofjess.javachess.helper.game;
 }
