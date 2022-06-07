@@ -50,7 +50,7 @@ public class Pawn extends Piece {
                 moves.add(new Move(position, testposition));
 				testposition = new Position(position.getX(), position.getY() + 2);
             	testlocation = Board.getBoardMap().get(testposition);
-				if(testposition.getY() == 1 && testlocation == null){
+				if(position.getY() == 1 && testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
             }
