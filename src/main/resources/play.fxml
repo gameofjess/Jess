@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -11,22 +11,20 @@
           prefWidth="600.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/16"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gameofjess.javachess.gui.controller.GameController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="433.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="167.0" prefWidth="167.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="75.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="100.0"/>
     </rowConstraints>
     <children>
         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="160.0"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="240.0"
-                                vgrow="SOMETIMES"/>
+                <RowConstraints vgrow="SOMETIMES" percentHeight="50.0"/>
+                <RowConstraints vgrow="SOMETIMES" percentHeight="50.0"/>
             </rowConstraints>
             <children>
                 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
@@ -50,20 +48,22 @@
                         <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <TextArea fx:id="chatHistory" style="-fx-background-color: inherit;"/>
+                        <TextArea fx:id="chatHistory" style="-fx-background-color: #EFEFEF;" editable="false"
+                                  wrapText="true"/>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                              prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" style="-fx-padding: 5;">
                             <children>
                                 <TextField fx:id="chatField" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
                                            onAction="#sendChatMessage" prefHeight="30.0" prefWidth="70.0"
-                                           promptText="chat ..." style="-fx-background-color: #FFF;">
+                                           promptText="chat ..." style="-fx-background-color: #FFF;"
+                                           HBox.hgrow="SOMETIMES">
                                     <HBox.margin>
                                         <Insets right="10.0"/>
                                     </HBox.margin>
                                 </TextField>
                                 <Button mnemonicParsing="false" onAction="#sendChatMessage" prefHeight="20.0"
                                         prefWidth="60.0" style="-fx-background-color: black; -fx-text-fill: white;"
-                                        text="SEND">
+                                        text="SEND" HBox.hgrow="SOMETIMES">
                                     <padding>
                                         <Insets bottom="5.0" top="5.0"/>
                                     </padding>
@@ -78,41 +78,45 @@
          </children>
       </GridPane>
       <GridPane fx:id="main">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="95.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="250.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="95.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="600.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Circle fill="WHITE" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Circle>
-            <Circle radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Circle>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Benni" GridPane.halignment="RIGHT">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucca" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Text>
-         </children>
+          <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="95.0"/>
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0"/>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="95.0"/>
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints vgrow="SOMETIMES" percentHeight="10.0"/>
+              <RowConstraints vgrow="SOMETIMES" percentHeight="80.0"/>
+              <RowConstraints vgrow="SOMETIMES" percentHeight="10.0"/>
+          </rowConstraints>
+          <children>
+              <HBox GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="CENTER" style="-fx-padding: 0 0 0 10;">
+                  <Circle fill="WHITE" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0"
+                          style="-fx-padding: 5;">
+                      <HBox.margin>
+                          <Insets right="10.0"/>
+                      </HBox.margin>
+                  </Circle>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WHITE" GridPane.halignment="RIGHT"
+                        fx:id="whiteUsername" style="-fx-padding: 5;">
+                      <font>
+                          <Font name="System Bold" size="14.0"/>
+                      </font>
+                  </Text>
+              </HBox>
+              <HBox GridPane.rowIndex="2" GridPane.columnIndex="0" alignment="CENTER" style="-fx-padding: 0 0 0 10;">
+                  <Circle radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0">
+                      <HBox.margin>
+                          <Insets right="10.0"/>
+                      </HBox.margin>
+                  </Circle>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BLACK" GridPane.halignment="RIGHT"
+                        fx:id="blackUsername" style="-fx-padding: 5;">
+                      <font>
+                          <Font name="System Bold" size="14.0"/>
+                      </font>
+                  </Text>
+              </HBox>
+          </children>
       </GridPane>
    </children>
 </GridPane>
