@@ -1,4 +1,4 @@
-module JavaChess {
+open module JavaChess {
     // JavaFX
     requires javafx.base;
     requires javafx.controls;
@@ -17,16 +17,6 @@ module JavaChess {
 
     // Apache Commons Collections
     requires org.apache.commons.collections4;
-
-    opens com.gameofjess.javachess.client;
-    opens com.gameofjess.javachess.gui.controller;
-    opens com.gameofjess.javachess.gui.scenes;
-    opens com.gameofjess.javachess.helper.argumentparsing;
-    opens com.gameofjess.javachess.helper.configuration;
-    opens com.gameofjess.javachess.helper.exceptions;
-    opens com.gameofjess.javachess.helper.messages;
-    opens com.gameofjess.javachess.mainpackage;
-    opens com.gameofjess.javachess.server;
 
     exports com.gameofjess.javachess.chesslogic;
     exports com.gameofjess.javachess.chesslogic.pieces;
