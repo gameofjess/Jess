@@ -88,17 +88,17 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="420.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" selected="true" text="Random">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
+                        <RadioButton mnemonicParsing="false" selected="true" text="Random" fx:id="colorRandom">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Black">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="White" />
+                         <RadioButton mnemonicParsing="false" text="Black" fx:id="colorBlack">
+                             <HBox.margin>
+                                 <Insets right="10.0"/>
+                             </HBox.margin>
+                         </RadioButton>
+                         <RadioButton mnemonicParsing="false" text="White" fx:id="colorWhite"/>
                      </children>
                   </HBox>
                </children>
