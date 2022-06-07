@@ -11,12 +11,13 @@ module JavaChess {
     // Java-WebSocket API
     requires Java.WebSocket;
 
-    //Gson JSON API
+    // Gson JSON API
     requires com.google.gson;
     requires java.xml;
 
-    opens com.gameofjess.javachess.chesslogic;
-    opens com.gameofjess.javachess.chesslogic.pieces;
+    // Apache Commons Collections
+    requires org.apache.commons.collections4;
+
     opens com.gameofjess.javachess.client;
     opens com.gameofjess.javachess.gui.controller;
     opens com.gameofjess.javachess.gui.scenes;
@@ -37,4 +38,5 @@ module JavaChess {
     exports com.gameofjess.javachess.server;
     exports com.gameofjess.javachess.gui.controller;
     exports com.gameofjess.javachess.helper.configuration;
+    exports com.gameofjess.javachess.helper.game;
 }
