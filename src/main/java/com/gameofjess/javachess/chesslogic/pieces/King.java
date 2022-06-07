@@ -2,6 +2,7 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
@@ -10,6 +11,10 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class King extends Piece {
+
+    private static final Image whiteImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/wKing.png")));
+    private static final Image blackImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/bKing.png")));
+
     boolean rochade = true;
 
     public King(Board Board, boolean isWhite) {
@@ -281,14 +286,13 @@ public class King extends Piece {
         return false;
     }
 
-	@Override
-	public Image getImage() {
-		if (isWhite) {
-			return new Image(getClass().getResourceAsStream("/icons/wKing.png"));
-		}
-		else{
-			return new Image(getClass().getResourceAsStream("/icons/bKing.png"));
-		}
-	}
+    @Override
+    public Image getImage() {
+        if (isWhite) {
+            return whiteImage;
+        } else {
+            return blackImage;
+        }
+    }
 
 }

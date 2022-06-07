@@ -3,6 +3,7 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
@@ -11,6 +12,9 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class Queen extends Piece {
+
+    private static final Image whiteImage = new Image(Objects.requireNonNull(Queen.class.getResourceAsStream("/icons/wQueen.png")));
+    private static final Image blackImage = new Image(Objects.requireNonNull(Queen.class.getResourceAsStream("/icons/bQueen.png")));
 
 	public Queen(Board Board, boolean isWhite) {
 		super(Board, isWhite);
@@ -163,9 +167,9 @@ public class Queen extends Piece {
 	@Override
 	public Image getImage() {
 		if (isWhite) {
-			return new Image(getClass().getResourceAsStream("/icons/wQueen.png"));
+            return whiteImage;
 		} else {
-			return new Image(getClass().getResourceAsStream("/icons/bQueen.png"));
+            return blackImage;
 		}
 	}
 }

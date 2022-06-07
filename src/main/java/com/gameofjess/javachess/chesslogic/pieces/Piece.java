@@ -10,14 +10,13 @@ public abstract class Piece implements Cloneable {
      * Abstract Class to represent a chesspiece
      */
 
-    Board Board;
+    transient Board Board;
     boolean isWhite;
     String fen;
 
     public Piece(Board Board, boolean isWhite) {
         this.Board = Board;
         this.isWhite = isWhite;
-
     }
 
     public abstract Move[] getMoves(boolean checking);

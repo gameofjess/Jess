@@ -2,6 +2,7 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
@@ -11,6 +12,10 @@ import javafx.scene.image.Image;
 
 
 public class Pawn extends Piece {
+
+    private static final Image whiteImage = new Image(Objects.requireNonNull(Pawn.class.getResourceAsStream("/icons/wPawn.png")));
+    private static final Image blackImage = new Image(Objects.requireNonNull(Pawn.class.getResourceAsStream("/icons/bPawn.png")));
+
     boolean enpassant = false;
 
     public Pawn(Board Board, boolean isWhite) {
@@ -229,13 +234,12 @@ public class Pawn extends Piece {
         Board.boardMapAdd(move.destination , this);
     }
 
-	@Override
-	public Image getImage() {
-		if (isWhite) {
-			return new Image(getClass().getResourceAsStream("/icons/wPawn.png"));
-		}
-		else{
-			return new Image(getClass().getResourceAsStream("/icons/bPawn.png"));
-		}
-	}
+    @Override
+    public Image getImage() {
+        if (isWhite) {
+            return whiteImage;
+        } else {
+            return blackImage;
+        }
+    }
 }
