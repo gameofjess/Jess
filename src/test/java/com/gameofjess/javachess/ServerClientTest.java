@@ -3,6 +3,7 @@ package com.gameofjess.javachess;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.server.Server;
@@ -58,6 +60,7 @@ public class ServerClientTest {
         log.info("Testing connection of client to server!");
 
         ConnectionHandler testConnection = new ConnectionHandler("127.0.0.1", port);
+        testConnection.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
 
         assertTrue(testConnection.connect("TestUser"));
 
@@ -75,7 +78,9 @@ public class ServerClientTest {
         log.info("Testing client connecting with invalid username.");
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
+        testConnection1.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
+        testConnection2.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
 
         testConnection1.connect("InvalidTestUser");
         testConnection2.connect("InvalidTestUser");
@@ -93,8 +98,11 @@ public class ServerClientTest {
         log.info("Testing connection of too many clients to server!");
 
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
+        testConnection1.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
+        testConnection2.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
         ConnectionHandler testConnection3 = new ConnectionHandler("127.0.0.1", port);
+        testConnection3.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
 
         testConnection1.connect("TooManyTestUser1");
         testConnection2.connect("TooManyTestUser2");

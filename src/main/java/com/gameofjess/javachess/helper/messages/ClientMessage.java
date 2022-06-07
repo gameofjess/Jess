@@ -42,7 +42,7 @@ public class ClientMessage implements Message {
      */
     public ClientMessage(String message, MessageType type) {
         log.debug("Constructing ClientMessage with message and message type.");
-        if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR || type == MessageType.BEGINMATCH) {
+        if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR || type == MessageType.BEGINMATCH || type == MessageType.USERLIST || type == MessageType.COLORINFO) {
             throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
         }
         this.message = message;

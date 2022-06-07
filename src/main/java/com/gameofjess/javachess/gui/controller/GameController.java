@@ -11,10 +11,13 @@ import com.gameofjess.javachess.chesslogic.Position;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.client.ConnectionHandler;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
+import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
 import com.gameofjess.javachess.helper.messages.ServerMessage;
+import com.google.gson.Gson;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
@@ -32,9 +36,15 @@ public class GameController extends Controller {
     private TextField chatField;
     @FXML
     private TextArea chatHistory;
+    @FXML
+    private Text whiteUsername;
+    @FXML
+    private Text blackUsername;
     private Board board;
     private BoardPane boardPane;
     private ConnectionHandler connectionHandler;
+    private String username;
+    private Color color;
 
     /**
      * Initializes the game GUI.
@@ -42,9 +52,6 @@ public class GameController extends Controller {
     public void initialize() {
         board = new Board();
         boardPane = new BoardPane();
-        main.add(boardPane, 1, 1);
-        board.initialize();
-        renderPieces();
     }
 
     /**
@@ -54,7 +61,6 @@ public class GameController extends Controller {
     private void renderPieces() {
         setupPieceHandler();
         drawPieces();
-
     }
 
     /**
@@ -86,8 +92,10 @@ public class GameController extends Controller {
                                     piece.makeMove(m);
                                     boardPane.resetStatus();
 
-                                    updatePosition(m.getDestination());
-                                    updatePosition(pos);
+                                    sendMessage(new ClientMessage(m));
+
+                                    renderPieces();
+                                    setupPieceHandler();
 
                                 }
                             }, destY, destX);
@@ -124,30 +132,16 @@ public class GameController extends Controller {
     }
 
     /**
-     * Updates only one piece and all onClick-EventHandlers.
-     * 
-     * @param pos Position of piece to update.
-     */
-    private void updatePosition(Position pos) {
-        Piece piece = board.getBoardMap().get(pos);
-
-        if (piece != null) {
-            Image icon = piece.getImage();
-            boardPane.setImageByCell(icon, pos.getY(), pos.getX());
-        } else {
-            boardPane.setImageByCell(null, pos.getY(), pos.getX());
-        }
-
-        setupPieceHandler();
-    }
-
-    /**
      * Sets ConnectionHandler used to send and receive messages.
      * 
      * @param connectionHandler that should be used to send messages from the GUI to the server.
      */
     void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
+    }
+
+    void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -166,18 +160,78 @@ public class GameController extends Controller {
      * Receives a chat message.
      *
      */
-    public void receiveChatMessage(ServerMessage serverMessage) {
-        if (serverMessage.getType() == MessageType.CHATMESSAGE) {
-            String message = serverMessage.getMessage();
-            String username = serverMessage.getUsername();
+    public void receiveMessage(ServerMessage serverMessage) {
+        String message = serverMessage.getMessage();
+        String username = serverMessage.getUsername();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String formattedDate = dateFormat.format(serverMessage.getTime());
+        switch (serverMessage.getType()) {
+            case CHATMESSAGE -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
+            }
+            case NEWMOVE -> {
+                Move m = new Gson().fromJson(message, Move.class);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            String formattedDate = dateFormat.format(serverMessage.getTime());
+                board.getBoardMap().get(m.getOrigin()).makeMove(m);
 
-            chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
-        } else {
-            throw new IllegalArgumentException("Received chat message that is not of type chat message!");
+                renderPieces();
+                setupPieceHandler();
+
+                board.print();
+            }
+            case SERVERINFO -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+            }
+
+            case COLORINFO -> {
+                this.color = Color.valueOf(message);
+                log.debug("Got assigned color {}!", color.name());
+            }
+
+            case USERLIST -> {
+                log.debug("Received userlist");
+                Object[] users = new Gson().fromJson(message, Object[].class);
+                for (Object o : users) {
+                    String name = (String) o;
+                    if (!name.equals(this.username)) {
+                        log.debug("Got other name: {}!", name);
+                        if (color != null) {
+                            if (color == Color.BLACK) {
+                                log.debug("Setting white username to {}!", name);
+                                whiteUsername.setText(name);
+                                log.debug("Setting black username to {}!", this.username);
+                                blackUsername.setText(this.username);
+                                blackUsername.setUnderline(true);
+                            } else {
+                                log.debug("Setting black username to {}!", name);
+                                blackUsername.setText(name);
+                                log.debug("Setting white username to {}!", this.username);
+                                whiteUsername.setText(this.username);
+                                whiteUsername.setUnderline(true);
+                            }
+                        }
+                    }
+                }
+            }
+
+            case BEGINMATCH -> {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        main.add(boardPane, 1, 1);
+                        board.initialize();
+                        renderPieces();
+                    }
+                });
+
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+            }
+            default -> {
+                throw new IllegalArgumentException("Received message is not of any recognized type!");
+            }
         }
+
+
     }
 
     /**

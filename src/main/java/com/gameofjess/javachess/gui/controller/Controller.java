@@ -66,4 +66,11 @@ public abstract class Controller {
         return factory.getController();
     }
 
+    void switchScene(Scene scene, ActionEvent event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+        log.debug("Switched scene to {}", scene);
+    }
+
 }

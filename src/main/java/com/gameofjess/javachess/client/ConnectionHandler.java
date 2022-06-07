@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.ServerMessage;
 
@@ -69,6 +70,34 @@ public class ConnectionHandler {
             log.info("Attempting to connect to {}.", client.getURI());
             log.debug("Attempting to assign username {}.", username);
             client.addHeader("username", username);
+            log.debug("Attempting to assign color {}.", Color.RANDOM);
+            client.addHeader("color", Color.RANDOM.name());
+            boolean connected = client.connectBlocking(40, TimeUnit.MILLISECONDS);
+            if (connected) {
+                log.info("Connected successfully!");
+            }
+            return connected;
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Establishes the connection for the host user.
+     *
+     * @param username Username to be used.
+     * @param color Color the user wishes.
+     * @return If the connection is established successfully the method will return true, otherwise it
+     *         returns false;
+     */
+    public boolean connect(String username, Color color) {
+        try {
+            log.info("Attempting to connect to {}.", client.getURI());
+            log.debug("Attempting to assign username {}.", username);
+            client.addHeader("username", username);
+            log.debug("Attempting to assign color {}.", color.name());
+            client.addHeader("color", color.name());
             boolean connected = client.connectBlocking(40, TimeUnit.MILLISECONDS);
             if (connected) {
                 log.info("Connected successfully!");
@@ -95,7 +124,11 @@ public class ConnectionHandler {
         client.close(code, reason);
     }
 
-
+    /**
+     * Sets the GameController used for communication.
+     * 
+     * @param gameController GameController to be used.
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
@@ -106,28 +139,7 @@ public class ConnectionHandler {
      * @param msg ServerMessage to be handled.
      */
     void handleServerMessage(ServerMessage msg) {
-        switch (msg.getType()) {
-            case CHATMESSAGE -> {
-                log.debug("Received new chat message from {}: {}", msg.getUsername(), msg.getMessage());
-                gameController.receiveChatMessage(msg);
-            }
-            case NEWMOVE -> {
-                log.debug("Received new move from {}: {}", msg.getUsername(), msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-            case SERVERERROR -> {
-                log.error("Received new server error: {}", msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-            case SERVERINFO -> {
-                log.info("Received new server info: {}", msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-
-            case BEGINMATCH -> {
-                log.info(msg.getMessage());
-                // TO BE IMPLEMENTED
-            }
-        }
+        log.debug("Received {} from {}: {}", msg.getType().name(), msg.getUsername(), msg.getMessage());
+        gameController.receiveMessage(msg);
     }
 }

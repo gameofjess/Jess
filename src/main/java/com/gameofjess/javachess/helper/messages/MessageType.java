@@ -18,6 +18,6 @@ package com.gameofjess.javachess.helper.messages;
  */
 public enum MessageType {
 
-    SERVERINFO, SERVERERROR, BEGINMATCH, CHATMESSAGE, NEWMOVE
+    SERVERINFO, SERVERERROR, BEGINMATCH, CHATMESSAGE, NEWMOVE, USERLIST, COLORINFO;
 
 }

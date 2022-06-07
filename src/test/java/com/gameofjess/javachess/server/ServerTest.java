@@ -13,6 +13,8 @@ import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.junit.jupiter.api.Test;
 
+import com.gameofjess.javachess.helper.game.Color;
+
 public class ServerTest {
 
     /**
@@ -24,11 +26,15 @@ public class ServerTest {
     void onOpenStandardTest() {
         Server testServer = new ServerBuilder().build();
 
-        WebSocket testWS = mock(WebSocket.class);
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS).getAttachment();
 
         ClientHandshake testHandshake = mock(ClientHandshake.class);
         when(testHandshake.hasFieldValue("username")).thenReturn(true);
         when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         testServer.onOpen(testWS, testHandshake);
 
@@ -44,21 +50,35 @@ public class ServerTest {
     void onOpenTooManyUsersTest() {
         Server testServer = new ServerBuilder().build();
 
-        WebSocket testWS = mock(WebSocket.class);
-        WebSocket testWS2 = mock(WebSocket.class);
-        WebSocket testWS3 = mock(WebSocket.class);
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS).getAttachment();
+
+        WebSocket testWS2 = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS2).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS2).getAttachment();
+
+        WebSocket testWS3 = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS3).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS3).getAttachment();
 
         ClientHandshake testHandshake = mock(ClientHandshake.class);
         when(testHandshake.hasFieldValue("username")).thenReturn(true);
         when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         ClientHandshake testHandshake2 = mock(ClientHandshake.class);
         when(testHandshake2.hasFieldValue("username")).thenReturn(true);
         when(testHandshake2.getFieldValue("username")).thenReturn("TestUser2");
+        when(testHandshake2.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake2.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         ClientHandshake testHandshake3 = mock(ClientHandshake.class);
         when(testHandshake3.hasFieldValue("username")).thenReturn(true);
         when(testHandshake3.getFieldValue("username")).thenReturn("TestUser3");
+        when(testHandshake3.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake3.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         testServer.onOpen(testWS, testHandshake);
 
@@ -86,16 +106,24 @@ public class ServerTest {
     void onOpenDuplicateUsernameTest() {
         Server testServer = new ServerBuilder().build();
 
-        WebSocket testWS = mock(WebSocket.class);
-        WebSocket testWS2 = mock(WebSocket.class);
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any());
+        doCallRealMethod().when(testWS).getAttachment();
+        WebSocket testWS2 = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS2).setAttachment(any());
+        doCallRealMethod().when(testWS2).getAttachment();
 
         ClientHandshake testHandshake = mock(ClientHandshake.class);
         when(testHandshake.hasFieldValue("username")).thenReturn(true);
         when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         ClientHandshake testHandshake2 = mock(ClientHandshake.class);
         when(testHandshake2.hasFieldValue("username")).thenReturn(true);
         when(testHandshake2.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake2.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake2.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         testServer.onOpen(testWS, testHandshake);
         assertTrue(Arrays.stream(testServer.getUsers()).toList().contains("TestUser"));
@@ -125,6 +153,29 @@ public class ServerTest {
     }
 
     /**
+     * Tests the onOpen method with a client-handshake without a username field
+     *
+     * @see Server#onOpen(WebSocket, ClientHandshake)
+     */
+    @Test
+    void onOpenNoColorFieldTest() {
+        Server testServer = new ServerBuilder().build();
+
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any());
+        doCallRealMethod().when(testWS).getAttachment();
+
+        ClientHandshake testHandshake = mock(ClientHandshake.class);
+        when(testHandshake.hasFieldValue("username")).thenReturn(true);
+        when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(false);
+
+        testServer.onOpen(testWS, testHandshake);
+
+        verify(testWS).close(CloseFrame.REFUSE, "Invalid color header!");
+    }
+
+    /**
      * Tests the onClose method
      * 
      * @see Server#onOpen(WebSocket, ClientHandshake)
@@ -144,10 +195,14 @@ public class ServerTest {
         ClientHandshake testHandshake = mock(ClientHandshake.class);
         when(testHandshake.hasFieldValue("username")).thenReturn(true);
         when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         ClientHandshake testHandshake2 = mock(ClientHandshake.class);
         when(testHandshake2.hasFieldValue("username")).thenReturn(true);
         when(testHandshake2.getFieldValue("username")).thenReturn("TestUser2");
+        when(testHandshake2.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake2.getFieldValue("color")).thenReturn(Color.RANDOM.name());
 
         ArrayList<WebSocket> socketList = new ArrayList<>();
         socketList.add(testWS2);

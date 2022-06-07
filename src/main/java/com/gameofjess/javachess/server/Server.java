@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,15 +12,19 @@ import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
 import com.gameofjess.javachess.helper.messages.ServerMessage;
+import com.google.gson.Gson;
 
 public class Server extends WebSocketServer {
 
     private static final Logger log = LogManager.getLogger(Server.class);
 
     private final ConcurrentHashMap<UUID, String> users = new ConcurrentHashMap<>();
+
+    private final ConcurrentHashMap<UUID, Color> gameColors = new ConcurrentHashMap<>();
 
     private boolean isOpen = false;
 
@@ -43,28 +48,14 @@ public class Server extends WebSocketServer {
 
         log.debug("Connection header is being parsed");
 
-        if (clientHandshake.hasFieldValue("username")) {
-            String username = clientHandshake.getFieldValue("username");
-            if (users.containsValue(username)) {
-                log.info("Username {} already exists! Closing connection.", username);
-                webSocket
-                        .send(new ServerMessage(MessageType.SERVERERROR, "Username already in use!")
-                                .toJSON());
-                webSocket.close(CloseFrame.REFUSE, "Username is already used!");
-            } else {
-                log.info("Username of new user is {} ", username);
-                users.put(u, username);
+        if (!parseUsername(webSocket, clientHandshake) || !parseColor(webSocket, clientHandshake)) {
+            return;
+        }
 
-                if (users.size() == 2) {
-                    ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH,
-                            "Player " + username + " joined. The match begins!");
-                    broadcast(msg.toJSON());
-                    log.info("Match begins.");
-                }
-            }
-        } else {
-            log.warn("Client with invalid username field tried to connect to the server!");
-            webSocket.close(CloseFrame.REFUSE, "Invalid information!");
+        log.info("User with username {} got assigned color {}!", users.get(u), gameColors.get(u));
+
+        if (users.size() == 2) {
+            beginMatch(users.get(u));
         }
     }
 
@@ -80,6 +71,8 @@ public class Server extends WebSocketServer {
         for (WebSocket ws : getConnections()) {
             ws.close(CloseFrame.GOING_AWAY);
         }
+        users.clear();
+        gameColors.clear();
     }
 
     @Override
@@ -126,7 +119,13 @@ public class Server extends WebSocketServer {
 
                 ServerMessage msg =
                         new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
-                broadcast(msg.toJSON());
+                // broadcast(msg.toJSON());
+
+                for (WebSocket ws : this.getConnections()) {
+                    if (!(ws.equals(webSocket))) {
+                        ws.send(msg.toJSON());
+                    }
+                }
             }
         }
     }
@@ -176,5 +175,118 @@ public class Server extends WebSocketServer {
      */
     public boolean getServerStatus() {
         return isOpen;
+    }
+
+    /**
+     * @return random value of Color-enum.
+     */
+    private Color getRandomColor() {
+        Random random = new Random();
+        int randInt = random.nextInt(0, 1);
+        if (randInt == 1) {
+            return Color.WHITE;
+        } else {
+            return Color.BLACK;
+        }
+    }
+
+    /**
+     * Parses the username header.
+     * 
+     * @return Whether it was successful or not.
+     */
+    private boolean parseUsername(WebSocket webSocket, ClientHandshake clientHandshake) {
+        UUID u = webSocket.getAttachment();
+        if (clientHandshake.hasFieldValue("username")) {
+            String username = clientHandshake.getFieldValue("username");
+            if (users.containsValue(username)) {
+                log.info("Username {} already exists! Closing connection.", username);
+                webSocket.send(new ServerMessage(MessageType.SERVERERROR, "Username already in use!").toJSON());
+                webSocket.close(CloseFrame.REFUSE, "Username is already used!");
+            } else {
+                log.info("Username of new user is {} ", username);
+                users.put(u, username);
+            }
+            return true;
+        } else {
+            log.warn("Client with invalid username field tried to connect to the server!");
+            webSocket.close(CloseFrame.REFUSE, "Invalid information!");
+            return false;
+        }
+    }
+
+    /**
+     * Parses the color header.
+     * 
+     * @return Whether it was successful or not.
+     */
+    private boolean parseColor(WebSocket webSocket, ClientHandshake clientHandshake) {
+        UUID u = webSocket.getAttachment();
+        if (clientHandshake.hasFieldValue("color")) {
+            Color color = Color.valueOf(clientHandshake.getFieldValue("color"));
+            if (users.size() == 1) {
+                log.debug("User with username {} from {} is connecting with color choice {}", users.get(u), webSocket.getRemoteSocketAddress(), color.name());
+                switch (color) {
+                    case BLACK -> {
+                        gameColors.put(u, Color.BLACK);
+                    }
+                    case WHITE -> {
+                        gameColors.put(u, Color.WHITE);
+                    }
+                    case RANDOM -> {
+                        gameColors.put(u, getRandomColor());
+                    }
+                }
+            } else {
+                log.debug("Ignoring custom color choice {} of user {} from {}.", color.name(), users.get(u), webSocket.getRemoteSocketAddress());
+
+                UUID otherUUID = gameColors.keys().nextElement();
+                if (gameColors.get(otherUUID) == Color.WHITE) {
+                    gameColors.put(u, Color.BLACK);
+                } else {
+                    gameColors.put(u, Color.WHITE);
+                }
+            }
+            return true;
+        } else {
+            log.info("Invalid color header!");
+            webSocket.send(new ServerMessage(MessageType.SERVERERROR, "Invalid color header!").toJSON());
+            webSocket.close(CloseFrame.REFUSE, "Invalid color header!");
+            users.remove(u);
+            return false;
+        }
+    }
+
+    /**
+     * Sends all messages needed to begin the match.
+     * 
+     * @param joinedUser Username of user that joined last.
+     */
+    private void beginMatch(String joinedUser) {
+        ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + joinedUser + " joined. The match begins!");
+        users.forEach((uuid, username) -> {
+            WebSocket webSocket = getWebSocketByUUID(uuid);
+            if (webSocket != null) {
+                ServerMessage colorInfo = new ServerMessage(MessageType.COLORINFO, gameColors.get(uuid).name());
+                ServerMessage userList = new ServerMessage(MessageType.USERLIST, new Gson().toJson(users.values().toArray()));
+                webSocket.send(colorInfo.toJSON());
+                webSocket.send(userList.toJSON());
+            }
+        });
+        broadcast(msg.toJSON());
+        log.info("Match begins.");
+    }
+
+    /**
+     * @param uuid UUID of WebSocket to look for.
+     * @return The WebSocket the given UUID is attached to.
+     */
+    private WebSocket getWebSocketByUUID(UUID uuid) {
+        for (WebSocket webSocket : getConnections()) {
+            if (webSocket.getAttachment() == uuid) {
+                return webSocket;
+            }
+        }
+        return null;
     }
 }

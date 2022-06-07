@@ -15,16 +15,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.gui.scenes.SceneFactory;
+import com.gameofjess.javachess.gui.scenes.SceneType;
 import com.gameofjess.javachess.helper.configuration.Config;
 import com.gameofjess.javachess.helper.configuration.ConfigHandler;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -36,12 +42,20 @@ public class MenuController extends Controller {
 
     private ConnectionHandler connectionHandler;
 
+    private Color gameColor;
+
     @FXML
     private Text ipAddressText;
     @FXML
     private TextField address;
     @FXML
     private TextField username;
+    @FXML
+    private RadioButton colorBlack;
+    @FXML
+    private RadioButton colorWhite;
+    @FXML
+    private RadioButton colorRandom;
 
     /**
      * Initializes the menu.
@@ -53,6 +67,53 @@ public class MenuController extends Controller {
         } catch (IOException e) {
             log.error("Could not read config file. Proceeding to use default values!");
             config = new Config();
+        }
+
+        if (colorBlack != null && colorWhite != null && colorRandom != null) {
+            gameColor = Color.RANDOM;
+            log.debug("Set color to default: RANDOM");
+
+            colorWhite.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (colorBlack.isSelected()) {
+                        colorBlack.setSelected(false);
+                    }
+                    if (colorRandom.isSelected()) {
+                        colorRandom.setSelected(false);
+                    }
+                    gameColor = Color.WHITE;
+                    log.debug("Set color to: WHITE");
+                }
+            });
+
+            colorBlack.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (colorWhite.isSelected()) {
+                        colorWhite.setSelected(false);
+                    }
+                    if (colorRandom.isSelected()) {
+                        colorRandom.setSelected(false);
+                    }
+                    gameColor = Color.BLACK;
+                    log.debug("Set color to: BLACK");
+                }
+            });
+
+            colorRandom.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (colorWhite.isSelected()) {
+                        colorWhite.setSelected(false);
+                    }
+                    if (colorBlack.isSelected()) {
+                        colorBlack.setSelected(false);
+                    }
+                    gameColor = Color.RANDOM;
+                    log.debug("Set color to: RANDOM");
+                }
+            });
         }
 
         if (ipAddressText != null) {
@@ -117,15 +178,24 @@ public class MenuController extends Controller {
      */
     public void joinGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
         String host = address.getText();
+        // TODO: Split address from port
         int port = 8887;
         String usernameString = username.getText();
+
         log.debug("Joining server on {}:{} with username {}", host, port, usernameString);
-        if (connect(host, port, usernameString)) {
-            log.debug("Connected successfully, now proceeding to switch to game scene.");
-            GameController gameController = switchGameScene(event);
-            gameController.setConnectionHandler(connectionHandler);
-            connectionHandler.setGameController(gameController);
+        log.debug("Switching to game scene.");
+
+        SceneFactory sceneFactory = new SceneFactory(SceneType.GAME);
+        Scene gameScene = sceneFactory.getScene();
+        GameController gameController = (GameController) sceneFactory.getController();
+
+        if (connect(host, port, usernameString, gameController) && isServerOnline(new URL("https://" + host + ":" + port))) {
+            switchScene(gameScene, event);
+        } else {
+            log.error("Server is not reachable!");
+            // TODO: Add error message
         }
+
     }
 
     /**
@@ -134,14 +204,42 @@ public class MenuController extends Controller {
      * @param address IP address of the server.
      * @param port Port of the server.
      * @param username Username of the client.
+     * @param gameController GameController to be used for communication.
      * @throws InvalidHostnameException If the hostname is invalid.
      * @throws InvalidPortException If the port is invalid.
      * @throws URISyntaxException If the URI is invalid.
      */
-    public boolean connect(String address, int port, String username) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
+    public boolean connect(String address, int port, String username, GameController gameController) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
         connectionHandler = new ConnectionHandler(address, port);
         log.debug("Trying to connect to {} using port {} as {}.", address, port, username);
-        return connectionHandler.connect(username);
+        connectionHandler.setGameController(gameController);
+        boolean connected = connectionHandler.connect(username);
+        gameController.setConnectionHandler(connectionHandler);
+        gameController.setUsername(username);
+        return connected;
+    }
+
+    /**
+     * Connects to the server.
+     *
+     * @param address IP address of the server.
+     * @param port Port of the server.
+     * @param username Username of the client.
+     * @param gameController GameController to be used for communication.
+     * @param color Color the user wishes.
+     * @throws InvalidHostnameException If the hostname is invalid.
+     * @throws InvalidPortException If the port is invalid.
+     * @throws URISyntaxException If the URI is invalid.
+     */
+    public boolean connect(String address, int port, String username, Color color, GameController gameController)
+            throws InvalidHostnameException, InvalidPortException, URISyntaxException {
+        connectionHandler = new ConnectionHandler(address, port);
+        log.debug("Trying to connect to {} using port {} as {} with color choice {}.", address, port, username, color);
+        connectionHandler.setGameController(gameController);
+        boolean connected = connectionHandler.connect(username, color);
+        gameController.setConnectionHandler(connectionHandler);
+        gameController.setUsername(username);
+        return connected;
     }
 
     /**
@@ -169,12 +267,15 @@ public class MenuController extends Controller {
 
         serverThread.start();
 
-        // Connect to created Server and switch to game scene
-        if (isServerOnline(new URL("http://" + host + ":" + port))) {
-            connect(host, port, username.getText());
-            GameController gameController = switchGameScene(event);
-            gameController.setConnectionHandler(connectionHandler);
-            connectionHandler.setGameController(gameController);
+        SceneFactory sceneFactory = new SceneFactory(SceneType.GAME);
+        Scene gameScene = sceneFactory.getScene();
+        GameController gameController = (GameController) sceneFactory.getController();
+
+        if (connect(host, port, username.getText(), gameController)) {
+            switchScene(gameScene, event);
+        } else {
+            log.error("Server is not reachable!");
+            // TODO: Add error message
         }
     }
 
@@ -182,7 +283,7 @@ public class MenuController extends Controller {
      * Checks if the server is online via a simple HTTP GET-Request.
      * 
      * @param url server URL
-     * @return Whether a HTTP Response with response code 404 is returned. This indicated that the
+     * @return Whether a HTTP Response with response code 404 is returned. This indicates that the
      *         upgrade to a WebSocket connection failed and thus that a WebSocket Server is started.
      */
     private boolean isServerOnline(URL url) {
