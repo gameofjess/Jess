@@ -74,8 +74,8 @@ public class GameController extends Controller {
 
                     if (boardPane.changeSelectedStatusByCell(pos.getY(), pos.getX())) {
                         for (Move m : possibleMoves) {
-                            int destX = m.destination.getX();
-                            int destY = m.destination.getY();
+                            int destX = m.getDestination().getX();
+                            int destY = m.getDestination().getY();
 
                             boardPane.setActivationStatusByCell(true, destY, destX);
                             boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
@@ -86,7 +86,7 @@ public class GameController extends Controller {
                                     piece.makeMove(m);
                                     boardPane.resetStatus();
 
-                                    updatePosition(m.destination);
+                                    updatePosition(m.getDestination());
                                     updatePosition(pos);
 
                                 }
@@ -94,8 +94,8 @@ public class GameController extends Controller {
                         }
                     } else {
                         for (Move m : possibleMoves) {
-                            int destX = m.destination.getX();
-                            int destY = m.destination.getY();
+                            int destX = m.getDestination().getX();
+                            int destY = m.getDestination().getY();
 
                             boardPane.setActivationStatusByCell(false, destY, destX);
                         }

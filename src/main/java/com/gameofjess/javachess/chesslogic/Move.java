@@ -1,8 +1,5 @@
 package com.gameofjess.javachess.chesslogic;
 
-
-import com.gameofjess.javachess.chesslogic.pieces.Piece;
-
 public class Move {
 	/**
 	 * This Class represents a Move from a Piece on the Chessboard,
@@ -11,26 +8,32 @@ public class Move {
 
 //TODO geter seters
 
-	public Position destination;
-    public Piece capture = null;
-    public boolean rochade = false;
-    public boolean enpassant = false;
+	Position origin;
+	Position destination;
+    Position capturePosition = null;
+    boolean rochade = false;
+    boolean enpassant = false;
 
-    public Move(Position destination) {
+    public Move(Position origin, Position destination) {
+		this.origin = origin;
         this.destination = destination;
 	}
 
-    public Move(boolean enpassant, Position destination) {
-        this.destination = destination;
+    public Move(Position origin, Position destination, Position capturePosition, boolean enpassant) {
+        this.origin = origin;
+		this.destination = destination;
+		this.capturePosition = capturePosition;
 		this.enpassant = enpassant;
     }
 
-    public Move(Position destination, Piece capture) {
+    public Move(Position origin, Position destination, Position capturePosition) {
+		this.origin = origin;
 		this.destination = destination;
-        this.capture = capture;
+        this.capturePosition = capturePosition;
     }
 
-    public Move(Position destination, boolean rochade) {
+    public Move(Position origin, Position destination, boolean rochade) {
+		this.origin = origin;
 		this.destination = destination;
         this.rochade = rochade;
     }
@@ -45,8 +48,8 @@ public class Move {
 	/**
 	 * @return the capture
 	 */
-	public Piece getCapture() {
-		return capture;
+	public Position getCapturePosition() {
+		return capturePosition;
 	}
 
 	public boolean getRochade() {
@@ -55,5 +58,12 @@ public class Move {
 
 	public boolean getEnpassant() {
 		return enpassant;
+	}
+
+	/**
+	 * @return the origin
+	 */
+	public Position getOrigin() {
+		return origin;
 	}
 }
