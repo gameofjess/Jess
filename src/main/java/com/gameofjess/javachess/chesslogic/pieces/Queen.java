@@ -38,11 +38,11 @@ public class Queen extends Piece {
 			if (testposition.getX() < 8 && testposition.getY() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -54,11 +54,11 @@ public class Queen extends Piece {
 			if (testposition.getX() < 8 && testposition.getY() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -70,11 +70,11 @@ public class Queen extends Piece {
 			if (testposition.getX() >= 0 && testposition.getY() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -86,11 +86,11 @@ public class Queen extends Piece {
 			if (testposition.getX() >= 0 && testposition.getY() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -102,11 +102,11 @@ public class Queen extends Piece {
 			if (testposition.getX() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -118,11 +118,11 @@ public class Queen extends Piece {
 			if (testposition.getX() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -134,11 +134,11 @@ public class Queen extends Piece {
 			if (testposition.getY() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else
@@ -150,11 +150,11 @@ public class Queen extends Piece {
 			if (testposition.getY() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if (testlocation == null) {
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
 					break;
 				} else if (testlocation.isWhite() != isWhite) {
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			} else

@@ -1,0 +1,6 @@
+{
+  "hostMenuConfiguration": {
+    "loadPublicIPAddress": true,
+    "ipAddressServer": "https://ipaddr.gameofjess.com"
+  }
+}

@@ -44,13 +44,13 @@ public class Rook extends Piece {
 			if (testposition.getX() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			}
@@ -62,13 +62,13 @@ public class Rook extends Piece {
 			if (testposition.getX() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			}
@@ -80,13 +80,13 @@ public class Rook extends Piece {
 			if (testposition.getY() < 8) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			}
@@ -98,13 +98,13 @@ public class Rook extends Piece {
 			if (testposition.getY() >= 0) {
 				Piece testlocation = Board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(testposition));
+					moves.add(new Move(position, testposition));
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(testposition, testlocation));
+					moves.add(new Move(position, testposition, testposition));
 					break;
 				}
 			}
@@ -120,11 +120,11 @@ public class Rook extends Piece {
 	@Override
     public void makeMove(Move move) {
 		rochade = false;
-		if (move.capture != null) {
-			Board.addCapturedPiece(move.capture);
+		if (move.getCapturePosition() != null) {
+			Board.capture(move.getCapturePosition());
 		}
 		Board.boardMapRemove(Board.getPosition(this));
-        Board.boardMapAdd(move.destination , this);
+        Board.boardMapAdd(move.getDestination() , this);
     }
 
 	@Override

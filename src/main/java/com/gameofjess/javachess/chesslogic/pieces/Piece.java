@@ -38,11 +38,11 @@ public abstract class Piece implements Cloneable {
      * @param move
      */
     public void makeMove(Move move) {
-        if (move.capture != null) {
-            Board.addCapturedPiece(move.capture);
+        if (move.getCapturePosition() != null) {
+            Board.capture(move.getCapturePosition());;
         }
         Board.boardMapRemove(Board.getPosition(this));
-        Board.boardMapAdd(move.destination, this);
+        Board.boardMapAdd(move.getDestination(), this);
     }
 
 

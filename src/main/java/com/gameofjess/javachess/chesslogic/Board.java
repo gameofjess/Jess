@@ -2,10 +2,9 @@ package com.gameofjess.javachess.chesslogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import com.gameofjess.javachess.chesslogic.pieces.*;
 
 /*
@@ -25,7 +24,7 @@ public class Board {
 	 * The Class representing the Chessboard 
 	 */
 
-	Map<Position, Piece> board = new HashMap<Position, Piece>();
+	BidiMap<Position, Piece> board = new DualHashBidiMap<Position, Piece>();
 
 	List<Piece> capturedPieces = new ArrayList<Piece>();
 
@@ -39,12 +38,7 @@ public class Board {
 	 * @return Position Position Object of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
-			for (Map.Entry<Position, Piece> entry : board.entrySet()) {
-				if (entry.getValue().equals(piece)) {
-					return entry.getKey();
-				}
-			}
-			return null;
+			return board.getKey(piece);
 	}
 
 	/**
@@ -97,8 +91,8 @@ public class Board {
 	/**
 	 * @return the board
 	 */
-	public Map<Position, Piece> getBoardMap() {
-		return Collections.unmodifiableMap(board);
+	public BidiMap<Position, Piece> getBoardMap() {
+		return org.apache.commons.collections4.bidimap.UnmodifiableBidiMap.unmodifiableBidiMap(board);
 	}
 
 	/**
@@ -122,8 +116,14 @@ public class Board {
 		return kingBlack;
 	}
 
-	public void addCapturedPiece(Piece piece){
-		capturedPieces.add(piece);
+	public void capture(Position position){
+		Piece capture = getPiece(position);
+		capturedPieces.add(capture);
+		board.removeValue(capture);
+	}
+
+	private Piece getPiece(Position position) {
+		return board.get(position);
 	}
 
 	public void boardMapRemove(Position position){
