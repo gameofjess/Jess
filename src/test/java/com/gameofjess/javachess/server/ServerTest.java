@@ -327,11 +327,11 @@ public class ServerTest {
 
         testServer.onMessage(testWS, cmsg.toJSON());
 
-        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getMessage());
+        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getTime(), cmsg.getMessage());
 
         verify(testWS2, never()).send(smsg.toJSON());
 
-        ServerMessage errorMessage = new ServerMessage(MessageType.SERVERERROR, "Invalid move made by TestUser! Closing game!");
+        ServerMessage errorMessage = new ServerMessage(MessageType.SERVERERROR, cmsg.getTime(), "Invalid move made by TestUser! Closing game!");
 
         verify(testServer).broadcast(errorMessage.toJSON());
     }
