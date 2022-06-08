@@ -30,13 +30,13 @@ public class Queen extends Piece {
 	public Move[] getMoves(boolean checking) {
 		checking = false;
 		List<Move> moves = new ArrayList<Move>();
-		Position position = Board.getPosition(this);
+		Position position = board.getPosition(this);
 
 		// hoch rechts
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() + j, position.getY() + j);
 			if (testposition.getX() < 8 && testposition.getY() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -52,7 +52,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() + j, position.getY() - j);
 			if (testposition.getX() < 8 && testposition.getY() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -68,7 +68,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() - j, position.getY() - j);
 			if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -84,7 +84,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() - j, position.getY() + j);
 			if (testposition.getX() >= 0 && testposition.getY() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -100,7 +100,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() + j, position.getY());
 			if (testposition.getX() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -116,7 +116,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() - j, position.getY());
 			if (testposition.getX() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -132,7 +132,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX(), position.getY() + j);
 			if (testposition.getY() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {
@@ -148,7 +148,7 @@ public class Queen extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX(), position.getY() - j);
 			if (testposition.getY() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if (testlocation == null) {
 					moves.add(new Move(position, testposition));
 				} else if (testlocation.isWhite() == isWhite) {

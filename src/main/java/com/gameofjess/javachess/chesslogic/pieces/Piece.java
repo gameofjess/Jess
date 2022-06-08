@@ -10,12 +10,12 @@ public abstract class Piece implements Cloneable {
      * Abstract Class to represent a chesspiece
      */
 
-    transient Board Board;
+    transient Board board;
     boolean isWhite;
     String fen;
 
-    public Piece(Board Board, boolean isWhite) {
-        this.Board = Board;
+    public Piece(Board board, boolean isWhite) {
+        this.board = board;
         this.isWhite = isWhite;
     }
 
@@ -39,10 +39,10 @@ public abstract class Piece implements Cloneable {
      */
     public void makeMove(Move move) {
         if (move.getCapturePosition() != null) {
-            Board.capture(move.getCapturePosition());;
+            board.capture(move.getCapturePosition());;
         }
-        Board.boardMapRemove(Board.getPosition(this));
-        Board.boardMapAdd(move.getDestination(), this);
+        board.boardMapRemove(board.getPosition(this));
+        board.boardMapAdd(move.getDestination(), this);
     }
 
 
