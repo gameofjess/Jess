@@ -40,11 +40,30 @@ public class GameController extends Controller {
     private Text whiteUsername;
     @FXML
     private Text blackUsername;
+    /**
+     * Board model
+     */
     private Board board;
+    /**
+     * Board view
+     */
     private BoardPane boardPane;
+    /**
+     * ConnectionHandler for communication
+     */
     private ConnectionHandler connectionHandler;
+    /**
+     * Chosen username
+     */
     private String username;
+    /**
+     * Color assigned by server
+     */
     private Color color;
+    /**
+     * Reflects whether it is the user's turn or the opponent's turn.
+     */
+    private boolean locked;
 
     /**
      * Initializes the game GUI.
@@ -68,14 +87,18 @@ public class GameController extends Controller {
      */
     private void setupPieceHandler() {
         log.debug("Setting up piece handler");
-        board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
+        board.getBoardMap().entrySet().parallelStream().filter(entry -> {
+            Piece piece = board.getBoardMap().get(entry.getKey());
+            return (piece.isWhite() && color == Color.WHITE) || (!piece.isWhite() && color == Color.BLACK);
+        }).forEach(entry -> {
             Position pos = entry.getKey();
+            Piece piece = board.getBoardMap().get(pos);
+            Move[] possibleMoves = piece.getMoves();
             boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     log.debug("Piece Clicked");
 
-                    Move[] possibleMoves = board.getBoardMap().get(pos).getMoves();
                     boardPane.resetStatus();
 
                     if (boardPane.changeSelectedStatusByCell(pos.getY(), pos.getX())) {
@@ -84,21 +107,25 @@ public class GameController extends Controller {
                             int destY = m.getDestination().getY();
 
                             boardPane.setActivationStatusByCell(true, destY, destX);
-                            boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
-                                @Override
-                                public void handle(MouseEvent mouseEvent) {
-                                    log.info("Destination Clicked");
-                                    Piece piece = board.getBoardMap().get(pos);
-                                    piece.makeMove(m);
-                                    boardPane.resetStatus();
+                            if (!locked) {
+                                boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
+                                    @Override
+                                    public void handle(MouseEvent mouseEvent) {
+                                        log.info("Destination Clicked");
+                                        Piece piece = board.getBoardMap().get(pos);
+                                        piece.makeMove(m);
+                                        boardPane.resetStatus();
 
-                                    sendMessage(new ClientMessage(m));
+                                        sendMessage(new ClientMessage(m));
 
-                                    renderPieces();
-                                    setupPieceHandler();
+                                        locked = true;
 
-                                }
-                            }, destY, destX);
+                                        renderPieces();
+                                        setupPieceHandler();
+
+                                    }
+                                }, destY, destX);
+                            }
                         }
                     } else {
                         for (Move m : possibleMoves) {
@@ -174,10 +201,10 @@ public class GameController extends Controller {
 
                 board.getBoardMap().get(m.getOrigin()).makeMove(m);
 
+                locked = !locked;
+
                 renderPieces();
                 setupPieceHandler();
-
-                board.print();
             }
             case SERVERINFO -> {
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
@@ -186,6 +213,7 @@ public class GameController extends Controller {
             case COLORINFO -> {
                 this.color = Color.valueOf(message);
                 log.debug("Got assigned color {}!", color.name());
+                locked = color == Color.BLACK;
             }
 
             case USERLIST -> {
