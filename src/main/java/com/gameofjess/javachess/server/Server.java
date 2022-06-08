@@ -2,6 +2,7 @@ package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,7 +55,6 @@ public class Server extends WebSocketServer {
     Server(InetSocketAddress address) {
         super(address);
         board = new Board();
-        board.initialize();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Server extends WebSocketServer {
         broadcast(msg.toJSON());
         log.info("Connection from {} was terminated with exit code {}. Reason: {}", webSocket.getRemoteSocketAddress(), exitCode, reason);
         for (WebSocket ws : getConnections()) {
-            ws.close(CloseFrame.GOING_AWAY);
+            ws.close(CloseFrame.GOING_AWAY, "Opponent " + username + " disconnected!");
         }
         users.clear();
         gameColors.clear();
@@ -143,7 +143,8 @@ public class Server extends WebSocketServer {
     }
 
     /**
-     * Stops the server after the specified timeout and sets boolean isOpen accordingly.
+     * Stops the server after the specified timeout, closes all connections and sets boolean isOpen
+     * accordingly.
      * 
      * @param timeout timeout for server stop
      * @throws InterruptedException on Interrupt
@@ -152,11 +153,14 @@ public class Server extends WebSocketServer {
     @Override
     public void stop(int timeout) throws InterruptedException {
         isOpen = false;
+        for (WebSocket ws : getConnections()) {
+            ws.close(CloseFrame.GOING_AWAY, "Server closed.");
+        }
         super.stop(timeout);
     }
 
     /**
-     * Stops the server and sets boolean isOpen accordingly.
+     * Stops the server, closes all connections and sets boolean isOpen accordingly.
      * 
      * @throws InterruptedException on Interrupt
      * @see org.java_websocket.server.WebSocketServer
@@ -164,6 +168,9 @@ public class Server extends WebSocketServer {
     @Override
     public void stop() throws InterruptedException {
         isOpen = false;
+        for (WebSocket ws : getConnections()) {
+            ws.close(CloseFrame.GOING_AWAY, "Server closed.");
+        }
         super.stop();
     }
 
@@ -200,13 +207,14 @@ public class Server extends WebSocketServer {
     private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
         UUID webSocketUUID = webSocket.getAttachment();
         String username = users.get(webSocketUUID);
+        Date sentDate = cmsg.getTime();
 
         switch (cmsg.getType()) {
             case CHATMESSAGE -> {
                 log.info("New chat message received: {}", cmsg.getMessage());
 
                 ServerMessage msg =
-                        new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
+                        new ServerMessage(username, MessageType.CHATMESSAGE, sentDate, cmsg.getMessage());
                 broadcast(msg.toJSON());
             }
             case NEWMOVE -> {
@@ -214,10 +222,11 @@ public class Server extends WebSocketServer {
 
                 Move m = new Gson().fromJson(cmsg.getMessage(), Move.class);
 
+
                 if (board.isMoveValid(m)) {
                     log.debug("Move from {} was found valid!", username);
                     board.getBoardMap().get(m.getOrigin()).makeMove(m);
-                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
+                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, sentDate, cmsg.getMessage());
 
                     for (WebSocket ws : this.getConnections()) {
                         if (!(ws.equals(webSocket))) {
@@ -330,6 +339,7 @@ public class Server extends WebSocketServer {
      * @param joinedUser Username of user that joined last.
      */
     private void beginMatch(String joinedUser) {
+        board.initialize();
         ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + joinedUser + " joined. The match begins!");
         users.forEach((uuid, username) -> {
             WebSocket webSocket = getWebSocketByUUID(uuid);

@@ -222,7 +222,7 @@ public class ServerTest {
 
         testServer.onClose(testWS, 0, "Testing...", false);
 
-        verify(testWS2).close(CloseFrame.GOING_AWAY);
+        verify(testWS2).close(CloseFrame.GOING_AWAY, "Opponent TestUser disconnected!");
     }
 
     @Test

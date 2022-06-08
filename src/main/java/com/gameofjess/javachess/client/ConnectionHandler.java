@@ -142,4 +142,9 @@ public class ConnectionHandler {
         log.debug("Received {} from {}: {}", msg.getType().name(), msg.getUsername(), msg.getMessage());
         gameController.receiveMessage(msg);
     }
+
+    void sendDisconnectInformation(String message) {
+        log.debug("Delivering disconnect information to GameController!");
+        gameController.endGame(message);
+    }
 }

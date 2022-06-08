@@ -1,6 +1,8 @@
 package com.gameofjess.javachess.gui.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -71,6 +75,7 @@ public class GameController extends Controller {
     public void initialize() {
         board = new Board();
         boardPane = new BoardPane();
+        setBoardMessage("Waiting for opponent...");
     }
 
     /**
@@ -149,7 +154,6 @@ public class GameController extends Controller {
      * Draws the pieces' images.
      */
     private void drawPieces() {
-
         boardPane.resetImages();
 
         board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
@@ -213,12 +217,7 @@ public class GameController extends Controller {
 
             case SERVERERROR -> {
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        main.getChildren().remove(boardPane);
-                    }
-                });
+                endGame("Ended game due to server error!");
             }
 
             case COLORINFO -> {
@@ -257,6 +256,11 @@ public class GameController extends Controller {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        Optional<Node> textOptional =
+                                main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
+                        textOptional.ifPresent(node -> main.getChildren().remove(node));
+
+                        main.getChildren().remove(1, 1);
                         main.add(boardPane, 1, 1);
                         board.initialize();
                         renderPieces();
@@ -280,5 +284,39 @@ public class GameController extends Controller {
      */
     private void sendMessage(ClientMessage clientMessage) {
         connectionHandler.send(clientMessage);
+    }
+
+    /**
+     * Removes the board and sets message that is shown in the boards' place.
+     * 
+     * @param message Message to be shown.
+     */
+    public void endGame(String message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                main.getChildren().remove(boardPane);
+                setBoardMessage(message);
+            }
+        });
+    }
+
+    /**
+     * Sets message that is shown in the boards' place.
+     * 
+     * @param message Message to be shown.
+     */
+    private void setBoardMessage(String message) {
+        Optional<Node> textOptional =
+                main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
+        if (textOptional.isPresent()) {
+            ((Label) textOptional.get()).setText(message);
+        } else {
+            Label text = new Label(message.toUpperCase(Locale.ROOT));
+            text.setStyle("-fx-font-weight: 900;");
+            text.setId("boardText");
+
+            main.add(text, 1, 1);
+        }
     }
 }
