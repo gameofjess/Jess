@@ -1,5 +1,8 @@
 package com.gameofjess.javachess.helper.argumentparsing;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Represents all possible command line options for JavaChess.
  */
@@ -73,12 +76,8 @@ public enum Option {
      */
 
     public static Option getByShortAlias(char shortAlias) {
-        for (Option opt : values()) {
-            if (opt.getShortAlias() == shortAlias) {
-                return opt;
-            }
-        }
-        return null;
+        Optional<Option> optionalOption = Arrays.stream(values()).parallel().filter(option -> option.getShortAlias() == shortAlias).findAny();
+        return optionalOption.orElse(null);
     }
 
     /**
@@ -90,12 +89,8 @@ public enum Option {
      */
 
     public static Option getByLongAlias(String longAlias) {
-        for (Option opt : values()) {
-            if (opt.getLongAlias().equals(longAlias)) {
-                return opt;
-            }
-        }
-        return null;
+        Optional<Option> optionalOption = Arrays.stream(values()).parallel().filter(option -> option.getLongAlias().equals(longAlias)).findAny();
+        return optionalOption.orElse(null);
     }
 
 }

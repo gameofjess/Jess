@@ -103,11 +103,12 @@ public class GameController extends Controller {
             boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    log.debug("Piece Clicked");
+                    log.debug("Piece at Position ({}|{}) Clicked", pos.getX(), pos.getY());
 
                     boardPane.resetStatus();
 
-                    if (boardPane.changeSelectedStatusByCell(pos.getY(), pos.getX())) {
+                    if (boardPane.changeSelectionStatusByCell(pos.getY(), pos.getX())) {
+                        // Add destination markers when selecting cell
                         for (Move m : possibleMoves) {
                             int destX = m.getDestination().getX();
                             int destY = m.getDestination().getY();
@@ -115,9 +116,10 @@ public class GameController extends Controller {
                             boardPane.setActivationStatusByCell(true, destY, destX);
                             if (!locked) {
                                 boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
+                                    // Add event handlers to destination markers
                                     @Override
                                     public void handle(MouseEvent mouseEvent) {
-                                        log.info("Destination Clicked");
+                                        log.debug("Destination at ({}|{}) clicked", destX, destY);
                                         Piece piece = board.getBoardMap().get(pos);
                                         piece.makeMove(m);
                                         boardPane.resetStatus();
@@ -134,6 +136,7 @@ public class GameController extends Controller {
                             }
                         }
                     } else {
+                        // Remove destination markers when deselecting cell.
                         for (Move m : possibleMoves) {
                             int destX = m.getDestination().getX();
                             int destY = m.getDestination().getY();
@@ -148,7 +151,6 @@ public class GameController extends Controller {
         });
 
     }
-
 
     /**
      * Draws the pieces' images.
@@ -166,12 +168,18 @@ public class GameController extends Controller {
     /**
      * Sets ConnectionHandler used to send and receive messages.
      * 
-     * @param connectionHandler that should be used to send messages from the GUI to the server.
+     * @param connectionHandler ConnectionHandler that should be used to send messages from the GUI to
+     *        the server.
      */
     void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
     }
 
+    /**
+     * Sets username used to send and receive messages.
+     *
+     * @param username Username that should be used.
+     */
     void setUsername(String username) {
         this.username = username;
     }
@@ -227,7 +235,7 @@ public class GameController extends Controller {
             }
 
             case USERLIST -> {
-                log.debug("Received userlist");
+                log.debug("Received user list!");
                 Object[] users = new Gson().fromJson(message, Object[].class);
                 for (Object o : users) {
                     String name = (String) o;
@@ -251,20 +259,16 @@ public class GameController extends Controller {
                     }
                 }
             }
-
             case BEGINMATCH -> {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Optional<Node> textOptional =
-                                main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
-                        textOptional.ifPresent(node -> main.getChildren().remove(node));
+                Platform.runLater(() -> {
+                    Optional<Node> textOptional =
+                            main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
+                    textOptional.ifPresent(node -> main.getChildren().remove(node));
 
-                        main.getChildren().remove(1, 1);
-                        main.add(boardPane, 1, 1);
-                        board.initialize();
-                        renderPieces();
-                    }
+                    main.getChildren().remove(1, 1);
+                    main.add(boardPane, 1, 1);
+                    board.initialize();
+                    renderPieces();
                 });
 
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
@@ -292,12 +296,9 @@ public class GameController extends Controller {
      * @param message Message to be shown.
      */
     public void endGame(String message) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                main.getChildren().remove(boardPane);
-                setBoardMessage(message);
-            }
+        Platform.runLater(() -> {
+            main.getChildren().remove(boardPane);
+            setBoardMessage(message);
         });
     }
 
@@ -310,8 +311,10 @@ public class GameController extends Controller {
         Optional<Node> textOptional =
                 main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
         if (textOptional.isPresent()) {
+            log.debug("Changing game information to {}", message);
             ((Label) textOptional.get()).setText(message);
         } else {
+            log.debug("Adding game information: {}", message);
             Label text = new Label(message.toUpperCase(Locale.ROOT));
             text.setStyle("-fx-font-weight: 900;");
             text.setId("boardText");

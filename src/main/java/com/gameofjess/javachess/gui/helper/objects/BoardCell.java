@@ -14,7 +14,7 @@ public class BoardCell extends StackPane {
 
     private boolean selected = false;
 
-    private ImageView piece;
+    private final ImageView piece;
     String style;
 
     /**
@@ -34,7 +34,7 @@ public class BoardCell extends StackPane {
     /**
      * Sets the Image that is drawn on a BoardCell.
      * 
-     * @param img
+     * @param img Image that shall be displayed.
      */
     public synchronized void setImage(Image img) {
         piece.setImage(img);
@@ -47,7 +47,7 @@ public class BoardCell extends StackPane {
      * 
      * @param status true/false
      */
-    public void changeActivationStatus(boolean status) {
+    public void setActivationStatus(boolean status) {
         if (status) {
             this.setStyle("-fx-background-color: #00FF00;");
         } else {
@@ -61,8 +61,7 @@ public class BoardCell extends StackPane {
      * 
      * @param status true/false
      */
-    public void selectedCell(boolean status) {
-        log.debug("Cell changed {}", status);
+    public void setSelectionStatus(boolean status) {
         if (status) {
             this.setStyle("-fx-background-color: #0000FF;");
         } else {
@@ -75,7 +74,7 @@ public class BoardCell extends StackPane {
      * 
      * @return Whether the selection status after calling this method is true or false.
      */
-    public boolean changeSelectedStatus() {
+    public boolean changeSelectionStatus() {
         if (selected) {
             selected = false;
             this.setStyle(style);
@@ -100,7 +99,6 @@ public class BoardCell extends StackPane {
      * @param handler EventHandler for the onClickEvent.
      */
     public void addEventHandlerToPiece(EventHandler<MouseEvent> handler) {
-        log.debug("Setting event handler to piece");
         this.setOnMouseClicked(handler);
     }
 

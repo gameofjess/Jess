@@ -146,6 +146,7 @@ public class MenuController extends Controller {
                                 remoteIPAddress = "Could not establish connection to server!";
                             }
                         } else {
+                            log.debug("Getting public IP address is disabled in config.");
                             remoteIPAddress = "Disabled in config!";
                         }
 
@@ -176,9 +177,23 @@ public class MenuController extends Controller {
      * @throws URISyntaxException If the URI is invalid.
      */
     public void joinGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
-        String host = address.getText();
-        // TODO: Split address from port
-        int port = 8887;
+        final String[] splittedAddress = address.getText().split(":");
+        final String host;
+        final int port;
+
+        if (splittedAddress.length == 2) {
+            host = splittedAddress[0];
+            port = Integer.parseInt(splittedAddress[1]);
+            log.debug("Parsed address {} and port {}.", host, port);
+        } else if (splittedAddress.length == 1) {
+            host = splittedAddress[0];
+            port = 8887;
+            log.debug("Parsed address {}. Default port {} will be used.", host, port);
+        } else {
+            log.error("Invalid address information!");
+            return;
+        }
+
         String usernameString = username.getText();
 
         log.debug("Joining server on {}:{} with username {}", host, port, usernameString);
@@ -188,14 +203,8 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (isServerOnline(new URL("https://" + host + ":" + port))) {
-            connect(host, port, usernameString, gameController);
-            switchScene(gameScene, event);
-        } else {
-            log.error("Server is not reachable!");
-            // TODO: Add error message
-        }
-
+        connect(host, port, usernameString, gameController);
+        switchScene(gameScene, event);
     }
 
     /**
@@ -257,12 +266,9 @@ public class MenuController extends Controller {
         serverBuilder.setPort(port);
 
         Server server = serverBuilder.build();
-        Thread serverThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                server.setReuseAddr(true);
-                server.start();
-            }
+        Thread serverThread = new Thread(() -> {
+            server.setReuseAddr(true);
+            server.start();
         });
 
         serverThread.start();
@@ -273,24 +279,6 @@ public class MenuController extends Controller {
 
         connect(host, port, username.getText(), gameColor, gameController);
         switchScene(gameScene, event);
-    }
-
-    /**
-     * Checks if the server is online via a simple HTTP GET-Request.
-     * 
-     * @param url server URL
-     * @return Whether a HTTP Response with response code 404 is returned. This indicates that the
-     *         upgrade to a WebSocket connection failed and thus that a WebSocket Server is started.
-     */
-    private boolean isServerOnline(URL url) {
-        return true;
-
-        /*
-         * try { HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         * con.setRequestMethod("GET"); con.connect(); return con.getResponseCode() == 404; } catch
-         * (Exception ex) { return false; }
-         * 
-         */
     }
 
 }

@@ -88,8 +88,6 @@ public class ArgumentParser {
             }
         }
 
-
-
         List<Option> finalOptions = optionList.stream().distinct().toList();
 
         if (finalOptions.contains(null)) {
