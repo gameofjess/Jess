@@ -69,7 +69,7 @@ Using the optional flag `-Dshow=private` will add information about private meth
 
 |Dependency|Creator|License|
 |:--:|:--:|:--:|
-|[Java-WebSocket](https://github.com/TooTallNate/java-websocket)|[TooTallNate](https://github.com/TooTallNate)|[MIT License](https://github.com/TooTallNate/Java-WebSocket/blob/master/LICENSE)|
+|[Java-WebSocket](https://github.com/TooTallNate/java-websocket)|[TooTallNate and contributors](https://github.com/TooTallNate)|[MIT License](https://github.com/TooTallNate/Java-WebSocket/blob/master/LICENSE)|
 |[JavaFX](https://openjfx.io/)|[Oracle / OpenJDK-Community](https://github.com/openjdk)|[GPLv2](https://github.com/openjdk/jfx/blob/master/LICENSE), [Classpath Exception](https://github.com/openjdk/jfx/blob/master/ADDITIONAL_LICENSE_INFO)|
 |[gson](https://github.com/google/gson)|[Google](https://opensource.google)|[Apache License 2.0](https://github.com/google/gson/blob/master/LICENSE)|
 |[log4j2](https://github.com/apache/logging-log4j2)|[The Apache Software Foundation](https://www.apache.org/)|[Apache License 2.0](https://github.com/apache/logging-log4j2/blob/release-2.x/LICENSE.txt)|
