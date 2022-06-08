@@ -145,11 +145,11 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(position, new Position(6, position.getY()), true);
 					if (isWhite) {
-						if (!checking || !board.getKingWhite().checkCheck(test_move, this)) {
+						if (!checking || !board.getKingWhite().checkCheck(test_move)) {
 							moves.add(test_move);
 						}
 					} else {
-						if (!checking || !board.getKingBlack().checkCheck(test_move, this)) {
+						if (!checking || !board.getKingBlack().checkCheck(test_move)) {
 							moves.add(test_move);
 						}
 					}
@@ -165,11 +165,11 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(position, new Position(2, position.getY()), true);
 					if (isWhite) {
-						if (!checking || !board.getKingWhite().checkCheck(test_move, this)) {
+						if (!checking || !board.getKingWhite().checkCheck(test_move)) {
 							moves.add(test_move);
 						}
 					} else {
-						if (!checking || !board.getKingBlack().checkCheck(test_move, this)) {
+						if (!checking || !board.getKingBlack().checkCheck(test_move)) {
 							moves.add(test_move);
 						}
 					}
@@ -226,47 +226,47 @@ public class King extends Piece {
 	}
 
 
-	/**
-	 * @return boolean
-	 */
-	public boolean checkCheck() {
+	// /**
+	//  * @return boolean
+	//  */
+	// public boolean checkCheck() {
 
-		for (Piece piece : board.getBoardMap().values()) {
+	// 	for (Piece piece : board.getBoardMap().values()) {
 
-			for (Move move : piece.getMoves()) {
-				if (move.getDestination() == board.getPosition(this)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	// 		for (Move move : piece.getMoves()) {
+	// 			if (move.getDestination() == board.getPosition(this)) {
+	// 				return true;
+	// 			}
+	// 		}
+	// 	}
+	// 	return false;
+	// }
 
 
-	/**
-	 * @param test_move
-	 * @param test_piece
-	 * @return boolean
-	 */
-	public boolean checkCheck(Move test_move, Piece test_piece) {
-		/*
-		 * TODO
-		 * 
-		 * 
-		 * List<Piece> piecesCopy = new ArrayList<Piece>();
-		 * 
-		 * 
-		 * // clone board for (Piece piece : Board.pieces) { piecesCopy.add(piece.getClone()); }
-		 * 
-		 * // simulate move for (Piece piece : piecesCopy) { if (piece.position.getX() ==
-		 * test_piece.position.x && piece.position.getY() == test_piece.position.getY()) {
-		 * piece.makeMove(test_move); break; } }
-		 * 
-		 * for (Piece piece : piecesCopy) { for (Move move : piece.getMoves(false)) { if (move.destinationX
-		 * == position.getX() && move.destinationY == position.getY()) { return true; } } }
-		 */
-		return false;
-	}
+	// /**
+	//  * @param test_move
+	//  * @param test_piece
+	//  * @return boolean
+	//  */
+	// public boolean checkCheck(Move test_move, Piece test_piece) {
+	// 	/*
+	// 	 * TODO
+	// 	 * 
+	// 	 * 
+	// 	 * List<Piece> piecesCopy = new ArrayList<Piece>();
+	// 	 * 
+	// 	 * 
+	// 	 * // clone board for (Piece piece : Board.pieces) { piecesCopy.add(piece.getClone()); }
+	// 	 * 
+	// 	 * // simulate move for (Piece piece : piecesCopy) { if (piece.position.getX() ==
+	// 	 * test_piece.position.x && piece.position.getY() == test_piece.position.getY()) {
+	// 	 * piece.makeMove(test_move); break; } }
+	// 	 * 
+	// 	 * for (Piece piece : piecesCopy) { for (Move move : piece.getMoves(false)) { if (move.destinationX
+	// 	 * == position.getX() && move.destinationY == position.getY()) { return true; } } }
+	// 	 */
+	// 	return false;
+	// }
 
 	@Override
 	public Image getImage() {
@@ -275,6 +275,22 @@ public class King extends Piece {
 		} else {
 			return blackImage;
 		}
+	}
+
+	public boolean checkCheck(){
+		Position position = getPosition();
+		for (Piece piece : board.getBoardMap().values()) {
+			for (Move move : piece.getMoves()) {
+				if (move.getCapturePosition() != null && move.getCapturePosition().equals(position)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean checkCheck(Move move){
+		return false;
 	}
 
 }

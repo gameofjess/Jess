@@ -2,7 +2,7 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
-
+import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public abstract class Piece implements Cloneable {
@@ -68,4 +68,8 @@ public abstract class Piece implements Cloneable {
     public String getFen() {
         return fen;
     }
+
+	public Position getPosition(){
+		return board.getPosition(this);
+	}
 }
