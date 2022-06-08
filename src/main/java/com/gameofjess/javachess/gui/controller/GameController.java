@@ -210,6 +210,16 @@ public class GameController extends Controller {
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
             }
 
+            case SERVERERROR -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        main.getChildren().remove(boardPane);
+                    }
+                });
+            }
+
             case COLORINFO -> {
                 this.color = Color.valueOf(message);
                 log.debug("Got assigned color {}!", color.name());
