@@ -69,21 +69,17 @@ public class Move {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof Move)) {
-			return false;
-		}
-		else if (this == obj) {
+        if (this == obj) {
 			return true;
-		}
-		else{
-			Move test = (Move) obj;
-			if (origin == test.getOrigin() && destination == test.getDestination() && capturePosition == test.getCapturePosition() && rochade == test.getRochade() && enpassant == test.getEnpassant()) {
-				return true;
-			}
-			else{
-				return false;
+        } else if (obj instanceof Move test) {
+            if (!(capturePosition == null) && !(test.getCapturePosition() == null)) {
+                return origin.equals(test.getOrigin()) && destination.equals(test.getDestination()) && capturePosition.equals(test.getCapturePosition())
+                        && rochade == test.getRochade() && enpassant == test.getEnpassant();
+            } else if (capturePosition == null && test.getCapturePosition() == null) {
+                return origin.equals(test.getOrigin()) && destination.equals(test.getDestination()) && rochade == test.getRochade() && enpassant == test.getEnpassant();
 			}
 		}
+        return false;
 	}
 	
 }
