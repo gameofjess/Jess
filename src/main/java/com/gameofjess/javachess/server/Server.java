@@ -99,7 +99,7 @@ public class Server extends WebSocketServer {
         broadcast(msg.toJSON());
         log.info("Connection from {} was terminated with exit code {}. Reason: {}", webSocket.getRemoteSocketAddress(), exitCode, reason);
         for (WebSocket ws : getConnections()) {
-            ws.close(CloseFrame.GOING_AWAY);
+            ws.close(CloseFrame.GOING_AWAY, "Opponent " + username + " disconnected!");
         }
         users.clear();
         gameColors.clear();
@@ -143,7 +143,8 @@ public class Server extends WebSocketServer {
     }
 
     /**
-     * Stops the server after the specified timeout and sets boolean isOpen accordingly.
+     * Stops the server after the specified timeout, closes all connections and sets boolean isOpen
+     * accordingly.
      * 
      * @param timeout timeout for server stop
      * @throws InterruptedException on Interrupt
@@ -152,11 +153,14 @@ public class Server extends WebSocketServer {
     @Override
     public void stop(int timeout) throws InterruptedException {
         isOpen = false;
+        for (WebSocket ws : getConnections()) {
+            ws.close(CloseFrame.GOING_AWAY, "Server closed.");
+        }
         super.stop(timeout);
     }
 
     /**
-     * Stops the server and sets boolean isOpen accordingly.
+     * Stops the server, closes all connections and sets boolean isOpen accordingly.
      * 
      * @throws InterruptedException on Interrupt
      * @see org.java_websocket.server.WebSocketServer
@@ -164,6 +168,9 @@ public class Server extends WebSocketServer {
     @Override
     public void stop() throws InterruptedException {
         isOpen = false;
+        for (WebSocket ws : getConnections()) {
+            ws.close(CloseFrame.GOING_AWAY, "Server closed.");
+        }
         super.stop();
     }
 
