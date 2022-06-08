@@ -12,6 +12,8 @@ import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
@@ -28,8 +30,12 @@ public class Server extends WebSocketServer {
 
     private boolean isOpen = false;
 
+    private final Board board;
+
     Server(InetSocketAddress address) {
         super(address);
+        board = new Board();
+        board.initialize();
     }
 
     @Override
@@ -115,7 +121,19 @@ public class Server extends WebSocketServer {
                 String username = users.get(webSocketUUID);
                 log.info("Client {} has made a new move", username);
 
-                // TODO: Implement check on move once according method has been implemented.
+                Move m = new Gson().fromJson(cmsg.getMessage(), Move.class);
+
+                if (board.isMoveValid(m)) {
+                    log.debug("Move from {} was found valid!", username);
+                    board.getBoardMap().get(m.getOrigin()).makeMove(m);
+                } else {
+                    log.debug("Move from {} was found invalid. Closing game!", username);
+                    ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, "Invalid move made by " + username + "! Closing game!");
+                    broadcast(msg.toJSON());
+                    for (WebSocket ws : this.getConnections()) {
+                        ws.close(CloseFrame.UNEXPECTED_CONDITION, "Invalid move!");
+                    }
+                }
 
                 ServerMessage msg =
                         new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
