@@ -54,7 +54,6 @@ public class Server extends WebSocketServer {
     Server(InetSocketAddress address) {
         super(address);
         board = new Board();
-        board.initialize();
     }
 
     @Override
@@ -337,6 +336,7 @@ public class Server extends WebSocketServer {
      * @param joinedUser Username of user that joined last.
      */
     private void beginMatch(String joinedUser) {
+        board.initialize();
         ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + joinedUser + " joined. The match begins!");
         users.forEach((uuid, username) -> {
             WebSocket webSocket = getWebSocketByUUID(uuid);
