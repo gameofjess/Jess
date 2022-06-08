@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -22,7 +23,8 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
             Scene scene = new Scene(root);
             // scene.getStylesheets().add(cssFileUrl.toExternalForm());
-            stage.setTitle("Hello World");
+            stage.setTitle("Jess");
+            stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/icons/bKnight.png"))));
             stage.setScene(scene);
             stage.setMinHeight(600);
             stage.setMinWidth(400);
