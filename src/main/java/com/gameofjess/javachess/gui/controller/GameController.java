@@ -256,6 +256,11 @@ public class GameController extends Controller {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        Optional<Node> textOptional =
+                                main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
+                        textOptional.ifPresent(node -> main.getChildren().remove(node));
+
+                        main.getChildren().remove(1, 1);
                         main.add(boardPane, 1, 1);
                         board.initialize();
                         renderPieces();
@@ -281,6 +286,11 @@ public class GameController extends Controller {
         connectionHandler.send(clientMessage);
     }
 
+    /**
+     * Removes the board and sets message that is shown in the boards' place.
+     * 
+     * @param message Message to be shown.
+     */
     public void endGame(String message) {
         Platform.runLater(new Runnable() {
             @Override
@@ -291,6 +301,11 @@ public class GameController extends Controller {
         });
     }
 
+    /**
+     * Sets message that is shown in the boards' place.
+     * 
+     * @param message Message to be shown.
+     */
     private void setBoardMessage(String message) {
         Optional<Node> textOptional =
                 main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
