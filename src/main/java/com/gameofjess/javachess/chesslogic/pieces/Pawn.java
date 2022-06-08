@@ -42,7 +42,6 @@ public class Pawn extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
-		checking = false;
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -55,7 +54,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 				//zwei vor
@@ -63,7 +62,7 @@ public class Pawn extends Piece {
 				testlocation = board.getBoardMap().get(testposition);
 				if (position.getY() == 1 && testlocation == null) {
 					testmove = new Move(position, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 				}
@@ -73,7 +72,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -82,7 +81,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -96,7 +95,7 @@ public class Pawn extends Piece {
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
 				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -110,7 +109,7 @@ public class Pawn extends Piece {
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
 				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -123,7 +122,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 				//zwei vor
@@ -131,7 +130,7 @@ public class Pawn extends Piece {
 				testlocation = board.getBoardMap().get(testposition);
 				if (position.getY() == 6 && testlocation == null) {
 					testmove = new Move(position, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 				}
@@ -141,7 +140,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -150,7 +149,7 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -163,7 +162,7 @@ public class Pawn extends Piece {
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
 				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
@@ -177,7 +176,7 @@ public class Pawn extends Piece {
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
 				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (checkCheckMove(testmove)) {
+				if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
 				}
 			}
