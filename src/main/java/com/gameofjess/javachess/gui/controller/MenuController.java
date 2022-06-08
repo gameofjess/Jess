@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -189,7 +188,7 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (connect(host, port, usernameString, gameController) && isServerOnline(new URL("https://" + host + ":" + port))) {
+        if (isServerOnline(new URL("https://" + host + ":" + port)) && connect(host, port, usernameString, gameController)) {
             switchScene(gameScene, event);
         } else {
             log.error("Server is not reachable!");
@@ -271,7 +270,7 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (connect(host, port, username.getText(), gameController)) {
+        if (connect(host, port, username.getText(), gameColor, gameController)) {
             switchScene(gameScene, event);
         } else {
             log.error("Server is not reachable!");
@@ -287,14 +286,13 @@ public class MenuController extends Controller {
      *         upgrade to a WebSocket connection failed and thus that a WebSocket Server is started.
      */
     private boolean isServerOnline(URL url) {
-        try {
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.connect();
-            return con.getResponseCode() == 404;
-        } catch (Exception ex) {
-            return false;
-        }
+        return true;
+        /*
+         * try { HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         * con.setRequestMethod("GET"); con.connect(); return con.getResponseCode() == 404; } catch
+         * (Exception ex) { return false; }
+         * 
+         */
     }
 
 }
