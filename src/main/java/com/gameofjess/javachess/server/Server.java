@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,15 +24,33 @@ import com.google.gson.Gson;
 public class Server extends WebSocketServer {
 
     private static final Logger log = LogManager.getLogger(Server.class);
-
+    /**
+     * saves the usernames mapped to the specific UUID of the WebSocket-instance.
+     */
     private final ConcurrentHashMap<UUID, String> users = new ConcurrentHashMap<>();
 
+    /**
+     * saves the colors mapped to the specific UUID of the WebSocket-instance.
+     */
     private final ConcurrentHashMap<UUID, Color> gameColors = new ConcurrentHashMap<>();
 
+    /**
+     * saves whether the server is opened or closed.
+     */
     private boolean isOpen = false;
 
+    /**
+     * saves the board used to check Moves
+     * 
+     * @see #handleClientMessage(ClientMessage, WebSocket)
+     */
     private final Board board;
 
+    /**
+     * Instantiates a Server and initializes the Board-instance used to check Moves.
+     * 
+     * @param address Address to listen on.
+     */
     Server(InetSocketAddress address) {
         super(address);
         board = new Board();
@@ -42,15 +61,15 @@ public class Server extends WebSocketServer {
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         log.info("New connection from {}.", webSocket.getRemoteSocketAddress());
 
+        UUID u = UUID.randomUUID();
+        log.debug("Attaching unique ID {}.", u);
+        webSocket.setAttachment(u);
+
         if (users.size() > 1) {
             log.warn("Refusing connection because there already are two players!");
             webSocket.close(CloseFrame.UNEXPECTED_CONDITION, "There already are two players!");
             return;
         }
-
-        UUID u = UUID.randomUUID();
-        log.debug("Attaching unique ID {}.", u);
-        webSocket.setAttachment(u);
 
         log.debug("Connection header is being parsed");
 
@@ -69,9 +88,14 @@ public class Server extends WebSocketServer {
     public void onClose(WebSocket webSocket, int exitCode, String reason, boolean remote) {
         UUID u = webSocket.getAttachment();
         String username = users.get(u);
-        log.info("Client {} from {} disconnected!", username, webSocket.getRemoteSocketAddress());
-        ServerMessage msg =
-                new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
+
+        if (username == null) {
+            log.info("Connection to client from {} disconnected!", webSocket.getRemoteSocketAddress());
+            return;
+        }
+
+        log.info(" Connection to client {} from {} disconnected!", username, webSocket.getRemoteSocketAddress());
+        ServerMessage msg = new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
         broadcast(msg.toJSON());
         log.info("Connection from {} was terminated with exit code {}. Reason: {}", webSocket.getRemoteSocketAddress(), exitCode, reason);
         for (WebSocket ws : getConnections()) {
@@ -91,9 +115,15 @@ public class Server extends WebSocketServer {
 
     @Override
     public void onError(WebSocket webSocket, Exception e) {
-        log.error("An error occurred in the server instance: {}", e.getMessage());
-        ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, e.getMessage());
-        broadcast(msg.toJSON());
+        String message = "An error occurred in the server instance: " + e.getMessage();
+        log.error(message);
+        broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, message);
+
+        final StringBuilder stackTraceBuilder = new StringBuilder();
+        Arrays.stream(e.getStackTrace()).forEach(line -> {
+            stackTraceBuilder.append("\n").append(line);
+        });
+        log.debug("Stacktrace of error: {}", stackTraceBuilder.toString());
     }
 
     @Override
@@ -102,61 +132,19 @@ public class Server extends WebSocketServer {
     }
 
     /**
-     * Handles received messages according to their type.
+     * Starts the server and sets boolean isOpen accordingly.
      * 
-     * @param cmsg ClientMessage to be handled.
-     * @param webSocket WebSocket that sent the Message.
+     * @see org.java_websocket.server.WebSocketServer
      */
-    private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
-        UUID webSocketUUID = webSocket.getAttachment();
-        switch (cmsg.getType()) {
-            case CHATMESSAGE -> {
-                log.info("New chat message received: {}", cmsg.getMessage());
-                String username = users.get(webSocketUUID);
-                ServerMessage msg =
-                        new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
-                broadcast(msg.toJSON());
-            }
-            case NEWMOVE -> {
-                String username = users.get(webSocketUUID);
-                log.info("Client {} has made a new move", username);
-
-                Move m = new Gson().fromJson(cmsg.getMessage(), Move.class);
-
-                if (board.isMoveValid(m)) {
-                    log.debug("Move from {} was found valid!", username);
-                    board.getBoardMap().get(m.getOrigin()).makeMove(m);
-                } else {
-                    log.debug("Move from {} was found invalid. Closing game!", username);
-                    ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, "Invalid move made by " + username + "! Closing game!");
-                    broadcast(msg.toJSON());
-                    for (WebSocket ws : this.getConnections()) {
-                        ws.close(CloseFrame.UNEXPECTED_CONDITION, "Invalid move!");
-                    }
-                }
-
-                ServerMessage msg =
-                        new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
-                // broadcast(msg.toJSON());
-
-                for (WebSocket ws : this.getConnections()) {
-                    if (!(ws.equals(webSocket))) {
-                        ws.send(msg.toJSON());
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @return String-Array with all current usernames.
-     */
-    public String[] getUsers() {
-        return users.values().toArray(new String[0]);
+    @Override
+    public void start() {
+        isOpen = true;
+        super.start();
     }
 
     /**
      * Stops the server after the specified timeout and sets boolean isOpen accordingly.
+     * 
      * @param timeout timeout for server stop
      * @throws InterruptedException on Interrupt
      * @see org.java_websocket.server.WebSocketServer
@@ -169,6 +157,7 @@ public class Server extends WebSocketServer {
 
     /**
      * Stops the server and sets boolean isOpen accordingly.
+     * 
      * @throws InterruptedException on Interrupt
      * @see org.java_websocket.server.WebSocketServer
      */
@@ -179,20 +168,83 @@ public class Server extends WebSocketServer {
     }
 
     /**
-     * Starts the server and sets boolean isOpen accordingly.
-     * @see org.java_websocket.server.WebSocketServer
-     */
-    @Override
-    public void start() {
-        isOpen = true;
-        super.start();
-    }
-
-    /**
      * @return true, if server is open - false, if not
      */
     public boolean getServerStatus() {
         return isOpen;
+    }
+
+    /**
+     * @return String-Array with all current usernames.
+     */
+    public String[] getUsers() {
+        return users.values().toArray(new String[0]);
+    }
+
+    /**
+     * <p>
+     * Handles received messages according to their type.
+     * </p>
+     *
+     * <p>
+     * CHATMESSAGE: Is taken apart into username and message and broadcast as a ServerMessage.
+     * </p>
+     * <p>
+     * NEWMOVE: Is taken apart into username and the transmitted Move-instance. Then, the method checks
+     * if the Move is valid or not. Afterwards it is sent to the other connected WebSocket.
+     * </p>
+     * 
+     * @param cmsg ClientMessage to be handled.
+     * @param webSocket WebSocket that sent the Message.
+     */
+    private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
+        UUID webSocketUUID = webSocket.getAttachment();
+        String username = users.get(webSocketUUID);
+
+        switch (cmsg.getType()) {
+            case CHATMESSAGE -> {
+                log.info("New chat message received: {}", cmsg.getMessage());
+
+                ServerMessage msg =
+                        new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
+                broadcast(msg.toJSON());
+            }
+            case NEWMOVE -> {
+                log.info("Client {} has made a new move", username);
+
+                Move m = new Gson().fromJson(cmsg.getMessage(), Move.class);
+
+                if (board.isMoveValid(m)) {
+                    log.debug("Move from {} was found valid!", username);
+                    board.getBoardMap().get(m.getOrigin()).makeMove(m);
+                } else {
+                    log.debug("Move from {} was found invalid. Closing game!", username);
+                    broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, "Invalid move made by " + username + "! Closing game!");
+                }
+
+                ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
+
+                for (WebSocket ws : this.getConnections()) {
+                    if (!(ws.equals(webSocket))) {
+                        ws.send(msg.toJSON());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sends the error message to all clients and closes the connections.
+     * 
+     * @param closeCode Close code to close the connection with.
+     * @param errorMessage Error message to send to all clients.
+     */
+    private void broadcastServerError(int closeCode, String errorMessage) {
+        ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, errorMessage);
+        broadcast(msg.toJSON());
+        for (WebSocket ws : this.getConnections()) {
+            ws.close(closeCode, errorMessage);
+        }
     }
 
     /**
