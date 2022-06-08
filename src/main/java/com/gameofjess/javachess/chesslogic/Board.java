@@ -133,4 +133,15 @@ public class Board {
 	public void boardMapAdd(Position position, Piece piece){
 		board.put(position, piece);
 	}
+
+	public boolean isMoveValid(Move move){
+		Piece testPiece = board.get(move.origin);
+		Move[] moves = testPiece.getMoves();
+		for (Move move2 : moves) {
+			if (move2.equals(move)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
