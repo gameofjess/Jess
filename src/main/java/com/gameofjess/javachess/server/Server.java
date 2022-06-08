@@ -217,17 +217,16 @@ public class Server extends WebSocketServer {
                 if (board.isMoveValid(m)) {
                     log.debug("Move from {} was found valid!", username);
                     board.getBoardMap().get(m.getOrigin()).makeMove(m);
+                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
+
+                    for (WebSocket ws : this.getConnections()) {
+                        if (!(ws.equals(webSocket))) {
+                            ws.send(msg.toJSON());
+                        }
+                    }
                 } else {
                     log.debug("Move from {} was found invalid. Closing game!", username);
                     broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, "Invalid move made by " + username + "! Closing game!");
-                }
-
-                ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
-
-                for (WebSocket ws : this.getConnections()) {
-                    if (!(ws.equals(webSocket))) {
-                        ws.send(msg.toJSON());
-                    }
                 }
             }
         }
