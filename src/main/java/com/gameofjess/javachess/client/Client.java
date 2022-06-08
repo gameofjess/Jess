@@ -42,6 +42,7 @@ public class Client extends WebSocketClient {
     @Override
     public void onClose(int exitCode, String reason, boolean remote) {
         log.info("Connection was terminated with exit code {}. Reason: {}", exitCode, reason);
+        connectionHandler.sendDisconnectInformation("Game ended. Reason: " + reason);
     }
 
     @Override
