@@ -20,12 +20,16 @@ public class BoardPane extends HBox {
 
     private final GridPane boardGrid;
 
+    private final boolean flipped;
+
     /**
      * Constructs a square BoardPane with square cells. This is a variation of Marv's proposed solution
      * as seen
      * <a href="https://stackoverflow.com/questions/44979700/square-gridpane-of-square-cells">here</a>.
      */
-    public BoardPane() {
+    public BoardPane(boolean isWhite) {
+        flipped = isWhite;
+
         VBox vBox = new VBox();
 
         vBox.alignmentProperty().set(Pos.CENTER);
@@ -188,6 +192,17 @@ public class BoardPane extends HBox {
     private BoardCell getCellByIndex(int row, int column) {
         BoardCell result = null;
         ObservableList<Node> childrens = boardGrid.getChildren();
+
+        if (flipped) {
+            row = Math.abs(row - 7);
+            column = Math.abs(column - 7);
+
+            /*
+             * switch(row) { case 0 -> row = 7; case 1 -> row = 6; case 2 -> row = 5; case 3 -> row = 4; case 4
+             * -> row = 3; case 5 -> row = 2; case 6 -> row = 1; case 7 -> row = 0; }
+             * 
+             */
+        }
 
         for (Node node : childrens) {
             if (node.hasProperties() && GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null) {

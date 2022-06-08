@@ -89,28 +89,32 @@
               <RowConstraints vgrow="SOMETIMES" percentHeight="10.0"/>
           </rowConstraints>
           <children>
-              <HBox GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="CENTER" style="-fx-padding: 0 0 0 10;">
-                  <Circle fill="WHITE" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0"
+              <HBox fx:id="upperUsernameField" GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="CENTER"
+                    style="-fx-padding: 0 0 0 10;">
+                  <Circle fx:id="upperCircle" fill="WHITE" radius="10.0" stroke="WHITE" strokeType="INSIDE"
+                          strokeWidth="2.0"
                           style="-fx-padding: 5;">
                       <HBox.margin>
                           <Insets right="10.0"/>
                       </HBox.margin>
                   </Circle>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WHITE" GridPane.halignment="RIGHT"
-                        fx:id="whiteUsername" style="-fx-padding: 5;">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="RIGHT"
+                        fx:id="upperUsername" style="-fx-padding: 5;">
                       <font>
                           <Font name="System Bold" size="14.0"/>
                       </font>
                   </Text>
               </HBox>
-              <HBox GridPane.rowIndex="2" GridPane.columnIndex="0" alignment="CENTER" style="-fx-padding: 0 0 0 10;">
-                  <Circle radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0">
+              <HBox fx:id="lowerUsernameField" GridPane.rowIndex="2" GridPane.columnIndex="0" alignment="CENTER"
+                    style="-fx-padding: 0 0 0 10;">
+                  <Circle fx:id="lowerCircle" fill="WHITE" radius="10.0" stroke="WHITE" strokeType="INSIDE"
+                          strokeWidth="2.0">
                       <HBox.margin>
                           <Insets right="10.0"/>
                       </HBox.margin>
                   </Circle>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BLACK" GridPane.halignment="RIGHT"
-                        fx:id="blackUsername" style="-fx-padding: 5;">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="RIGHT"
+                        fx:id="lowerUsername" style="-fx-padding: 5;">
                       <font>
                           <Font name="System Bold" size="14.0"/>
                       </font>

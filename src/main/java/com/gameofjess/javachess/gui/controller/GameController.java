@@ -31,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class GameController extends Controller {
@@ -42,9 +44,9 @@ public class GameController extends Controller {
     @FXML
     private TextArea chatHistory;
     @FXML
-    private Text whiteUsername;
+    private HBox upperUsernameField;
     @FXML
-    private Text blackUsername;
+    private HBox lowerUsernameField;
     /**
      * Board model
      */
@@ -75,7 +77,6 @@ public class GameController extends Controller {
      */
     public void initialize() {
         board = new Board();
-        boardPane = new BoardPane();
         setBoardMessage("Waiting for opponent...");
     }
 
@@ -127,7 +128,7 @@ public class GameController extends Controller {
 
                                         sendMessage(new ClientMessage(m));
 
-                                        locked = true;
+                                        updateTurnStatus(true);
 
                                         renderPieces();
                                         setupPieceHandler();
@@ -215,7 +216,7 @@ public class GameController extends Controller {
 
                 board.getBoardMap().get(m.getOrigin()).makeMove(m);
 
-                locked = !locked;
+                updateTurnStatus(false);
 
                 renderPieces();
                 setupPieceHandler();
@@ -232,7 +233,14 @@ public class GameController extends Controller {
             case COLORINFO -> {
                 this.color = Color.valueOf(message);
                 log.debug("Got assigned color {}!", color.name());
-                locked = color == Color.BLACK;
+                updateTurnStatus(color == Color.BLACK);
+
+                Platform.runLater(() -> {
+                    boardPane = new BoardPane(color == Color.WHITE);
+                    main.add(boardPane, 1, 1);
+                    board.initialize();
+                    renderPieces();
+                });
             }
 
             case USERLIST -> {
@@ -242,19 +250,31 @@ public class GameController extends Controller {
                     String name = (String) o;
                     if (!name.equals(this.username)) {
                         log.debug("Got other name: {}!", name);
-                        if (color != null) {
-                            if (color == Color.BLACK) {
-                                log.debug("Setting white username to {}!", name);
-                                whiteUsername.setText(name);
-                                log.debug("Setting black username to {}!", this.username);
-                                blackUsername.setText(this.username);
-                                blackUsername.setUnderline(true);
-                            } else {
-                                log.debug("Setting black username to {}!", name);
-                                blackUsername.setText(name);
-                                log.debug("Setting white username to {}!", this.username);
-                                whiteUsername.setText(this.username);
-                                whiteUsername.setUnderline(true);
+                        for (Node child : lowerUsernameField.getChildren()) {
+                            if (child instanceof Text text) {
+                                text.setText(this.username);
+                            }
+                            if (child instanceof Circle circle) {
+                                circle.setStroke(javafx.scene.paint.Color.BLACK);
+                                if (color == Color.WHITE) {
+                                    circle.setFill(javafx.scene.paint.Color.WHITE);
+                                } else {
+                                    circle.setFill(javafx.scene.paint.Color.BLACK);
+                                }
+                            }
+                        }
+
+                        for (Node child : upperUsernameField.getChildren()) {
+                            if (child instanceof Text text) {
+                                text.setText(name);
+                            }
+                            if (child instanceof Circle circle) {
+                                circle.setStroke(javafx.scene.paint.Color.BLACK);
+                                if (color != Color.WHITE) {
+                                    circle.setFill(javafx.scene.paint.Color.WHITE);
+                                } else {
+                                    circle.setFill(javafx.scene.paint.Color.BLACK);
+                                }
                             }
                         }
                     }
@@ -267,9 +287,6 @@ public class GameController extends Controller {
                     textOptional.ifPresent(node -> main.getChildren().remove(node));
 
                     main.getChildren().remove(1, 1);
-                    main.add(boardPane, 1, 1);
-                    board.initialize();
-                    renderPieces();
                 });
 
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
@@ -322,6 +339,19 @@ public class GameController extends Controller {
             text.setId("boardText");
 
             main.add(text, 1, 1);
+        }
+    }
+
+    /**
+     * Changes the lock status which indicates whether it's the player's turn or not. Also updates the
+     * turn indicators in the GUI.
+     */
+    private void updateTurnStatus(boolean locked) {
+        this.locked = locked;
+        if (locked) {
+            upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
+        } else {
+            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
         }
     }
 }
