@@ -42,7 +42,6 @@ public class Pawn extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
-		checking = false;
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -50,28 +49,41 @@ public class Pawn extends Piece {
 		Position testposition;
 		Piece testlocation;
 		if (isWhite) {
-
+			//eins vor
 			testposition = new Position(position.getX(), position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
+				//zwei vor
 				testposition = new Position(position.getX(), position.getY() + 2);
 				testlocation = board.getBoardMap().get(testposition);
 				if (position.getY() == 1 && testlocation == null) {
-					moves.add(new Move(position, testposition));
+					testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 			}
-
+			//schlagen rechts
 			testposition = new Position(position.getX() + 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
-
+			//schlagen links
 			testposition = new Position(position.getX() - 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 
 			// enpassant rechts weiß
@@ -82,7 +94,10 @@ public class Pawn extends Piece {
 
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, enpassantposition, true));
+				Move testmove = new Move(position, testposition, enpassantposition, true);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 
 			// enpassant links weiß
@@ -93,34 +108,50 @@ public class Pawn extends Piece {
 
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, enpassantposition, true));
+				Move testmove = new Move(position, testposition, enpassantposition, true);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 
 		// SCHWARZ
 		else {
-
+			//eins vor
 			testposition = new Position(position.getX(), position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
+				//zwei vor
 				testposition = new Position(position.getX(), position.getY() - 2);
 				testlocation = board.getBoardMap().get(testposition);
 				if (position.getY() == 6 && testlocation == null) {
-					moves.add(new Move(position, testposition));
+					testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 			}
-
+			//schlagen rechts
 			testposition = new Position(position.getX() + 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
-
+			//schalgen links
 			testposition = new Position(position.getX() - 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			// enpassant rechts weiß
 			testposition = new Position(position.getX() + 1, position.getY() - 1);
@@ -130,7 +161,10 @@ public class Pawn extends Piece {
 
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, enpassantposition, true));
+				Move testmove = new Move(position, testposition, enpassantposition, true);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 
 			// enpassant links weiß
@@ -141,7 +175,10 @@ public class Pawn extends Piece {
 
 			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
 					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, enpassantposition, true));
+				Move testmove = new Move(position, testposition, enpassantposition, true);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		return moves.toArray(new Move[moves.size()]);

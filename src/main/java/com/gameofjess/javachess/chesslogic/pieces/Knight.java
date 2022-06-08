@@ -27,7 +27,6 @@ public class Knight extends Piece {
 	 */
 	@Override
     public Move[] getMoves(boolean checking) {
-		checking = false;
         List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -40,10 +39,16 @@ public class Knight extends Piece {
 		if (testposition.getX() < 8 && testposition.getY() < 8) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
         // rechts hoch
@@ -51,10 +56,16 @@ public class Knight extends Piece {
 		if (testposition.getX() < 8 && testposition.getY() < 8) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
         // rechts runter
@@ -62,10 +73,16 @@ public class Knight extends Piece {
 		if (testposition.getX() < 8 && testposition.getY() >= 0) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// runter rechts
@@ -73,10 +90,16 @@ public class Knight extends Piece {
 		if (testposition.getX() < 8 && testposition.getY() >= 0) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// runter links
@@ -84,10 +107,16 @@ public class Knight extends Piece {
 		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// links runter
@@ -95,10 +124,16 @@ public class Knight extends Piece {
 		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// links hoch
@@ -106,10 +141,16 @@ public class Knight extends Piece {
 		if (testposition.getX() >= 0 && testposition.getY() < 8) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// hoch links
@@ -117,10 +158,16 @@ public class Knight extends Piece {
 		if (testposition.getX() >= 0 && testposition.getY() < 8) {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 			else if (testlocation.isWhite != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
         return moves.toArray(new Move[moves.size()]);

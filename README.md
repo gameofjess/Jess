@@ -63,6 +63,10 @@ folder and run the following command:
 
 Using the optional flag `-Dshow=private` will add information about private methods to the generated javadoc-files.
 
+## Configuration
+
+Configuration is described here: [CONFIG.md](https://github.com/maxknerrich/JavaChess/blob/main/CONFIG.md)
+
 ## Dependencies
 
 ### Runtime dependencies

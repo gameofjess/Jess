@@ -34,7 +34,6 @@ public class Rook extends Piece {
 	 */
 	@Override
     public Move[] getMoves(boolean checking) {
-		checking = false;
         List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -44,13 +43,19 @@ public class Rook extends Piece {
 			if (testposition.getX() < 8) {
 				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(position, testposition));
+					Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(position, testposition, testposition));
+					Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 					break;
 				}
 			}
@@ -62,13 +67,19 @@ public class Rook extends Piece {
 			if (testposition.getX() >= 0) {
 				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(position, testposition));
+					Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(position, testposition, testposition));
+					Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 					break;
 				}
 			}
@@ -80,13 +91,19 @@ public class Rook extends Piece {
 			if (testposition.getY() < 8) {
 				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(position, testposition));
+					Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(position, testposition, testposition));
+					Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 					break;
 				}
 			}
@@ -98,13 +115,19 @@ public class Rook extends Piece {
 			if (testposition.getY() >= 0) {
 				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
-					moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 				}
 				else if (testlocation.isWhite() == isWhite) {
 					break;
 				}
 				else if(testlocation.isWhite() != isWhite){
-					moves.add(new Move(position, testposition, testposition));
+					Move testmove = new Move(position, testposition, testposition);
+				if (!checking || !checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 					break;
 				}
 			}
