@@ -3,8 +3,10 @@ package com.gameofjess.javachess.server;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.java_websocket.WebSocket;
@@ -13,7 +15,14 @@ import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.junit.jupiter.api.Test;
 
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.chesslogic.Move;
+import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.helper.game.Color;
+import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.MessageType;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 
 public class ServerTest {
 
@@ -214,6 +223,117 @@ public class ServerTest {
         testServer.onClose(testWS, 0, "Testing...", false);
 
         verify(testWS2).close(CloseFrame.GOING_AWAY);
+    }
+
+    @Test
+    void handleClientMessageChatMessageTest() {
+        Server testServer = spy(new ServerBuilder().build());
+
+        WebSocket testWS = mock(WebSocketImpl.class);
+        when(testWS.getAttachment()).thenReturn(UUID.randomUUID());
+        when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
+
+        ClientMessage cmsg = new ClientMessage("TestMessage!", MessageType.CHATMESSAGE);
+
+        testServer.onMessage(testWS, cmsg.toJSON());
+
+        ServerMessage smsg = new ServerMessage(null, MessageType.CHATMESSAGE, cmsg.getMessage());
+
+        verify(testServer).broadcast(smsg.toJSON());
+    }
+
+    @Test
+    void handleClientMessageNewMoveTest() {
+        Server testServer = spy(new ServerBuilder().build());
+
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS).getAttachment();
+        when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
+
+        WebSocket testWS2 = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS2).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS2).getAttachment();
+        when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
+
+        when(testServer.getConnections()).thenReturn(List.of(testWS, testWS2));
+
+        ClientHandshake testHandshake = mock(ClientHandshake.class);
+        when(testHandshake.hasFieldValue("username")).thenReturn(true);
+        when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
+
+        ClientHandshake testHandshake2 = mock(ClientHandshake.class);
+        when(testHandshake2.hasFieldValue("username")).thenReturn(true);
+        when(testHandshake2.getFieldValue("username")).thenReturn("TestUser2");
+        when(testHandshake2.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake2.getFieldValue("color")).thenReturn(Color.RANDOM.name());
+
+        testServer.onOpen(testWS, testHandshake);
+        testServer.onOpen(testWS2, testHandshake2);
+
+        Board board = new Board();
+        board.initialize();
+
+        Piece piece = board.getBoardMap().get(new Position(1, 1));
+
+        ClientMessage cmsg = new ClientMessage(piece.getMoves()[0]);
+
+        testServer.onMessage(testWS, cmsg.toJSON());
+
+        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getMessage());
+
+        verify(testWS2).send(smsg.toJSON());
+    }
+
+    @Test
+    void handleClientMessageNewMoveErrorTest() {
+        Server testServer = spy(new ServerBuilder().build());
+
+        WebSocket testWS = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS).getAttachment();
+        when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
+
+        WebSocket testWS2 = mock(WebSocketImpl.class);
+        doCallRealMethod().when(testWS2).setAttachment(any(UUID.class));
+        doCallRealMethod().when(testWS2).getAttachment();
+        when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
+
+        when(testServer.getConnections()).thenReturn(List.of(testWS, testWS2));
+
+        ClientHandshake testHandshake = mock(ClientHandshake.class);
+        when(testHandshake.hasFieldValue("username")).thenReturn(true);
+        when(testHandshake.getFieldValue("username")).thenReturn("TestUser");
+        when(testHandshake.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake.getFieldValue("color")).thenReturn(Color.RANDOM.name());
+
+        ClientHandshake testHandshake2 = mock(ClientHandshake.class);
+        when(testHandshake2.hasFieldValue("username")).thenReturn(true);
+        when(testHandshake2.getFieldValue("username")).thenReturn("TestUser2");
+        when(testHandshake2.hasFieldValue("color")).thenReturn(true);
+        when(testHandshake2.getFieldValue("color")).thenReturn(Color.RANDOM.name());
+
+        testServer.onOpen(testWS, testHandshake);
+        testServer.onOpen(testWS2, testHandshake2);
+
+        Board board = new Board();
+        board.initialize();
+
+        Move move = new Move(new Position(1, 1), new Position(4, 5));
+
+        ClientMessage cmsg = new ClientMessage(move);
+
+        testServer.onMessage(testWS, cmsg.toJSON());
+
+        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getMessage());
+
+        verify(testWS2, never()).send(smsg.toJSON());
+
+        ServerMessage errorMessage = new ServerMessage(MessageType.SERVERERROR, "Invalid move made by TestUser! Closing game!");
+
+        verify(testServer).broadcast(errorMessage.toJSON());
     }
 
 
