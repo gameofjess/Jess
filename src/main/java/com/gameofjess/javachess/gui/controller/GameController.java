@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -316,7 +317,8 @@ public class GameController extends Controller {
         } else {
             log.debug("Adding game information: {}", message);
             Label text = new Label(message.toUpperCase(Locale.ROOT));
-            text.setStyle("-fx-font-weight: 900;");
+            text.setStyle("-fx-font-weight: 900; -fx-font-size: 16;");
+            GridPane.setHalignment(text, HPos.CENTER);
             text.setId("boardText");
 
             main.add(text, 1, 1);
