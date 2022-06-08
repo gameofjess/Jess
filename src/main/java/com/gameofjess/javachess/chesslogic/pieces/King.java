@@ -47,9 +47,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX(), position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// hoch rechts
@@ -59,9 +65,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() + 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// rechts
@@ -71,9 +83,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() + 1, position.getY());
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// runter rechts
@@ -83,9 +101,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() + 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// runter
@@ -95,9 +119,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX(), position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// runter links
@@ -107,9 +137,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() - 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// links
@@ -119,9 +155,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() - 1, position.getY());
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 		// hoch links
@@ -131,9 +173,15 @@ public class King extends Piece {
 			testposition = new Position(position.getX() - 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
-				moves.add(new Move(position, testposition));
+				Move testmove = new Move(position, testposition);
+					if (checkCheckMove(testmove)) {
+						moves.add(testmove);
+					}
 			} else if (testlocation.isWhite() != isWhite) {
-				moves.add(new Move(position, testposition, testposition));
+				Move testmove = new Move(position, testposition, testposition);
+				if (checkCheckMove(testmove)) {
+					moves.add(testmove);
+				}
 			}
 		}
 
