@@ -145,11 +145,11 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(position, new Position(6, position.getY()), true);
 					if (isWhite) {
-						if (!checking || !board.getKingWhite().checkCheck(test_move)) {
+						if (!checking || true) {
 							moves.add(test_move);
 						}
 					} else {
-						if (!checking || !board.getKingBlack().checkCheck(test_move)) {
+						if (!checking || true) {
 							moves.add(test_move);
 						}
 					}
@@ -165,11 +165,11 @@ public class King extends Piece {
 				if (((Rook) rook).rochade) {
 					Move test_move = new Move(position, new Position(2, position.getY()), true);
 					if (isWhite) {
-						if (!checking || !board.getKingWhite().checkCheck(test_move)) {
+						if (!checking || true) {
 							moves.add(test_move);
 						}
 					} else {
-						if (!checking || !board.getKingBlack().checkCheck(test_move)) {
+						if (!checking || true) {
 							moves.add(test_move);
 						}
 					}
@@ -291,6 +291,18 @@ public class King extends Piece {
 
 	public boolean checkCheck(Move move){
 		return false;
+	}
+
+	@Override
+	public Piece getClone(Board board) {
+		King king = new King(board, isWhite, rochade);
+		if (isWhite) {
+			board.setKingWhite(king);
+		}
+		else{
+			board.setKingBlack(king);
+		}
+		return king;
 	}
 
 }

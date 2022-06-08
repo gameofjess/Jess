@@ -65,8 +65,29 @@ Using the optional flag `-Dshow=private` will add information about private meth
 
 ## Dependencies
 
-This project uses the java-websocket library made by TooTallNate and contributors which can be found here: [Java-Websocket Repository](https://github.com/TooTallNate/java-websocket)
-It also uses the [log4j logging framework](https://logging.apache.org/log4j/2.x/index.html) and the [JUnit unit test framework](https://junit.org/junit5/) as well as [JavaFX](https://openjfx.io/) and [Gson](https://github.com/google/gson) for Object Serialization.
+### Runtime dependencies
+
+|Dependency|Creator|License|
+|:--:|:--:|:--:|
+|[Java-WebSocket](https://github.com/TooTallNate/java-websocket)|[TooTallNate and contributors](https://github.com/TooTallNate)|[MIT License](https://github.com/TooTallNate/Java-WebSocket/blob/master/LICENSE)|
+|[JavaFX](https://openjfx.io/)|[Oracle / OpenJDK-Community](https://github.com/openjdk)|[GPLv2](https://github.com/openjdk/jfx/blob/master/LICENSE), [Classpath Exception](https://github.com/openjdk/jfx/blob/master/ADDITIONAL_LICENSE_INFO)|
+|[gson](https://github.com/google/gson)|[Google](https://opensource.google)|[Apache License 2.0](https://github.com/google/gson/blob/master/LICENSE)|
+|[log4j2](https://github.com/apache/logging-log4j2)|[The Apache Software Foundation](https://www.apache.org/)|[Apache License 2.0](https://github.com/apache/logging-log4j2/blob/release-2.x/LICENSE.txt)|
+|[Apache Commons Collections](https://github.com/apache/commons-collections)|[The Apache Software Foundation](https://www.apache.org/)|[Apache License 2.0](https://github.com/apache/commons-collections/blob/master/LICENSE.txt)|
+
+### Testing dependencies
+
+|Dependency|Creator|License|
+|:--:|:--:|:--:|
+|[JUnit Framework](https://github.com/junit-team/junit5/)|[JUnit-Team](https://junit.org/junit5/)|[Eclipse Public License v2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md)|
+|[Mockito Framework](https://github.com/mockito/mockito)|[Szczepan Faber and contributors](https://site.mockito.org/)|[MIT License](https://github.com/mockito/mockito/blob/main/LICENSE)
+|[Awaitility](https://github.com/awaitility/awaitility)|[Johan Haleby and contributors](http://www.awaitility.org/)|[Apache License 2.0](https://github.com/awaitility/awaitility/blob/master/LICENSE)|
+
+### Resources
+
+|Dependency|Creator|License|
+|:--:|:--:|:--:|
+|[Chess Pieces](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)|[Colin M.L. Burnett](https://commons.wikimedia.org/wiki/User:Cburnett)|[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)|
 
 ## Copyright
 
