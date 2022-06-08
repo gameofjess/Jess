@@ -172,4 +172,10 @@ public class Queen extends Piece {
             return blackImage;
 		}
 	}
+
+
+	@Override
+	public Piece getClone(Board board) {
+		return new Queen(board, isWhite);
+	}
 }

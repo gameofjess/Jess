@@ -136,4 +136,10 @@ public class Knight extends Piece {
         }
     }
 
+
+	@Override
+	public Piece getClone(Board board) {
+		return new Knight(board, isWhite);
+	}
+
 }

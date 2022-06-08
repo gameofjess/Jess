@@ -21,6 +21,7 @@ public abstract class Piece implements Cloneable {
 
     public abstract Move[] getMoves(boolean checking);
 
+	public abstract Piece getClone(Board board);
 
     /**
      * Returns an Array of all valid moves for the Current Board
@@ -71,5 +72,16 @@ public abstract class Piece implements Cloneable {
 
 	public Position getPosition(){
 		return board.getPosition(this);
+	}
+
+	boolean checkCheckMove(Move move){
+		Board cloneBoard = new Board(board);
+		cloneBoard.getBoardMap().get(move.getOrigin()).makeMove(move);
+		if (isWhite) {
+			return cloneBoard.getKingWhite().checkCheck();
+		}
+		else{
+			return cloneBoard.getKingBlack().checkCheck();
+		}
 	}
 }

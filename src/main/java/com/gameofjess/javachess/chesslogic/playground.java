@@ -10,7 +10,7 @@ public class playground {
 		// Random rand = new Random();
         Board board = new Board();
 		board.initialize();
-		System.out.println(board.getKingBlack().checkCheck());
+		// System.out.println(board.getKingBlack().checkCheck());
 		// board.print();
 		// System.out.println("\n");
 		// for (int i = 0; i < 10; i++) {

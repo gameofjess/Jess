@@ -12,6 +12,10 @@ public class Position {
 		this.y = y;
 	}
 
+	public Position getClone(){
+		return new Position(x, y);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

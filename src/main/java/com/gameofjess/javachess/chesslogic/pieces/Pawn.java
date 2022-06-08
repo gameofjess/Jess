@@ -176,5 +176,10 @@ public class Pawn extends Piece {
 		}
 	}
 
+	@Override
+	public Piece getClone(Board board) {
+		return new Pawn(board, isWhite, enpassant);
+	}
+
 
 }

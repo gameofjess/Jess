@@ -137,5 +137,10 @@ public class Rook extends Piece {
 		}
 	}
 
+	@Override
+	public Piece getClone(Board board) {
+		return new Rook(board, isWhite, rochade);
+	}
+
 
 }
