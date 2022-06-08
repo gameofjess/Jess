@@ -91,7 +91,7 @@ Configuration is described here: [CONFIG.md](https://github.com/maxknerrich/Java
 
 |Dependency|Creator|License|
 |:--:|:--:|:--:|
-|[Chess Pieces](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)|[Colin M.L. Burnett](https://commons.wikimedia.org/wiki/User:Cburnett)|[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)|
+|[Chess Pieces](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)|[Colin M.L. Burnett](https://commons.wikimedia.org/wiki/User:Cburnett)|[GPLv2+](https://www.gnu.org/licenses/gpl-2.0.txt)|
 
 ## Copyright
 
