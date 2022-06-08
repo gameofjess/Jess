@@ -250,9 +250,7 @@ public class Server extends WebSocketServer {
      * @return random value of Color-enum.
      */
     private Color getRandomColor() {
-        Random random = new Random();
-        int randInt = random.nextInt(0, 1);
-        if (randInt == 1) {
+        if (new Random().nextBoolean()) {
             return Color.WHITE;
         } else {
             return Color.BLACK;
