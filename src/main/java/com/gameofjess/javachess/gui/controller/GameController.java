@@ -86,6 +86,7 @@ public class GameController extends Controller {
      * Sets up onClick-EventHandlers for all displayed pieces.
      */
     private void setupPieceHandler() {
+        boardPane.resetEventHandlers();
         log.debug("Setting up piece handler");
         board.getBoardMap().entrySet().parallelStream().filter(entry -> {
             Piece piece = board.getBoardMap().get(entry.getKey());
