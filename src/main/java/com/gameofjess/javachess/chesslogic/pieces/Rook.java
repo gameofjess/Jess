@@ -36,13 +36,13 @@ public class Rook extends Piece {
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
-		Position position = Board.getPosition(this);
+		Position position = board.getPosition(this);
 
 		//rechts
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() + j, position.getY());
 			if (testposition.getX() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
@@ -60,7 +60,7 @@ public class Rook extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX() - j, position.getY());
 			if (testposition.getX() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
@@ -78,7 +78,7 @@ public class Rook extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX(), position.getY() + j);
 			if (testposition.getY() < 8) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
@@ -96,7 +96,7 @@ public class Rook extends Piece {
 		for (int j = 1; j < 8; j++) {
 			Position testposition = new Position(position.getX(), position.getY() - j);
 			if (testposition.getY() >= 0) {
-				Piece testlocation = Board.getBoardMap().get(testposition);
+				Piece testlocation = board.getBoardMap().get(testposition);
 				if(testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
@@ -121,10 +121,10 @@ public class Rook extends Piece {
     public void makeMove(Move move) {
 		rochade = false;
 		if (move.getCapturePosition() != null) {
-			Board.capture(move.getCapturePosition());
+			board.capture(move.getCapturePosition());
 		}
-		Board.boardMapRemove(Board.getPosition(this));
-        Board.boardMapAdd(move.getDestination() , this);
+		board.boardMapRemove(board.getPosition(this));
+        board.boardMapAdd(move.getDestination() , this);
     }
 
 	@Override

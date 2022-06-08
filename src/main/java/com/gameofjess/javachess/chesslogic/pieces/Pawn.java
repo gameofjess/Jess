@@ -37,7 +37,7 @@ public class Pawn extends Piece {
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
-		Position position = Board.getPosition(this);
+		Position position = board.getPosition(this);
 
 
 		Position testposition;
@@ -45,24 +45,24 @@ public class Pawn extends Piece {
         if (isWhite) {
 
 			testposition = new Position(position.getX(), position.getY() + 1);
-            testlocation = Board.getBoardMap().get(testposition);
+            testlocation = board.getBoardMap().get(testposition);
             if (testlocation == null) {
                 moves.add(new Move(position, testposition));
 				testposition = new Position(position.getX(), position.getY() + 2);
-            	testlocation = Board.getBoardMap().get(testposition);
+            	testlocation = board.getBoardMap().get(testposition);
 				if(position.getY() == 1 && testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
             }
 
 			testposition = new Position(position.getX() + 1, position.getY() + 1);
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
             if (testlocation != null && !testlocation.isWhite) {
                 moves.add(new Move(position, testposition, testposition));
             }
 
             testposition = new Position(position.getX() - 1, position.getY() + 1);
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
             if (testlocation != null && !testlocation.isWhite) {
                 moves.add(new Move(position, testposition, testposition));
             }
@@ -102,24 +102,24 @@ public class Pawn extends Piece {
 		else {
 
 			testposition = new Position(position.getX(), position.getY() - 1);
-            testlocation = Board.getBoardMap().get(testposition);
+            testlocation = board.getBoardMap().get(testposition);
             if (testlocation == null) {
                 moves.add(new Move(position, testposition));
 				testposition = new Position(position.getX(), position.getY() - 2);
-            	testlocation = Board.getBoardMap().get(testposition);
+            	testlocation = board.getBoardMap().get(testposition);
 				if(position.getY() == 6 && testlocation == null){
 					moves.add(new Move(position, testposition));
 				}
             }
 
 			testposition = new Position(position.getX() + 1, position.getY() - 1);
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
             if (testlocation != null && testlocation.isWhite) {
                 moves.add(new Move(position, testposition, testposition));
             }
 
             testposition = new Position(position.getX() - 1, position.getY() - 1);
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
             if (testlocation != null && testlocation.isWhite) {
                 moves.add(new Move(position, testposition, testposition));
             }
@@ -165,10 +165,11 @@ public class Pawn extends Piece {
     public void makeMove(Move move) {
         enpassant = move.getEnpassant();
 		if (move.getCapturePosition() != null) {
-			Board.capture(move.getCapturePosition());
+			board.capture(move.getCapturePosition());
 		}
-		Board.boardMapRemove(Board.getPosition(this));
-        Board.boardMapAdd(move.getDestination() , this);
+		board.boardMapRemove(board.getPosition(this));
+        board.boardMapAdd(move.getDestination() , this);
+		System.out.println(board);
     }
 
     @Override

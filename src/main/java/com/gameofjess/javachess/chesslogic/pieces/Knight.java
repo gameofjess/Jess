@@ -29,7 +29,7 @@ public class Knight extends Piece {
     public Move[] getMoves(boolean checking) {
 		checking = false;
         List<Move> moves = new ArrayList<Move>();
-		Position position = Board.getPosition(this);
+		Position position = board.getPosition(this);
 
 
 		Position testposition;
@@ -38,7 +38,7 @@ public class Knight extends Piece {
 		// hoch rechts
 		testposition = new Position(position.getX() + 1, position.getY() + 2);
 		if (testposition.getX() < 8 && testposition.getY() < 8) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -49,7 +49,7 @@ public class Knight extends Piece {
         // rechts hoch
 		testposition = new Position(position.getX() + 2, position.getY() + 1);
 		if (testposition.getX() < 8 && testposition.getY() < 8) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -60,7 +60,7 @@ public class Knight extends Piece {
         // rechts runter
         testposition = new Position(position.getX() + 2, position.getY() - 1);
 		if (testposition.getX() < 8 && testposition.getY() >= 0) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -71,7 +71,7 @@ public class Knight extends Piece {
 		// runter rechts
         testposition = new Position(position.getX() + 1, position.getY() - 2);
 		if (testposition.getX() < 8 && testposition.getY() >= 0) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -82,7 +82,7 @@ public class Knight extends Piece {
 		// runter links
         testposition = new Position(position.getX() - 1, position.getY() - 2);
 		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -93,7 +93,7 @@ public class Knight extends Piece {
 		// links runter
         testposition = new Position(position.getX() - 2, position.getY() - 1);
 		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -104,7 +104,7 @@ public class Knight extends Piece {
 		// links hoch
         testposition = new Position(position.getX() - 2, position.getY() + 1);
 		if (testposition.getX() >= 0 && testposition.getY() < 8) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}
@@ -115,7 +115,7 @@ public class Knight extends Piece {
 		// hoch links
         testposition = new Position(position.getX() - 1, position.getY() + 2);
 		if (testposition.getX() >= 0 && testposition.getY() < 8) {
-			testlocation = Board.getBoardMap().get(testposition);
+			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				moves.add(new Move(position, testposition));
 			}

@@ -3,6 +3,7 @@ package com.gameofjess.javachess.chesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import com.gameofjess.javachess.chesslogic.pieces.*;
@@ -143,5 +144,17 @@ public class Board {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder out = new StringBuilder();
+		for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+			out.append(entry.getKey());
+			out.append(" | ");
+			out.append(entry.getValue());
+			out.append("\n");
+		}
+		return out.toString();
 	}
 }
