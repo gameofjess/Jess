@@ -188,7 +188,8 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (isServerOnline(new URL("https://" + host + ":" + port)) && connect(host, port, usernameString, gameController)) {
+        if (isServerOnline(new URL("https://" + host + ":" + port))) {
+            connect(host, port, usernameString, gameController);
             switchScene(gameScene, event);
         } else {
             log.error("Server is not reachable!");
@@ -270,12 +271,8 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (connect(host, port, username.getText(), gameColor, gameController)) {
-            switchScene(gameScene, event);
-        } else {
-            log.error("Server is not reachable!");
-            // TODO: Add error message
-        }
+        connect(host, port, username.getText(), gameColor, gameController);
+        switchScene(gameScene, event);
     }
 
     /**
@@ -287,6 +284,7 @@ public class MenuController extends Controller {
      */
     private boolean isServerOnline(URL url) {
         return true;
+
         /*
          * try { HttpURLConnection con = (HttpURLConnection) url.openConnection();
          * con.setRequestMethod("GET"); con.connect(); return con.getResponseCode() == 404; } catch
