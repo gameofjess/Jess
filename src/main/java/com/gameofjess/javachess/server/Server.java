@@ -2,6 +2,7 @@ package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -206,13 +207,14 @@ public class Server extends WebSocketServer {
     private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
         UUID webSocketUUID = webSocket.getAttachment();
         String username = users.get(webSocketUUID);
+        Date sentDate = cmsg.getTime();
 
         switch (cmsg.getType()) {
             case CHATMESSAGE -> {
                 log.info("New chat message received: {}", cmsg.getMessage());
 
                 ServerMessage msg =
-                        new ServerMessage(username, MessageType.CHATMESSAGE, cmsg.getMessage());
+                        new ServerMessage(username, MessageType.CHATMESSAGE, sentDate, cmsg.getMessage());
                 broadcast(msg.toJSON());
             }
             case NEWMOVE -> {
@@ -220,10 +222,11 @@ public class Server extends WebSocketServer {
 
                 Move m = new Gson().fromJson(cmsg.getMessage(), Move.class);
 
+
                 if (board.isMoveValid(m)) {
                     log.debug("Move from {} was found valid!", username);
                     board.getBoardMap().get(m.getOrigin()).makeMove(m);
-                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, cmsg.getMessage());
+                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, sentDate, cmsg.getMessage());
 
                     for (WebSocket ws : this.getConnections()) {
                         if (!(ws.equals(webSocket))) {
