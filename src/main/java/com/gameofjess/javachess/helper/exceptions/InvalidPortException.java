@@ -5,6 +5,6 @@ package com.gameofjess.javachess.helper.exceptions;
  */
 public class InvalidPortException extends Exception {
     public InvalidPortException(String port) {
-        super("The invalid port " + port + "was given!");
+        super("The invalid port \"" + port + "\" was given!");
     }
 }

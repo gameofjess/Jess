@@ -5,6 +5,6 @@ package com.gameofjess.javachess.helper.exceptions;
  */
 public class InvalidOptionException extends Exception {
     public InvalidOptionException() {
-        super("An invalid Option was given!");
+        super("An invalid option was given!");
     }
 }
