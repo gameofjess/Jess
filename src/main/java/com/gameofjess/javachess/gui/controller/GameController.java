@@ -103,22 +103,28 @@ public class GameController extends Controller {
             boardPane.setPieceEventHandlerByCell(selectMouseEvent -> {
                 log.debug("Piece at Position ({}|{}) Clicked", pos.getX(), pos.getY());
 
-                boardPane.resetStatus();
+                boolean notSelected = boardPane.changeSelectionStatusByCell(pos.getY(), pos.getX());
 
-                if (boardPane.changeSelectionStatusByCell(pos.getY(), pos.getX())) {
+                boardPane.resetStatus();
+                highlightCheck();
+
+                if (notSelected) {
+                    boardPane.setSelectionStatusByCell(true, pos.getY(), pos.getX());
                     // Add destination markers when selecting cell
                     for (Move m : possibleMoves) {
-                        int destX = m.getDestination().getX();
-                        int destY = m.getDestination().getY();
-
-                        boardPane.setActivationStatusByCell(true, destY, destX);
                         if (!locked) {
+                            int destX = m.getDestination().getX();
+                            int destY = m.getDestination().getY();
+
+                            boardPane.setActivationStatusByCell(true, destY, destX);
                             // Add event handlers to destination markers
                             boardPane.setPieceEventHandlerByCell(moveMouseEvent -> {
                                 log.debug("Destination at ({}|{}) clicked", destX, destY);
                                 Piece piece1 = board.getBoardMap().get(pos);
                                 piece1.makeMove(m);
+
                                 boardPane.resetStatus();
+                                highlightCheck();
 
                                 sendMessage(new ClientMessage(m));
 
@@ -131,6 +137,7 @@ public class GameController extends Controller {
                         }
                     }
                 } else {
+                    boardPane.setSelectionStatusByCell(false, pos.getY(), pos.getX());
                     // Remove destination markers when deselecting cell.
                     for (Move m : possibleMoves) {
                         int destX = m.getDestination().getX();
@@ -209,6 +216,8 @@ public class GameController extends Controller {
                 board.getBoardMap().get(m.getOrigin()).makeMove(m);
 
                 updateTurnStatus(false);
+
+                highlightCheck();
 
                 renderPieces();
                 setupPieceHandler();
@@ -344,6 +353,37 @@ public class GameController extends Controller {
             upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
         } else {
             lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
+        }
+    }
+
+    /**
+     * Highlight king if in check.
+     */
+    private void highlightCheck() {
+        Board clonedBoard = new Board(board);
+
+        boolean blackKingCheck = clonedBoard.getKingBlack().checkCheck();
+
+        int blackKingRow = clonedBoard.getKingBlack().getPosition().getY();
+        int blackKingColumn = clonedBoard.getKingBlack().getPosition().getX();
+        boardPane.setCheckStatusByCell(blackKingCheck, blackKingRow, blackKingColumn);
+
+        boolean whiteKingCheck = clonedBoard.getKingWhite().checkCheck();
+
+        int whiteKingRow = clonedBoard.getKingWhite().getPosition().getY();
+        int whiteKingColumn = clonedBoard.getKingWhite().getPosition().getX();
+        boardPane.setCheckStatusByCell(whiteKingCheck, whiteKingRow, whiteKingColumn);
+    }
+
+    void closeConnection() {
+        this.connectionHandler.disconnect(CloseFrame.GOING_AWAY, "Application closed!");
+
+        if (server != null) {
+            try {
+                server.stop();
+            } catch (InterruptedException e) {
+                log.error(e);
+            }
         }
     }
 }

@@ -94,8 +94,7 @@ public class BoardPane extends HBox {
     public void resetStatus() {
         for (Node n : boardGrid.getChildren()) {
             BoardCell cell = (BoardCell) n;
-            cell.setActivationStatus(false);
-            cell.setSelectionStatus(false);
+            cell.resetStatus();
         }
     }
 
@@ -134,6 +133,18 @@ public class BoardPane extends HBox {
     public void setSelectionStatusByCell(boolean status, int row, int column) {
         log.debug("Changing selection status to {} for cell at ({}|{})", status, column, row);
         getCellByIndex(row, column).setSelectionStatus(status);
+    }
+
+    /**
+     * Sets a specific cell's check status.
+     *
+     * @param status Status to which the check status shall be set.
+     * @param row Cell's row.
+     * @param column Cell's column.
+     */
+    public void setCheckStatusByCell(boolean status, int row, int column) {
+        log.debug("Changing selection status to {} for cell at ({}|{})", status, column, row);
+        getCellByIndex(row, column).setCheckStatus(status);
     }
 
     /**
