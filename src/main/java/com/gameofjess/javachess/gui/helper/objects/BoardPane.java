@@ -126,7 +126,7 @@ public class BoardPane extends HBox {
     /**
      * Sets a specific cell's selection status.
      * 
-     * @param status Status to which the activation status shall be set.
+     * @param status Status to which the selection status shall be set.
      * @param row Cell's row.
      * @param column Cell's column.
      */
