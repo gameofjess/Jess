@@ -24,6 +24,7 @@ import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
 
+import javafx.animation.FadeTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,6 +33,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 public class MenuController extends Controller {
 
@@ -55,6 +58,8 @@ public class MenuController extends Controller {
     private RadioButton colorWhite;
     @FXML
     private RadioButton colorRandom;
+    @FXML
+    public Text errorMessage;
 
     /**
      * Initializes the menu.
@@ -172,11 +177,8 @@ public class MenuController extends Controller {
      * Gets user inputs and calls the connect method.
      *
      * @param event GUI ActionEvent
-     * @throws InvalidHostnameException If the hostname is invalid.
-     * @throws InvalidPortException If the port is invalid.
-     * @throws URISyntaxException If the URI is invalid.
      */
-    public void joinGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
+    public void joinGame(ActionEvent event) throws IOException {
         final String[] splittedAddress = address.getText().split(":");
         final String host;
         final int port;
@@ -203,61 +205,17 @@ public class MenuController extends Controller {
         Scene gameScene = sceneFactory.getScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        connect(host, port, usernameString, gameController);
-        switchGameScene(gameScene, gameController, event);
-    }
-
-    /**
-     * Connects to the server.
-     *
-     * @param address IP address of the server.
-     * @param port Port of the server.
-     * @param username Username of the client.
-     * @param gameController GameController to be used for communication.
-     * @throws InvalidHostnameException If the hostname is invalid.
-     * @throws InvalidPortException If the port is invalid.
-     * @throws URISyntaxException If the URI is invalid.
-     */
-    public boolean connect(String address, int port, String username, GameController gameController) throws InvalidHostnameException, InvalidPortException, URISyntaxException {
-        connectionHandler = new ConnectionHandler(address, port);
-        log.debug("Trying to connect to {} using port {} as {}.", address, port, username);
-        connectionHandler.setGameController(gameController);
-        boolean connected = connectionHandler.connect(username);
-        gameController.setConnectionHandler(connectionHandler);
-        gameController.setUsername(username);
-        return connected;
-    }
-
-    /**
-     * Connects to the server.
-     *
-     * @param address IP address of the server.
-     * @param port Port of the server.
-     * @param username Username of the client.
-     * @param gameController GameController to be used for communication.
-     * @param color Color the user wishes.
-     * @throws InvalidHostnameException If the hostname is invalid.
-     * @throws InvalidPortException If the port is invalid.
-     * @throws URISyntaxException If the URI is invalid.
-     */
-    public boolean connect(String address, int port, String username, Color color, GameController gameController)
-            throws InvalidHostnameException, InvalidPortException, URISyntaxException {
-        connectionHandler = new ConnectionHandler(address, port);
-        log.debug("Trying to connect to {} using port {} as {} with color choice {}.", address, port, username, color);
-        connectionHandler.setGameController(gameController);
-        boolean connected = connectionHandler.connect(username, color);
-        gameController.setConnectionHandler(connectionHandler);
-        gameController.setUsername(username);
-        return connected;
+        if (connect(host, port, usernameString, gameController)) {
+            switchGameScene(gameScene, gameController, event);
+        }
     }
 
     /**
      * Starts the server and calls the connect function to connect to the server.
      *
      * @param event GUI ActionEvent
-     * @throws InvalidPortException If the port is invalid.
      */
-    public void hostGame(ActionEvent event) throws InvalidHostnameException, InvalidPortException, URISyntaxException, IOException {
+    public void hostGame(ActionEvent event) throws IOException {
         String host = "127.0.0.1";
         int port = 8887;
 
@@ -279,8 +237,67 @@ public class MenuController extends Controller {
         GameController gameController = (GameController) sceneFactory.getController();
         gameController.setServer(server);
 
-        connect(host, port, username.getText(), gameColor, gameController);
-        switchGameScene(gameScene, gameController, event);
+        if (connect(host, port, username.getText(), gameColor, gameController)) {
+            switchGameScene(gameScene, gameController, event);
+        }
+    }
+
+    /**
+     * Connects to the server.
+     *
+     * @param address IP address of the server.
+     * @param port Port of the server.
+     * @param username Username of the client.
+     * @param gameController GameController to be used for communication.
+     */
+    private boolean connect(String address, int port, String username, GameController gameController) {
+        return connect(address, port, username, Color.RANDOM, gameController);
+    }
+
+    /**
+     * Connects to the server.
+     *
+     * @param address IP address of the server.
+     * @param port Port of the server.
+     * @param username Username of the client.
+     * @param gameController GameController to be used for communication.
+     * @param color Color the user wishes.
+     */
+    private boolean connect(String address, int port, String username, Color color, GameController gameController) {
+
+        try {
+            connectionHandler = new ConnectionHandler(address, port);
+        } catch (InvalidHostnameException | InvalidPortException | URISyntaxException e) {
+            displayErrorMessage(e.getMessage());
+            return false;
+        }
+
+        if (username.length() < 4) {
+            displayErrorMessage("Invalid or too short username given: \"" + username + "\"");
+            return false;
+        }
+
+        log.debug("Trying to connect to {} using port {} as {} with color choice {}.", address, port, username, color);
+        connectionHandler.setGameController(gameController);
+        boolean connected = connectionHandler.connect(username, color);
+        gameController.setConnectionHandler(connectionHandler);
+        gameController.setUsername(username);
+        return connected;
+    }
+
+    private void displayErrorMessage(String message) {
+        log.debug("Displaying error message: {}", message);
+        errorMessage.setText(message);
+        errorMessage.setTextAlignment(TextAlignment.CENTER);
+
+        FadeTransition fade = new FadeTransition();
+        fade.setDuration(Duration.seconds(2));
+        fade.setFromValue(0);
+        fade.setToValue(10);
+        fade.setCycleCount(2);
+        fade.setAutoReverse(true);
+        fade.setNode(errorMessage);
+        fade.play();
     }
 
 }
