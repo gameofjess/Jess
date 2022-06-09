@@ -11,6 +11,7 @@ import com.gameofjess.javachess.gui.scenes.SceneType;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public abstract class Controller {
 
@@ -45,12 +46,12 @@ public abstract class Controller {
      * @param event GUI ActionEvent.
      */
     void switchGameScene(Scene scene, GameController gameController, ActionEvent event) {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Stage stage = getStage();
         stage.setScene(scene);
 
         log.debug("Setting on close request!");
         stage.setOnCloseRequest(windowEvent -> {
-            gameController.closeConnection();
+            gameController.closeConnection("Application closed!");
         });
 
         stage.show();
@@ -68,11 +69,15 @@ public abstract class Controller {
     private Controller switchScene(SceneType type, ActionEvent event) throws IOException {
         SceneFactory factory = new SceneFactory(type);
         Scene scene = factory.getScene();
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Stage stage = getStage();
         stage.setScene(scene);
         stage.show();
         log.debug("Switched scene to {}", type.toString());
         return factory.getController();
+    }
+
+    private Stage getStage() {
+        return (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
     }
 
 }

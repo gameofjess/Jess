@@ -1,5 +1,6 @@
 package com.gameofjess.javachess.gui.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Optional;
@@ -25,18 +26,26 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
+    @FXML
+    public Button resignButton;
+    @FXML
+    public HBox resignButtonField;
     @FXML
     private GridPane main;
     @FXML
@@ -392,8 +401,8 @@ public class GameController extends Controller {
         boardPane.setCheckStatusByCell(whiteKingCheck, whiteKingRow, whiteKingColumn);
     }
 
-    void closeConnection() {
-        this.connectionHandler.disconnect(CloseFrame.GOING_AWAY, "Application closed!");
+    void closeConnection(String reason) {
+        this.connectionHandler.disconnect(CloseFrame.GOING_AWAY, reason);
 
         if (server != null) {
             try {
@@ -402,5 +411,55 @@ public class GameController extends Controller {
                 log.error(e);
             }
         }
+    }
+
+    /**
+     * Closes the connection and switches back to the join scene.
+     * 
+     * @param event GUI ActionEvent
+     */
+    public void resign(ActionEvent event) throws IOException {
+        resignButtonField.getChildren().clear();
+
+        VBox vBox = new VBox();
+        HBox hBox = new HBox();
+
+        Button yesButton = new Button();
+        yesButton.setText("YES");
+        yesButton.setStyle("-fx-background-color: lightgreen; -fx-text-fill: black; -fx-cursor: hand; -fx-stroke: black;");
+        Button noButton = new Button();
+        noButton.setText("NO");
+        noButton.setStyle("-fx-background-color: red; -fx-text-fill: black; -fx-cursor: hand; -fx-stroke: black;");
+
+        yesButton.setOnAction(onActionEvent -> {
+            closeConnection(username + " resigned!");
+            try {
+                switchJoinScene(event);
+            } catch (IOException e) {
+                log.error("Could not switch scene!");
+            }
+        });
+
+        noButton.setOnAction(onActionEvent -> {
+            resignButtonField.getChildren().clear();
+            resignButtonField.getChildren().add(resignButton);
+        });
+
+        Label text = new Label();
+        text.setText("Are you sure?");
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setStyle("-fx-font-weight: 900;");
+        text.setAlignment(Pos.CENTER);
+
+        hBox.getChildren().addAll(yesButton, noButton);
+        vBox.getChildren().addAll(text, hBox);
+
+        vBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.CENTER);
+
+        vBox.setSpacing(5);
+        hBox.setSpacing(5);
+
+        resignButtonField.getChildren().add(vBox);
     }
 }

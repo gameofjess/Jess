@@ -89,6 +89,10 @@
               <RowConstraints vgrow="SOMETIMES" percentHeight="10.0"/>
           </rowConstraints>
           <children>
+              <HBox fx:id="resignButtonField" GridPane.columnIndex="2" GridPane.rowIndex="0" alignment="CENTER">
+                  <Button fx:id="resignButton" mnemonicParsing="false" onAction="#resign"
+                          style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;" text="RESIGN"/>
+              </HBox>
               <HBox fx:id="upperUsernameField" GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="CENTER"
                     style="-fx-padding: 0 0 0 10;">
                   <Circle fx:id="upperCircle" fill="WHITE" radius="10.0" stroke="WHITE" strokeType="INSIDE"
