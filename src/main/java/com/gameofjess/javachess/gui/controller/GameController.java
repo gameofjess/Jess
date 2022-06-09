@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.java_websocket.framing.CloseFrame;
 
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
@@ -17,6 +18,7 @@ import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
 import com.gameofjess.javachess.helper.messages.ServerMessage;
+import com.gameofjess.javachess.server.Server;
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
@@ -57,6 +59,10 @@ public class GameController extends Controller {
      * ConnectionHandler for communication
      */
     private ConnectionHandler connectionHandler;
+    /**
+     * Server to stop on application closure.
+     */
+    private Server server;
     /**
      * Chosen username
      */
@@ -174,6 +180,15 @@ public class GameController extends Controller {
      */
     void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
+    }
+
+    /**
+     * Sets Server to stop on application closure.
+     *
+     * @param server Server that shall be stopped on application closure.
+     */
+    void setServer(Server server) {
+        this.server = server;
     }
 
     /**

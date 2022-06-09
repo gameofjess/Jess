@@ -204,7 +204,7 @@ public class MenuController extends Controller {
         GameController gameController = (GameController) sceneFactory.getController();
 
         connect(host, port, usernameString, gameController);
-        switchScene(gameScene, event);
+        switchGameScene(gameScene, gameController, event);
     }
 
     /**
@@ -275,10 +275,12 @@ public class MenuController extends Controller {
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.GAME);
         Scene gameScene = sceneFactory.getScene();
+
         GameController gameController = (GameController) sceneFactory.getController();
+        gameController.setServer(server);
 
         connect(host, port, username.getText(), gameColor, gameController);
-        switchScene(gameScene, event);
+        switchGameScene(gameScene, gameController, event);
     }
 
 }

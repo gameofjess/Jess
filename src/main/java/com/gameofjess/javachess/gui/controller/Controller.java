@@ -39,13 +39,22 @@ public abstract class Controller {
     }
 
     /**
-     * Set the scene to the game scene.
+     * Switches to pregenerated gameScene and sets onCloseRequest-EventHandler.
      *
-     * @param event GUI ActionEvent
-     * @throws IOException If the corresponding fxml file is not found.
+     * @param scene Scene to switch to.
+     * @param event GUI ActionEvent.
      */
-    public GameController switchGameScene(ActionEvent event) throws IOException {
-        return (GameController) switchScene(SceneType.GAME, event);
+    void switchGameScene(Scene scene, GameController gameController, ActionEvent event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+
+        log.debug("Setting on close request!");
+        stage.setOnCloseRequest(windowEvent -> {
+            gameController.closeConnection();
+        });
+
+        stage.show();
+        log.debug("Switched scene to {}", scene);
     }
 
     /**
@@ -64,13 +73,6 @@ public abstract class Controller {
         stage.show();
         log.debug("Switched scene to {}", type.toString());
         return factory.getController();
-    }
-
-    void switchScene(Scene scene, ActionEvent event) {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-        log.debug("Switched scene to {}", scene);
     }
 
 }
