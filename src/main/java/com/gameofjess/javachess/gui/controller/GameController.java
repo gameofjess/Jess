@@ -366,7 +366,9 @@ public class GameController extends Controller {
         this.locked = locked;
         if (locked) {
             upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
+            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(false));
         } else {
+            upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(false));
             lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
         }
     }
