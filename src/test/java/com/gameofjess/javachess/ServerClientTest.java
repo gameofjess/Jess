@@ -65,7 +65,6 @@ public class ServerClientTest {
         assertTrue(testConnection.connect("TestUser"));
 
         await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TestUser"), equalTo(true));
-        testServer.stop();
     }
 
     /**
