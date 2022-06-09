@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
@@ -29,7 +28,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -102,53 +100,47 @@ public class GameController extends Controller {
             Position pos = entry.getKey();
             Piece piece = board.getBoardMap().get(pos);
             Move[] possibleMoves = piece.getMoves();
-            boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    log.debug("Piece at Position ({}|{}) Clicked", pos.getX(), pos.getY());
+            boardPane.setPieceEventHandlerByCell(selectMouseEvent -> {
+                log.debug("Piece at Position ({}|{}) Clicked", pos.getX(), pos.getY());
 
-                    boardPane.resetStatus();
+                boardPane.resetStatus();
 
-                    if (boardPane.changeSelectionStatusByCell(pos.getY(), pos.getX())) {
-                        // Add destination markers when selecting cell
-                        for (Move m : possibleMoves) {
-                            int destX = m.getDestination().getX();
-                            int destY = m.getDestination().getY();
+                if (boardPane.changeSelectionStatusByCell(pos.getY(), pos.getX())) {
+                    // Add destination markers when selecting cell
+                    for (Move m : possibleMoves) {
+                        int destX = m.getDestination().getX();
+                        int destY = m.getDestination().getY();
 
-                            boardPane.setActivationStatusByCell(true, destY, destX);
-                            if (!locked) {
-                                boardPane.setPieceEventHandlerByCell(new EventHandler<MouseEvent>() {
-                                    // Add event handlers to destination markers
-                                    @Override
-                                    public void handle(MouseEvent mouseEvent) {
-                                        log.debug("Destination at ({}|{}) clicked", destX, destY);
-                                        Piece piece = board.getBoardMap().get(pos);
-                                        piece.makeMove(m);
-                                        boardPane.resetStatus();
+                        boardPane.setActivationStatusByCell(true, destY, destX);
+                        if (!locked) {
+                            // Add event handlers to destination markers
+                            boardPane.setPieceEventHandlerByCell(moveMouseEvent -> {
+                                log.debug("Destination at ({}|{}) clicked", destX, destY);
+                                Piece piece1 = board.getBoardMap().get(pos);
+                                piece1.makeMove(m);
+                                boardPane.resetStatus();
 
-                                        sendMessage(new ClientMessage(m));
+                                sendMessage(new ClientMessage(m));
 
-                                        updateTurnStatus(true);
+                                updateTurnStatus(true);
 
-                                        renderPieces();
-                                        setupPieceHandler();
+                                renderPieces();
+                                setupPieceHandler();
 
-                                    }
-                                }, destY, destX);
-                            }
-                        }
-                    } else {
-                        // Remove destination markers when deselecting cell.
-                        for (Move m : possibleMoves) {
-                            int destX = m.getDestination().getX();
-                            int destY = m.getDestination().getY();
-
-                            boardPane.setActivationStatusByCell(false, destY, destX);
+                            }, destY, destX);
                         }
                     }
+                } else {
+                    // Remove destination markers when deselecting cell.
+                    for (Move m : possibleMoves) {
+                        int destX = m.getDestination().getX();
+                        int destY = m.getDestination().getY();
 
-
+                        boardPane.setActivationStatusByCell(false, destY, destX);
+                    }
                 }
+
+
             }, pos.getY(), pos.getX());
         });
 
