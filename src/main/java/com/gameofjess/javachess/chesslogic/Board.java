@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.pieces.*;
 
 /*
@@ -24,6 +26,7 @@ public class Board {
 	/**
 	 * The Class representing the Chessboard 
 	 */
+	private static final Logger log = LogManager.getLogger(Board.class);
 
 	BidiMap<Position, Piece> board = new DualHashBidiMap<Position, Piece>();
 
@@ -32,10 +35,11 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
-
+		log.debug("Creating board");
 	}
 
 	public Board(Board board){
+		log.debug("Cloning board");
 		this.board = new DualHashBidiMap<Position, Piece>();
 		this.capturedPieces = new ArrayList<Piece>();
 		
@@ -43,9 +47,9 @@ public class Board {
 			this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
 		}
 
-		// for (Piece piece : capturedPieces) {
-		// 	this.capturedPieces.add(piece.getClone(this));
-		// }
+		for (Piece piece : capturedPieces) {
+			this.capturedPieces.add(piece.getClone(this));
+		}
 		// this.kingWhite = KingWhite;
 		// this.kingBlack = KingBlack;
 	}
@@ -56,20 +60,22 @@ public class Board {
 	 * @return Position Position Object of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
-			return board.getKey(piece);
+		//log.debug("Getting Position of {}", piece.getClass().getSimpleName());
+		return board.getKey(piece);
 	}
 
 	/**
 	 * Set the Board to the basic position
 	 */
 	public  void initialize() {
+		log.debug("initializeing board");
 		board.put(new Position(0, 0), new Rook(this, true));
 		board.put(new Position(1, 0), new Knight(this, true));
 		board.put(new Position(2, 0), new Bishop(this, true));
 		board.put(new Position(3, 0), new Queen(this, true));
-		// kingWhite = new King(this, true);
-		// board.put(new Position(4, 0), kingWhite);
-		board.put(new Position(4, 0), new King(this, true));
+		kingWhite = new King(this, true);
+		board.put(new Position(4, 0), kingWhite);
+		// board.put(new Position(4, 0), new King(this, true));
 		board.put(new Position(5, 0), new Bishop(this, true));
 		board.put(new Position(6, 0), new Knight(this, true));
 		board.put(new Position(7, 0), new Rook(this, true));
@@ -82,9 +88,9 @@ public class Board {
 		board.put(new Position(1, 7), new Knight(this, false));
 		board.put(new Position(2, 7), new Bishop(this, false));
 		board.put(new Position(3, 7), new Queen(this, false));
-		// kingBlack = new King(this, false);
-		// board.put(new Position(4, 7), kingBlack);
-		board.put(new Position(4, 7), new King(this, false));
+		kingBlack = new King(this, false);
+		board.put(new Position(4, 7), kingBlack);
+		// board.put(new Position(4, 7), new King(this, false));
 		board.put(new Position(5, 7), new Bishop(this, false));
 		board.put(new Position(6, 7), new Knight(this, false));
 		board.put(new Position(7, 7), new Rook(this, false));
@@ -137,6 +143,7 @@ public class Board {
 	}
 
 	public void capture(Position position){
+		log.debug("Capturing Piece");
 		Piece capture = getPiece(position);
 		capturedPieces.add(capture);
 		board.removeValue(capture);
@@ -155,6 +162,7 @@ public class Board {
 	}
 
 	public boolean isMoveValid(Move move){
+		log.debug("Checking move validity");
 		Piece testPiece = board.get(move.origin);
 		Move[] moves = testPiece.getMoves();
 		for (Move move2 : moves) {

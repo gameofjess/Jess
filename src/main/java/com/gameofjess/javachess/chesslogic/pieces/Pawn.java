@@ -201,7 +201,7 @@ public class Pawn extends Piece {
 		}
 		board.boardMapRemove(board.getPosition(this));
 		board.boardMapAdd(move.getDestination(), this);
-		System.out.println(board);
+		//System.out.println(board);
 	}
 
 	@Override

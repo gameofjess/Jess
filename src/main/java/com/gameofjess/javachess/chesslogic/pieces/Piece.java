@@ -1,5 +1,7 @@
 package com.gameofjess.javachess.chesslogic.pieces;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -9,12 +11,14 @@ public abstract class Piece implements Cloneable {
     /**
      * Abstract Class to represent a chesspiece
      */
+	private static final Logger log = LogManager.getLogger(Board.class);
 
     transient Board board;
     boolean isWhite;
     String fen;
 
     public Piece(Board board, boolean isWhite) {
+		//log.debug("Creating Piece");
         this.board = board;
         this.isWhite = isWhite;
     }
@@ -39,6 +43,7 @@ public abstract class Piece implements Cloneable {
      * @param move
      */
     public void makeMove(Move move) {
+		log.debug("making move");
         if (move.getCapturePosition() != null) {
             board.capture(move.getCapturePosition());;
         }
@@ -75,6 +80,7 @@ public abstract class Piece implements Cloneable {
 	}
 
 	boolean checkCheckMove(Move move){
+		log.debug("Check Check for move generation");
 		Board cloneBoard = new Board(board);
 		cloneBoard.getBoardMap().get(move.getOrigin()).makeMove(move);
 		if (isWhite) {

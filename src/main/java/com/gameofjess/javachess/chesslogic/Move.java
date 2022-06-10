@@ -1,12 +1,15 @@
 package com.gameofjess.javachess.chesslogic;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Move {
 	/**
 	 * This Class represents a Move from a Piece on the Chessboard,
 	 * including the Variations: Capture, Castling and Enpassant
 	 */
 
-//TODO geter seters
+	private static final Logger log = LogManager.getLogger(Move.class);
 
 	Position origin;
 	Position destination;
@@ -15,11 +18,13 @@ public class Move {
     boolean enpassant = false;
 
     public Move(Position origin, Position destination) {
+		//log.debug("Creating move object");
 		this.origin = origin;
         this.destination = destination;
 	}
 
     public Move(Position origin, Position destination, Position capturePosition, boolean enpassant) {
+		//log.debug("Creating move object with enpassant");
         this.origin = origin;
 		this.destination = destination;
 		this.capturePosition = capturePosition;
@@ -27,12 +32,14 @@ public class Move {
     }
 
     public Move(Position origin, Position destination, Position capturePosition) {
+		//log.debug("Creating move object with capture");
 		this.origin = origin;
 		this.destination = destination;
         this.capturePosition = capturePosition;
     }
 
     public Move(Position origin, Position destination, boolean rochade) {
+		//log.debug("Creating move object with castling");
 		this.origin = origin;
 		this.destination = destination;
         this.rochade = rochade;
