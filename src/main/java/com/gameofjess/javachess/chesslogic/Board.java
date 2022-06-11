@@ -48,7 +48,7 @@ public class Board {
 		// 	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
 		// }
 
-		board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
+		board.getBoardMap().entrySet().stream().forEach(entry -> {
 			this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
 		});
 
@@ -66,7 +66,7 @@ public class Board {
 	 */
 	public  Position getPosition(Piece piece){
 		log.trace("Getting Position of {}", piece.getClass().getSimpleName());
-		return board.getKey(piece);
+		 return board.getKey(piece);
 	}
 
 	/**
