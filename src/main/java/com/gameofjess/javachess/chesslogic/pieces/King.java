@@ -343,7 +343,7 @@ public class King extends Piece {
 		// return false;
 
 		
-		return board.getBoardMap().values().parallelStream().anyMatch(piece ->
+		return board.getBoardMap().values().stream().parallel().anyMatch(piece ->
 			Arrays.stream(piece.getMoves(false)).parallel().map(move -> move.getCapturePosition()).filter(position2 -> position2 != null).anyMatch(position2 -> position2.equals(position))
 		);
 	}
