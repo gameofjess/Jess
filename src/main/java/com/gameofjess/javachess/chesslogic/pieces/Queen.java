@@ -30,7 +30,7 @@ public class Queen extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
-		log.debug("getting moves queen");
+		log.trace("getting moves queen");
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 

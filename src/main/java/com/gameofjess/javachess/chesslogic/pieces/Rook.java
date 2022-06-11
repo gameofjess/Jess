@@ -36,7 +36,7 @@ public class Rook extends Piece {
 	 */
 	@Override
     public Move[] getMoves(boolean checking) {
-		log.debug("getting moves rook");
+		log.trace("getting moves rook");
         List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -145,7 +145,7 @@ public class Rook extends Piece {
 	 */
 	@Override
     public void makeMove(Move move) {
-		log.debug("making move");
+		log.trace("making move");
 		rochade = false;
 		if (move.getCapturePosition() != null) {
 			board.capture(move.getCapturePosition());

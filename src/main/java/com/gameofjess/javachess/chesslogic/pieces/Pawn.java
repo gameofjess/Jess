@@ -44,7 +44,7 @@ public class Pawn extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
-		log.debug("getting moves pawn");
+		log.trace("getting moves pawn");
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -229,7 +229,7 @@ public class Pawn extends Piece {
 	 */
 	@Override
 	public void makeMove(Move move){
-		log.debug("making move");
+		log.trace("making move");
 		enpassant = move.getEnpassant();
 		if (move.getCapturePosition() != null) {
 			board.capture(move.getCapturePosition());

@@ -36,11 +36,11 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
-		log.debug("Creating board");
+		log.trace("Creating board");
 	}
 
 	public Board(Board board){
-		log.debug("Cloning board");
+		log.trace("Cloning board");
 		this.board = new DualHashBidiMap<Position, Piece>();
 		this.capturedPieces = new ArrayList<Piece>();
 		
@@ -65,7 +65,7 @@ public class Board {
 	 * @return Position Position Object of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
-		log.debug("Getting Position of {}", piece.getClass().getSimpleName());
+		log.trace("Getting Position of {}", piece.getClass().getSimpleName());
 		return board.getKey(piece);
 	}
 
@@ -73,7 +73,7 @@ public class Board {
 	 * Set the Board to the basic position
 	 */
 	public  void initialize() {
-		log.debug("initializeing board");
+		log.trace("initializeing board");
 		board.put(new Position(0, 0), new Rook(this, true, true));
 		board.put(new Position(1, 0), new Knight(this, true));
 		board.put(new Position(2, 0), new Bishop(this, true));
@@ -148,7 +148,7 @@ public class Board {
 	}
 
 	public void capture(Position position){
-		log.debug("Capturing Piece");
+		log.trace("Capturing Piece");
 		Piece capture = getPiece(position);
 		capturedPieces.add(capture);
 		board.removeValue(capture);
@@ -167,7 +167,7 @@ public class Board {
 	}
 
 	public boolean isMoveValid(Move move){
-		log.debug("Checking move validity");
+		log.trace("Checking move validity");
 		Piece testPiece = board.get(move.origin);
 		Move[] moves = testPiece.getMoves();
 		// for (Move move2 : moves) {
