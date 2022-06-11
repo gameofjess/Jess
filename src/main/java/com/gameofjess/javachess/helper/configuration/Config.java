@@ -8,9 +8,10 @@ public class Config {
 
     private static final Logger log = LogManager.getLogger(Config.class);
 
-    private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
-
     private final Logging logging = new Logging("INFO");
+    private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
+    private final ServerConfiguration serverConfiguration = new ServerConfiguration(8887, "0.0.0.0");
+
 
     private class Logging {
         /**
@@ -118,5 +119,64 @@ public class Config {
     public boolean getShowPublicIPAddress() {
         return hostMenuConfiguration.getLoadPublicIPAddress();
     }
+
+    private class ServerConfiguration {
+        /**
+         * <p>
+         * This specifies the standard port for a server instance. We advice not to change this if not
+         * necessary, but it may come in handy in some configurations e.g. when installing a Jess server
+         * behind a reverse proxy.
+         * </p>
+         * <p>
+         * This value may be overridden when using the -p flag on startup.
+         * </p>
+         * <p>
+         * <strong>Default:</strong> 8887
+         * </p>
+         * <p>
+         * <strong>Possible values:</strong> All integers from 1000 to 65535
+         * </p>
+         */
+        private final int defaultPort;
+
+        /**
+         * <p>
+         * This specifies the standard hostname for a server instance. We advice not to change this if not
+         * necessary, but it may come in handy in some configurations.
+         * </p>
+         * <p>
+         * This value may be overridden when using the -H flag on startup.
+         * </p>
+         * <p>
+         * <strong>Default:</strong> 0.0.0.0
+         * </p>
+         * <p>
+         * <strong>Possible values:</strong> All possible hostnames. Depends on host system.
+         * </p>
+         */
+        private final String defaultHostname;
+
+        ServerConfiguration(int defaultPort, String defaultHostname) {
+            this.defaultPort = defaultPort;
+            this.defaultHostname = defaultHostname;
+        }
+
+        int getDefaultPort() {
+            return defaultPort;
+        }
+
+        String getDefaultHostname() {
+            return defaultHostname;
+        }
+    }
+
+    public int getDefaultPort() {
+        return serverConfiguration.getDefaultPort();
+    }
+
+    public String getDefaultHostname() {
+        return serverConfiguration.getDefaultHostname();
+    }
+
 
 }
