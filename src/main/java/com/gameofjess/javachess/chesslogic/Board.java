@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
@@ -40,17 +42,22 @@ public class Board {
 	}
 
 	public Board(Board board){
+		Board thisboard = this;
 		log.trace("Cloning board");
-		this.board = new DualHashBidiMap<Position, Piece>();
+		//this.board = new DualHashBidiMap<Position, Piece>();
 		this.capturedPieces = new ArrayList<Piece>();
 		
 		// for (Map.Entry<Position, Piece> entry : board.getBoardMap().entrySet()) {
 		// 	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
 		// }
 
-		board.getBoardMap().entrySet().stream().forEach(entry -> {
-			this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
-		});
+		//board.getBoardMap().entrySet().stream().forEach(entry -> {
+		//	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
+		//});
+
+		this.board = new DualHashBidiMap<Position, Piece>(board.getBoardMap().entrySet().stream().parallel().collect(Collectors.toMap(
+				entry -> entry.getKey().getClone(), entry -> entry.getValue().getClone(this)
+				)));
 
 		// for (Piece piece : capturedPieces) {
 		// 	this.capturedPieces.add(piece.getClone(this));
