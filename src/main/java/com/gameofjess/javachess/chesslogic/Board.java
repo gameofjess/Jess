@@ -38,11 +38,12 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
+		//this.initialize();
+		this.initialize_check();
 		log.trace("Creating board");
 	}
 
 	public Board(Board board){
-		Board thisboard = this;
 		log.trace("Cloning board");
 		//this.board = new DualHashBidiMap<Position, Piece>();
 		this.capturedPieces = new ArrayList<Piece>();
@@ -79,14 +80,14 @@ public class Board {
 	/**
 	 * Set the Board to the basic position
 	 */
-	public  void initialize() {
+	void initialize() {
 		log.trace("initializeing board");
 		board.put(new Position(0, 0), new Rook(this, true, true));
 		board.put(new Position(1, 0), new Knight(this, true));
 		board.put(new Position(2, 0), new Bishop(this, true));
-		board.put(new Position(3, 0), new Queen(this, true));
 		kingWhite = new King(this, true);
-		board.put(new Position(4, 0), kingWhite);
+		board.put(new Position(3, 0), kingWhite);
+		board.put(new Position(4, 0), new Queen(this, true));
 		// board.put(new Position(4, 0), new King(this, true));
 		board.put(new Position(5, 0), new Bishop(this, true));
 		board.put(new Position(6, 0), new Knight(this, true));
@@ -99,9 +100,9 @@ public class Board {
 		board.put(new Position(0, 7), new Rook(this, false, true));
 		board.put(new Position(1, 7), new Knight(this, false));
 		board.put(new Position(2, 7), new Bishop(this, false));
-		board.put(new Position(3, 7), new Queen(this, false));
 		kingBlack = new King(this, false);
-		board.put(new Position(4, 7), kingBlack);
+		board.put(new Position(3, 7), kingBlack);
+		board.put(new Position(4, 7), new Queen(this, false));
 		// board.put(new Position(4, 7), new King(this, false));
 		board.put(new Position(5, 7), new Bishop(this, false));
 		board.put(new Position(6, 7), new Knight(this, false));
@@ -113,6 +114,15 @@ public class Board {
 
 	}
 
+	void initialize_check(){
+		kingBlack = new King(this, false);
+		board.put(new Position(6, 7), kingBlack);
+		kingWhite = new King(this, true);
+		board.put(new Position(2, 2), kingWhite);
+		board.put(new Position(4, 4), new Bishop(this, true));
+		board.put(new Position(3, 6), new Queen(this, true));
+
+	}
 	/**
 	 * FOR DEBUGGING:
 	 * Print the current state of the Board to the console

@@ -263,7 +263,7 @@ public class GameController extends Controller {
                 Platform.runLater(() -> {
                     boardPane = new BoardPane(color == Color.WHITE);
                     main.add(boardPane, 1, 1);
-                    board.initialize();
+                    //board.initialize();
                     renderPieces();
                 });
             }

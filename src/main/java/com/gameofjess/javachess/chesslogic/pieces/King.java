@@ -350,7 +350,7 @@ public class King extends Piece {
 
 	public boolean checkCheckMate(){
 		return board.getBoardMap().values().parallelStream().allMatch(piece -> 
-			piece.isWhite == this.isWhite && piece.getMoves() == null
+			piece.isWhite != this.isWhite || piece.getMoves().length == 0
 		);
 	}
 
