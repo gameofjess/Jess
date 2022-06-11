@@ -29,7 +29,7 @@ public class Knight extends Piece {
 	 */
 	@Override
     public Move[] getMoves(boolean checking) {
-		log.debug("getting moves knight");
+		log.trace("getting moves knight");
         List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 

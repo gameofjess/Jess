@@ -29,7 +29,7 @@ public class Bishop extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
-		log.debug("getting moves bishop");
+		log.trace("getting moves bishop");
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
