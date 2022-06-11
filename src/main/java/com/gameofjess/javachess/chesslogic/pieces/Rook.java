@@ -3,7 +3,8 @@ package com.gameofjess.javachess.chesslogic.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -11,11 +12,12 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class Rook extends Piece {
+	private static final Logger log = LogManager.getLogger(Rook.class);
 
     private static final Image whiteImage = new Image(Objects.requireNonNull(Rook.class.getResourceAsStream("/icons/wRook.png")));
     private static final Image blackImage = new Image(Objects.requireNonNull(Rook.class.getResourceAsStream("/icons/bRook.png")));
 
-    boolean rochade = true;
+    boolean rochade = false;
 
     public Rook(Board Board, boolean isWhite) {
         super(Board, isWhite);
@@ -34,6 +36,7 @@ public class Rook extends Piece {
 	 */
 	@Override
     public Move[] getMoves(boolean checking) {
+		log.debug("getting moves rook");
         List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -142,6 +145,7 @@ public class Rook extends Piece {
 	 */
 	@Override
     public void makeMove(Move move) {
+		log.debug("making move");
 		rochade = false;
 		if (move.getCapturePosition() != null) {
 			board.capture(move.getCapturePosition());

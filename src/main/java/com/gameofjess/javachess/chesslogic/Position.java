@@ -1,18 +1,24 @@
 package com.gameofjess.javachess.chesslogic;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Position {
 	/**
 	 * This Class represents a position on the Chessboard
 	 */
+	private static final Logger log = LogManager.getLogger(Position.class);
 	final int x;
 	final int y;
 
 	public Position(int x, int y) {
-		this.x = x;
-		this.y = y;
+		//log.debug("Creating Position Object ({},{})", x, y);
+		this.x = (byte)x;
+		this.y = (byte)y;
 	}
 
 	public Position getClone(){
+		//log.debug("Cloning Position Object ({},{})", x, y);
 		return new Position(x, y);
 	}
 

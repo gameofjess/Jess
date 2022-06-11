@@ -98,7 +98,7 @@ public class ConnectionHandler {
             client.addHeader("username", username);
             log.debug("Attempting to assign color {}.", color.name());
             client.addHeader("color", color.name());
-            boolean connected = client.connectBlocking(40, TimeUnit.MILLISECONDS);
+            boolean connected = client.connectBlocking();
             if (connected) {
                 log.info("Connected successfully!");
             }

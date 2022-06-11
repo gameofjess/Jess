@@ -1,9 +1,11 @@
 package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -11,6 +13,7 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class King extends Piece {
+	private static final Logger log = LogManager.getLogger(Board.class);
 
 	private static final Image whiteImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/wKing.png")));
 	private static final Image blackImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/bKing.png")));
@@ -34,6 +37,7 @@ public class King extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
+		log.debug("getting moves king");
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
@@ -325,15 +329,29 @@ public class King extends Piece {
 	}
 
 	public boolean checkCheck(){
+		log.debug("check check King");
 		Position position = getPosition();
-		for (Piece piece : board.getBoardMap().values()) {
-			for (Move move : piece.getMoves(false)) {
-				if (move.getCapturePosition() != null && move.getCapturePosition().equals(position)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		log.debug(position);
+		// for (Piece piece : board.getBoardMap().values()) {
+		// 	log.debug(position);
+		// 	for (Move move : piece.getMoves(false)) {
+		// 		if (move.getCapturePosition() != null && move.getCapturePosition().equals(position)) {
+		// 			return true;
+		// 		}
+		// 	}
+		// }
+		// return false;
+
+		
+		return board.getBoardMap().values().parallelStream().anyMatch(piece ->
+			Arrays.stream(piece.getMoves(false)).parallel().map(move -> move.getCapturePosition()).filter(position2 -> position2 != null).anyMatch(position2 -> position2.equals(position))
+		);
+	}
+
+	public boolean checkCheckMate(){
+		return board.getBoardMap().values().parallelStream().anyMatch(piece -> 
+			piece.isWhite == this.isWhite && piece.getMoves() != null
+		);
 	}
 
 	@Override

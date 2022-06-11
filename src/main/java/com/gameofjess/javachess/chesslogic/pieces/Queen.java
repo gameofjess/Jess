@@ -4,7 +4,8 @@ package com.gameofjess.javachess.chesslogic.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -12,6 +13,7 @@ import com.gameofjess.javachess.chesslogic.Position;
 import javafx.scene.image.Image;
 
 public class Queen extends Piece {
+	private static final Logger log = LogManager.getLogger(Queen.class);
 
     private static final Image whiteImage = new Image(Objects.requireNonNull(Queen.class.getResourceAsStream("/icons/wQueen.png")));
     private static final Image blackImage = new Image(Objects.requireNonNull(Queen.class.getResourceAsStream("/icons/bQueen.png")));
@@ -28,6 +30,7 @@ public class Queen extends Piece {
 	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
+		log.debug("getting moves queen");
 		List<Move> moves = new ArrayList<Move>();
 		Position position = board.getPosition(this);
 
