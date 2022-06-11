@@ -40,7 +40,7 @@ public class MenuController extends Controller {
 
     private static final Logger log = LogManager.getLogger(MenuController.class);
 
-    private static Config config;
+    private Config config;
 
     private ConnectionHandler connectionHandler;
 
@@ -216,12 +216,10 @@ public class MenuController extends Controller {
      * @param event GUI ActionEvent
      */
     public void hostGame(ActionEvent event) throws IOException {
-        String host = "127.0.0.1";
-        int port = 8887;
+        String host = config.getDefaultHostname();
+        int port = config.getDefaultPort();
 
         ServerBuilder serverBuilder = new ServerBuilder();
-        serverBuilder.setHost(host);
-        serverBuilder.setPort(port);
 
         Server server = serverBuilder.build();
         Thread serverThread = new Thread(() -> {

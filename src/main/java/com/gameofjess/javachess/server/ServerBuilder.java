@@ -1,6 +1,14 @@
 package com.gameofjess.javachess.server;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.gameofjess.javachess.helper.configuration.Config;
+import com.gameofjess.javachess.helper.configuration.ConfigHandler;
 
 /**
  * This builder is used to build a Server.
@@ -8,8 +16,23 @@ import java.net.InetSocketAddress;
 
 public class ServerBuilder {
 
-    private int port = 8887;
+    private static final Logger log = LogManager.getLogger(ServerBuilder.class);
+
+    private int port;
     private String host;
+
+    public ServerBuilder() {
+        Config config;
+        try {
+            config = new ConfigHandler().loadConfig(new File("config.json"));
+        } catch (IOException e) {
+            log.error("Could not read config file. Proceeding to use default values!");
+            config = new Config();
+        }
+
+        port = config.getDefaultPort();
+        host = config.getDefaultHostname();
+    }
 
     /**
      * Sets the port the server should listen on.
