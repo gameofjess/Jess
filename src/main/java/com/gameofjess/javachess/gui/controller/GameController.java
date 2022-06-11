@@ -316,6 +316,11 @@ public class GameController extends Controller {
 
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
             }
+            case CHECKMATE -> {
+                Platform.runLater(() -> {
+                    endGame(username + " has won!");
+                });
+            }
             default -> {
                 throw new IllegalArgumentException("Received message is not of any recognized type!");
             }

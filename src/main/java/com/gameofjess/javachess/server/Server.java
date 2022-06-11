@@ -228,13 +228,27 @@ public class Server extends WebSocketServer {
                     board.getBoardMap().get(m.getOrigin()).makeMove(m);
                     ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, sentDate, cmsg.getMessage());
 
-                    for (WebSocket ws : this.getConnections()) {
-                        if (!(ws.equals(webSocket))) {
-                            ws.send(msg.toJSON());
-                        }
+                    getConnections().parallelStream().filter(ws -> !(ws.equals(webSocket))).forEach(ws -> ws.send(msg.toJSON()));
+
+                    if (board.getKingBlack().checkCheckMate()) {
+                        gameColors.entrySet().stream().filter(entry -> entry.getValue() == Color.WHITE).findFirst().ifPresent(winnerEntry -> {
+                            String winnerUsername = users.get(winnerEntry.getKey());
+                            broadcast(new ServerMessage(winnerUsername, MessageType.CHECKMATE, "").toJSON());
+                        });
+                        getConnections().forEach(ws -> {
+                            ws.close(CloseFrame.NORMAL);
+                        });
+                    } else if (board.getKingWhite().checkCheckMate()) {
+                        gameColors.entrySet().stream().filter(entry -> entry.getValue() == Color.BLACK).findFirst().ifPresent(winnerEntry -> {
+                            String winnerUsername = users.get(winnerEntry.getKey());
+                            broadcast(new ServerMessage(winnerUsername, MessageType.CHECKMATE, "").toJSON());
+                        });
+                        getConnections().forEach(ws -> {
+                            ws.close(CloseFrame.NORMAL);
+                        });
                     }
                 } else {
-                    log.debug("Move from {} was found invalid. Closing game!", username);
+                    log.info("Move from {} was found invalid. Closing game!", username);
                     broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, "Invalid move made by " + username + "! Closing game!");
                 }
             }
