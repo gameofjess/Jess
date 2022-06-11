@@ -13,8 +13,8 @@ public class Position {
 
 	public Position(int x, int y) {
 		//log.debug("Creating Position Object ({},{})", x, y);
-		this.x = x;
-		this.y = y;
+		this.x = (byte)x;
+		this.y = (byte)y;
 	}
 
 	public Position getClone(){

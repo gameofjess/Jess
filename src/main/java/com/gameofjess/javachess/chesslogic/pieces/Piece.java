@@ -18,7 +18,7 @@ public abstract class Piece implements Cloneable {
     String fen;
 
     public Piece(Board board, boolean isWhite) {
-		//log.debug("Creating Piece");
+		log.debug("Creating {}", this.getClass().getSimpleName());
         this.board = board;
         this.isWhite = isWhite;
     }
@@ -82,6 +82,7 @@ public abstract class Piece implements Cloneable {
 	boolean checkCheckMove(Move move){
 		log.debug("Check Check for move generation");
 		Board cloneBoard = new Board(board);
+		log.debug("cloned board!");
 		cloneBoard.getBoardMap().get(move.getOrigin()).makeMove(move);
 		if (isWhite) {
 			return cloneBoard.getKingWhite().checkCheck();

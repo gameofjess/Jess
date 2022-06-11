@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.chesslogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +44,17 @@ public class Board {
 		this.board = new DualHashBidiMap<Position, Piece>();
 		this.capturedPieces = new ArrayList<Piece>();
 		
-		for (Map.Entry<Position, Piece> entry : board.getBoardMap().entrySet()) {
-			this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
-		}
+		// for (Map.Entry<Position, Piece> entry : board.getBoardMap().entrySet()) {
+		// 	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
+		// }
 
-		for (Piece piece : capturedPieces) {
-			this.capturedPieces.add(piece.getClone(this));
-		}
+		board.getBoardMap().entrySet().parallelStream().forEach(entry -> {
+			this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
+		});
+
+		// for (Piece piece : capturedPieces) {
+		// 	this.capturedPieces.add(piece.getClone(this));
+		// }
 		// this.kingWhite = KingWhite;
 		// this.kingBlack = KingBlack;
 	}
@@ -60,7 +65,7 @@ public class Board {
 	 * @return Position Position Object of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
-		//log.debug("Getting Position of {}", piece.getClass().getSimpleName());
+		log.debug("Getting Position of {}", piece.getClass().getSimpleName());
 		return board.getKey(piece);
 	}
 
@@ -69,7 +74,7 @@ public class Board {
 	 */
 	public  void initialize() {
 		log.debug("initializeing board");
-		board.put(new Position(0, 0), new Rook(this, true));
+		board.put(new Position(0, 0), new Rook(this, true, true));
 		board.put(new Position(1, 0), new Knight(this, true));
 		board.put(new Position(2, 0), new Bishop(this, true));
 		board.put(new Position(3, 0), new Queen(this, true));
@@ -78,13 +83,13 @@ public class Board {
 		// board.put(new Position(4, 0), new King(this, true));
 		board.put(new Position(5, 0), new Bishop(this, true));
 		board.put(new Position(6, 0), new Knight(this, true));
-		board.put(new Position(7, 0), new Rook(this, true));
+		board.put(new Position(7, 0), new Rook(this, true, true));
 
 		for (int i = 0; i < 8; i++) {
 			board.put(new Position(i, 1), new Pawn(this, true));
 		}
 
-		board.put(new Position(0, 7), new Rook(this, false));
+		board.put(new Position(0, 7), new Rook(this, false, true));
 		board.put(new Position(1, 7), new Knight(this, false));
 		board.put(new Position(2, 7), new Bishop(this, false));
 		board.put(new Position(3, 7), new Queen(this, false));
@@ -93,7 +98,7 @@ public class Board {
 		// board.put(new Position(4, 7), new King(this, false));
 		board.put(new Position(5, 7), new Bishop(this, false));
 		board.put(new Position(6, 7), new Knight(this, false));
-		board.put(new Position(7, 7), new Rook(this, false));
+		board.put(new Position(7, 7), new Rook(this, false, true));
 
 		for (int i = 0; i < 8; i++) {
 			board.put(new Position(i, 6), new Pawn(this, false));
@@ -165,12 +170,15 @@ public class Board {
 		log.debug("Checking move validity");
 		Piece testPiece = board.get(move.origin);
 		Move[] moves = testPiece.getMoves();
-		for (Move move2 : moves) {
-			if (move2.equals(move)) {
-				return true;
-			}
-		}
-		return false;
+		// for (Move move2 : moves) {
+		// 	if (move2.equals(move)) {
+		// 		return true;
+		// 	}
+		// }
+
+		return Arrays.stream(moves).parallel().anyMatch(move2 -> 
+			move.equals(move2)
+		);
 	}
 
 	@Override
