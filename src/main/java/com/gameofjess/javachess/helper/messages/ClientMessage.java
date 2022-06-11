@@ -41,7 +41,7 @@ public class ClientMessage implements Message {
      * @param type Type of ClientMessage.
      */
     public ClientMessage(String message, MessageType type) {
-        log.debug("Constructing ClientMessage with message and message type.");
+        log.trace("Constructing client message with message {} and type {}.", message, type);
         if (type == MessageType.SERVERINFO || type == MessageType.SERVERERROR || type == MessageType.BEGINMATCH || type == MessageType.USERLIST || type == MessageType.COLORINFO) {
             throw new IllegalArgumentException("A ClientMessage may not be of type " + type);
         }
@@ -57,7 +57,7 @@ public class ClientMessage implements Message {
      */
     public ClientMessage(Move m) {
         this(new Gson().toJson(m), MessageType.NEWMOVE);
-        log.debug("Constructing ClientMessage from Move Object");
+        log.trace("Constructing client message for new move.");
     }
 
     /**

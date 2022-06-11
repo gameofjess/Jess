@@ -71,7 +71,7 @@ public class Server extends WebSocketServer {
             return;
         }
 
-        log.debug("Connection header is being parsed");
+        log.trace("Connection header is being parsed");
 
         if (!parseUsername(webSocket, clientHandshake) || !parseColor(webSocket, clientHandshake)) {
             return;

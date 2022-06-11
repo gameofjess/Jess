@@ -27,6 +27,7 @@ public class ServerMessage implements Message {
      * @param time Custom date of creation.
      */
     public ServerMessage(String username, MessageType type, Date time, String message) {
+        log.trace("Constructing server message with username {}, type {}, time {} and message \"{}\".", username, type.name(), time.toString(), message);
         this.username = username;
         this.type = type;
         this.time = time;
@@ -40,6 +41,7 @@ public class ServerMessage implements Message {
      * @param message Message to be sent.
      */
     public ServerMessage(String username, MessageType type, String message) {
+        log.trace(" Constructing server message with username {}, type {} and message \"{}\".", username, type.name(), message);
         this.username = username;
         this.type = type;
         this.time = new Date();
@@ -53,6 +55,7 @@ public class ServerMessage implements Message {
      * @param message Message to be sent.
      */
     public ServerMessage(MessageType type, String message) {
+        log.trace(" Constructing server message with type {} and message \"{}\".", type.name(), message);
         this.username = null;
         this.type = type;
         this.message = message;
@@ -67,6 +70,7 @@ public class ServerMessage implements Message {
      * @param message Message to be sent.
      */
     public ServerMessage(MessageType type, Date time, String message) {
+        log.trace("Constructing server message with type {}, time {} and message \"{}\".", type.name(), time.toString(), message);
         this.username = null;
         this.type = type;
         this.message = message;
@@ -77,6 +81,7 @@ public class ServerMessage implements Message {
      * Constructs a ServerMessage from JSON.
      */
     public ServerMessage(String json) {
+        log.trace("Constructing server message with json \"{}\" is ", json);
         Gson g = new Gson();
         message = g.fromJson(json, ServerMessage.class).getMessage();
         time = g.fromJson(json, ServerMessage.class).getTime();
