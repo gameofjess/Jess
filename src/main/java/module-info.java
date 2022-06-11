@@ -7,6 +7,7 @@ open module JavaChess {
 
     // Log4j
     requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
 
     // Java-WebSocket API
     requires Java.WebSocket;

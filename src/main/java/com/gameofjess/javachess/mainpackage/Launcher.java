@@ -1,13 +1,19 @@
 package com.gameofjess.javachess.mainpackage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import com.gameofjess.javachess.helper.argumentparsing.ArgumentParser;
 import com.gameofjess.javachess.helper.argumentparsing.Option;
+import com.gameofjess.javachess.helper.configuration.Config;
+import com.gameofjess.javachess.helper.configuration.ConfigHandler;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
 import com.gameofjess.javachess.server.ServerCommandListener;
@@ -26,6 +32,19 @@ public class Launcher {
      * Starts the application. This method also parses the options given via command line.
      */
     public static void main(String[] args) {
+
+        Config config;
+        try {
+            config = new ConfigHandler().loadConfig(new File("config.json"));
+        } catch (IOException e) {
+            log.error("Could not read config file. Proceeding to use default values!");
+            config = new Config();
+        }
+
+        Level level = config.getLogLevel();
+        log.debug("Setting logger level to {}", level.name());
+        Configurator.setLevel(LogManager.getRootLogger(), level);
+
         try {
             Option[] options = ArgumentParser.getOpts(args);
             List<Option> optionList = Arrays.asList(options);

@@ -1,9 +1,64 @@
 package com.gameofjess.javachess.helper.configuration;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Config {
+
+    private static final Logger log = LogManager.getLogger(Config.class);
+
     private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
 
-    class HostMenuConfiguration {
+    private final Logging logging = new Logging("INFO");
+
+    private class Logging {
+        /**
+         * <p>
+         * This specifies the user log level.
+         * </p>
+         *
+         * <p>
+         * <strong>Default:</strong> INFO
+         * </p>
+         * <p>
+         * <strong>Possible values:</strong>
+         * <ul>
+         * <li><strong>FATAL</strong>: Logs only fatal exceptions.</li>
+         * <li><strong>ERROR</strong>: Also logs errors.</li>
+         * <li><strong>WARN</strong>: Also logs warnings.</li>
+         * <li><strong>INFO</strong>: Normal logging behavior. Also logs program start etc.</li>
+         * <li><strong>DEBUG</strong>: Logs in-depth information about received messages. And in-game board
+         * configuration.</li>
+         * <li><strong>TRACE</strong>: Also logs internal chess logic and in-depth WebSocket
+         * implementation.</li>
+         * </ul>
+         * </p>
+         */
+        private final String level;
+
+        Logging(String level) {
+            this.level = level;
+        }
+
+        String getLogLevel() {
+            return level;
+        }
+    }
+
+    public Level getLogLevel() {
+        String level = logging.getLogLevel();
+        Level logLevel = Level.getLevel(level);
+
+        if (logLevel == null) {
+            log.error("Invalid log level parameter: {}. Going to use default value: INFO!", level);
+            return Level.INFO;
+        } else {
+            return logLevel;
+        }
+    }
+
+    private class HostMenuConfiguration {
         /**
          * <p>
          * This specifies whether the public IP Address should be shown and determined in the first place on
@@ -42,16 +97,16 @@ public class Config {
          */
         private final String ipAddressServer;
 
-        public HostMenuConfiguration(boolean loadPublicIPAddress, String ipAddressServer) {
+        HostMenuConfiguration(boolean loadPublicIPAddress, String ipAddressServer) {
             this.loadPublicIPAddress = loadPublicIPAddress;
             this.ipAddressServer = ipAddressServer;
         }
 
-        public String getIpAddressServer() {
+        String getIpAddressServer() {
             return ipAddressServer;
         }
 
-        public boolean getLoadPublicIPAddress() {
+        boolean getLoadPublicIPAddress() {
             return loadPublicIPAddress;
         }
     }
@@ -63,6 +118,5 @@ public class Config {
     public boolean getShowPublicIPAddress() {
         return hostMenuConfiguration.getLoadPublicIPAddress();
     }
-
 
 }
