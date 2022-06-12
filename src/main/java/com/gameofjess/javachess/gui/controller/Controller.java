@@ -20,23 +20,21 @@ public abstract class Controller {
     /**
      * Set the scene to the host scene.
      *
-     * @param event GUI ActionEvent
      * @throws IOException If the corresponding fxml file is not found.
      */
 
-    public MenuController switchHostScene(ActionEvent event) throws IOException {
-        return (MenuController) switchScene(SceneType.HOST, event);
+    public MenuController switchHostScene() throws IOException {
+        return (MenuController) switchScene(SceneType.HOST);
     }
 
     /**
      * Set the scene to the join scene.
      *
-     * @param event GUI ActionEvent
      * @throws IOException If the corresponding fxml file is not found.
      */
 
-    public MenuController switchJoinScene(ActionEvent event) throws IOException {
-        return (MenuController) switchScene(SceneType.JOIN, event);
+    public MenuController switchJoinScene() throws IOException {
+        return (MenuController) switchScene(SceneType.JOIN);
     }
 
     /**
@@ -62,11 +60,10 @@ public abstract class Controller {
      * Set the scene to the type given.
      *
      * @param type Type of scene.
-     * @param event GUI ActionEvent.
      * @throws IOException If the fxml file cannot be loaded.
      */
 
-    private Controller switchScene(SceneType type, ActionEvent event) throws IOException {
+    private Controller switchScene(SceneType type) throws IOException {
         SceneFactory factory = new SceneFactory(type);
         Scene scene = factory.getScene();
         Stage stage = getStage();

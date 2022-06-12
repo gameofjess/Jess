@@ -2,8 +2,6 @@ package com.gameofjess.javachess.gui.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +12,7 @@ import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.gui.helper.objects.BoardOverlay;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
@@ -25,7 +24,6 @@ import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -42,10 +40,11 @@ import javafx.scene.text.TextAlignment;
 
 public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
+
     @FXML
-    public Button resignButton;
+    private HBox resignButtonField;
     @FXML
-    public HBox resignButtonField;
+    private GridPane root;
     @FXML
     private GridPane main;
     @FXML
@@ -64,6 +63,10 @@ public class GameController extends Controller {
      * Board view
      */
     private BoardPane boardPane;
+    /**
+     * Button used to resign
+     */
+    private Button resignButton;
     /**
      * ConnectionHandler for communication
      */
@@ -307,9 +310,14 @@ public class GameController extends Controller {
             }
             case BEGINMATCH -> {
                 Platform.runLater(() -> {
-                    Optional<Node> textOptional =
-                            main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
-                    textOptional.ifPresent(node -> main.getChildren().remove(node));
+                    root.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
+                            .ifPresent(node -> root.getChildren().remove(node));
+
+                    resignButton = new Button();
+                    resignButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;");
+                    resignButton.setOnAction(event -> resign());
+                    resignButton.setText("RESIGN");
+                    resignButtonField.getChildren().add(resignButton);
 
                     main.getChildren().remove(1, 1);
                 });
@@ -325,8 +333,6 @@ public class GameController extends Controller {
                 throw new IllegalArgumentException("Received message is not of any recognized type!");
             }
         }
-
-
     }
 
     /**
@@ -345,9 +351,7 @@ public class GameController extends Controller {
      */
     public void endGame(String message) {
         Platform.runLater(() -> {
-            main.getChildren().remove(boardPane);
             setBoardMessage(message);
-            resignButton.setText("EXIT");
         });
     }
 
@@ -357,20 +361,34 @@ public class GameController extends Controller {
      * @param message Message to be shown.
      */
     private void setBoardMessage(String message) {
-        Optional<Node> textOptional =
-                main.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardText")).findAny();
-        if (textOptional.isPresent()) {
-            log.debug("Changing game information to {}", message);
-            ((Label) textOptional.get()).setText(message);
-        } else {
-            log.debug("Adding game information: {}", message);
-            Label text = new Label(message.toUpperCase(Locale.ROOT));
-            text.setStyle("-fx-font-weight: 900; -fx-font-size: 16;");
-            GridPane.setHalignment(text, HPos.CENTER);
-            text.setId("boardText");
+        resignButtonField.getChildren().clear();
+        root.getChildren().parallelStream().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
+                .ifPresentOrElse(boardOverlay -> {
+                    log.debug("Changing game information to {}", message);
+                    ((BoardOverlay) boardOverlay).setBoardOverlayText(message);
+                }, () -> {
+                    log.debug("Adding game information: {}", message);
+                    BoardOverlay boardOverlay = new BoardOverlay();
 
-            main.add(text, 1, 1);
-        }
+                    if (boardPane != null) {
+                        boardPane.resetEventHandlers();
+                        boardOverlay.prefHeightProperty().bind(boardPane.prefHeightProperty());
+                        boardOverlay.prefWidthProperty().bind(boardPane.prefWidthProperty());
+                    }
+
+                    boardOverlay.setBoardOverlayText(message);
+
+                    boardOverlay.setExitButtonOnActionEventHandler(event -> {
+                        closeConnection(username + " exited!");
+                        try {
+                            switchJoinScene();
+                        } catch (IOException e) {
+                            log.error("Could not switch scene!");
+                        }
+                    });
+
+                    root.add(boardOverlay, 0, 0);
+                });
     }
 
     /**
@@ -421,10 +439,8 @@ public class GameController extends Controller {
 
     /**
      * Closes the connection and switches back to the join scene.
-     * 
-     * @param event GUI ActionEvent
      */
-    public void resign(ActionEvent event) throws IOException {
+    public void resign() {
         resignButtonField.getChildren().clear();
 
         VBox vBox = new VBox();
@@ -440,7 +456,7 @@ public class GameController extends Controller {
         yesButton.setOnAction(onActionEvent -> {
             closeConnection(username + " resigned!");
             try {
-                switchJoinScene(event);
+                switchJoinScene();
             } catch (IOException e) {
                 log.error("Could not switch scene!");
             }

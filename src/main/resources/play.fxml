@@ -9,7 +9,8 @@
 <?import javafx.scene.text.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
           prefWidth="600.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/16"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gameofjess.javachess.gui.controller.GameController">
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gameofjess.javachess.gui.controller.GameController"
+          fx:id="root">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="75.0"/>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0"/>
@@ -89,10 +90,7 @@
               <RowConstraints vgrow="SOMETIMES" percentHeight="10.0"/>
           </rowConstraints>
           <children>
-              <HBox fx:id="resignButtonField" GridPane.columnIndex="2" GridPane.rowIndex="0" alignment="CENTER">
-                  <Button fx:id="resignButton" mnemonicParsing="false" onAction="#resign"
-                          style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;" text="RESIGN"/>
-              </HBox>
+              <HBox fx:id="resignButtonField" GridPane.columnIndex="2" GridPane.rowIndex="0" alignment="CENTER"/>
               <HBox fx:id="upperUsernameField" GridPane.rowIndex="0" GridPane.columnIndex="0" alignment="CENTER"
                     style="-fx-padding: 0 0 0 10;">
                   <Circle fx:id="upperCircle" fill="WHITE" radius="10.0" stroke="WHITE" strokeType="INSIDE"
