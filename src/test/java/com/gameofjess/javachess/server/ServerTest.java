@@ -274,7 +274,6 @@ public class ServerTest {
         testServer.onOpen(testWS2, testHandshake2);
 
         Board board = new Board();
-        //board.initialize();
 
         Piece piece = board.getBoardMap().get(new Position(1, 1));
 
@@ -317,9 +316,6 @@ public class ServerTest {
 
         testServer.onOpen(testWS, testHandshake);
         testServer.onOpen(testWS2, testHandshake2);
-
-        Board board = new Board();
-        //board.initialize();
 
         Move move = new Move(new Position(1, 1), new Position(4, 5));
 
