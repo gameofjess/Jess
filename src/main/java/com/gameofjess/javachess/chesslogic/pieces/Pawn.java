@@ -3,8 +3,10 @@ package com.gameofjess.javachess.chesslogic.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -107,7 +109,7 @@ public class Pawn extends Piece {
 				}
 			}
 
-			// enpassant rechts weiß
+            // enpassant rechts weiss
 			testposition = new Position(position.getX() + 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			Position enpassantposition = new Position(position.getX() + 1, position.getY());
@@ -121,7 +123,7 @@ public class Pawn extends Piece {
 				}
 			}
 
-			// enpassant links weiß
+            // enpassant links weiss
 			testposition = new Position(position.getX() - 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			enpassantposition = new Position(position.getX() - 1, position.getY());
@@ -192,7 +194,7 @@ public class Pawn extends Piece {
 					moves.add(testmove);
 				}
 			}
-			// enpassant rechts weiß
+            // enpassant rechts weiss
 			testposition = new Position(position.getX() + 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			Position enpassantposition = new Position(position.getX() + 1, position.getY());
@@ -206,7 +208,7 @@ public class Pawn extends Piece {
 				}
 			}
 
-			// enpassant links weiß
+            // enpassant links weiss
 			testposition = new Position(position.getX() - 1, position.getY() - 1);
 			testlocation = board.getBoardMap().get(testposition);
 			enpassantposition = new Position(position.getX() - 1, position.getY());

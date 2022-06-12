@@ -34,7 +34,6 @@ public class Config {
          * <li><strong>TRACE</strong>: Also logs internal chess logic and in-depth WebSocket
          * implementation.</li>
          * </ul>
-         * </p>
          */
         private final String level;
 
@@ -85,8 +84,9 @@ public class Config {
          * <li><a href="https://ifconfig.me/ip">ifconfig.me</a></li>
          * </ul>
          * <p>
-         * We also provide our own service under <a href="ipaddr.gameofjess.com">ipaddr.gameofjess.com</a>.
-         * However, we can not guarantee for reliability.
+         * We also provide our own service under
+         * <a href="https://ipaddr.gameofjess.com">ipaddr.gameofjess.com</a>. However, we can not guarantee
+         * for reliability.
          * </p>
          * <p>
          * <strong>Default:</strong> https://ipaddr.gameofjess.com
