@@ -35,9 +35,9 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
-        //this.initialize();
+        this.initialize();
         // this.initialize_check();
-		this.initialize_promotion();
+        // this.initialize_promotion();
 		log.trace("Creating board");
 	}
 
