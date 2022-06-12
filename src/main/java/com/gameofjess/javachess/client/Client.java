@@ -5,6 +5,7 @@ import java.net.URI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.gameofjess.javachess.helper.messages.ServerMessage;
@@ -42,7 +43,9 @@ public class Client extends WebSocketClient {
     @Override
     public void onClose(int exitCode, String reason, boolean remote) {
         log.info("Connection was terminated with exit code {}. Reason: {}", exitCode, reason);
-        connectionHandler.sendDisconnectInformation("Game ended. Reason: " + reason);
+        switch (exitCode) {
+            case CloseFrame.UNEXPECTED_CONDITION, CloseFrame.GOING_AWAY, CloseFrame.REFUSE -> connectionHandler.sendDisconnectInformation(reason);
+        }
     }
 
     @Override

@@ -347,6 +347,7 @@ public class GameController extends Controller {
         Platform.runLater(() -> {
             main.getChildren().remove(boardPane);
             setBoardMessage(message);
+            resignButton.setText("EXIT");
         });
     }
 
