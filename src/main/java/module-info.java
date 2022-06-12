@@ -18,16 +18,4 @@ open module JavaChess {
 
     // Apache Commons Collections
     requires org.apache.commons.collections4;
-
-    exports com.gameofjess.javachess.chesslogic;
-    exports com.gameofjess.javachess.chesslogic.pieces;
-    exports com.gameofjess.javachess.client;
-    exports com.gameofjess.javachess.helper.argumentparsing;
-    exports com.gameofjess.javachess.helper.exceptions;
-    exports com.gameofjess.javachess.helper.messages;
-    exports com.gameofjess.javachess.mainpackage;
-    exports com.gameofjess.javachess.server;
-    exports com.gameofjess.javachess.gui.controller;
-    exports com.gameofjess.javachess.helper.configuration;
-    exports com.gameofjess.javachess.helper.game;
 }
