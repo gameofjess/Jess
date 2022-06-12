@@ -1,16 +1,13 @@
 package com.gameofjess.javachess.chesslogic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.pieces.*;
 
 /*
@@ -38,8 +35,8 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
-		//this.initialize();
-		this.initialize_check();
+        this.initialize();
+        // this.initialize_check();
 		log.trace("Creating board");
 	}
 
