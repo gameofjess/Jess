@@ -30,6 +30,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -246,6 +248,9 @@ public class GameController extends Controller {
 
                     root.add(boardOverlay, 0, 0);
                 });
+
+        Effect frostEffect = new GaussianBlur(2.5);
+        main.setEffect(frostEffect);
     }
 
     /**
@@ -396,6 +401,8 @@ public class GameController extends Controller {
                     resignButtonField.getChildren().add(resignButton);
 
                     main.getChildren().remove(1, 1);
+
+                    main.setEffect(null);
                 });
 
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
