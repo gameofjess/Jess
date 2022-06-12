@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gameofjess.javachess.gui.helper.objects.CapturedPieceGrid?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
@@ -28,16 +29,27 @@
                 <RowConstraints vgrow="SOMETIMES" percentHeight="50.0"/>
             </rowConstraints>
             <children>
-                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                          style="-fx-background-color: #CACACA;">
+                <CapturedPieceGrid maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                   style="-fx-background-color: #EFEFEF;" fx:id="capturedPiecesGrid">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0"/>
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
                                         vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
+                                        vgrow="SOMETIMES"/>
                     </rowConstraints>
-                </GridPane>
+                </CapturedPieceGrid>
                 <GridPane style="-fx-background-color: #EFEFEF;" GridPane.rowIndex="1">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"

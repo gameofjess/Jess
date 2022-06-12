@@ -1,5 +1,6 @@
 package com.gameofjess.javachess.chesslogic.pieces;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -237,19 +238,14 @@ public class Pawn extends Piece {
 			board.capture(move.getCapturePosition());
 		}
 		else if(move.getPromotion() != null) {
-			board.getBoardMap().remove(this);
+            board.boardMapRemove(getPosition());
 			try {
-				board.getBoardMap().put(move.getDestination(), (Piece) move.getPromotion().getConstructor().newInstance(board, this.isWhite));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+                board.boardMapAdd(move.getDestination(), (Piece) move.getPromotion().getConstructor().newInstance(board, this.isWhite));
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
 			}
 		}
-		if (move.getDestination().getY() - move.getOrigin().getY() != 1) {
-			enpassant = true;
-		} else {
-			enpassant = false;
-		}
+        enpassant = move.getDestination().getY() - move.getOrigin().getY() != 1;
 		board.boardMapRemove(board.getPosition(this));
 		board.boardMapAdd(move.getDestination(), this);
 		//System.out.println(board);

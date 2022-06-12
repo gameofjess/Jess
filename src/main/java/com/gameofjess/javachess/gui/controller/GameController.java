@@ -15,6 +15,7 @@ import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.client.ConnectionHandler;
 import com.gameofjess.javachess.gui.helper.objects.BoardOverlay;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
+import com.gameofjess.javachess.gui.helper.objects.CapturedPieceGrid;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
@@ -57,6 +58,8 @@ public class GameController extends Controller {
     private HBox upperUsernameField;
     @FXML
     private HBox lowerUsernameField;
+    @FXML
+    public CapturedPieceGrid capturedPiecesGrid;
     /**
      * Board model
      */
@@ -169,6 +172,12 @@ public class GameController extends Controller {
                             boardPane.setPieceEventHandlerByCell(moveMouseEvent -> {
                                 log.debug("Destination at ({}|{}) clicked", destX, destY);
                                 Piece piece1 = board.getBoardMap().get(pos);
+
+                                Piece capturedPiece = board.getBoardMap().get(m.getCapturePosition());
+                                if (capturedPiece != null) {
+                                    capturedPiecesGrid.add(capturedPiece);
+                                }
+
                                 piece1.makeMove(m);
 
                                 boardPane.resetStatus();
@@ -250,7 +259,9 @@ public class GameController extends Controller {
                 });
 
         Effect frostEffect = new GaussianBlur(2.5);
+        Effect frostEffectCapturedPiecesGrid = new GaussianBlur(10);
         main.setEffect(frostEffect);
+        capturedPiecesGrid.setEffect(frostEffectCapturedPiecesGrid);
     }
 
     /**
@@ -325,6 +336,14 @@ public class GameController extends Controller {
             }
             case NEWMOVE -> {
                 Move m = new Gson().fromJson(message, Move.class);
+
+                Piece capturedPiece = board.getBoardMap().get(m.getCapturePosition());
+
+                if (capturedPiece != null) {
+                    Platform.runLater(() -> {
+                        capturedPiecesGrid.add(capturedPiece);
+                    });
+                }
 
                 board.getBoardMap().get(m.getOrigin()).makeMove(m);
 
@@ -403,6 +422,7 @@ public class GameController extends Controller {
                     main.getChildren().remove(1, 1);
 
                     main.setEffect(null);
+                    capturedPiecesGrid.setEffect(null);
                 });
 
                 chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
