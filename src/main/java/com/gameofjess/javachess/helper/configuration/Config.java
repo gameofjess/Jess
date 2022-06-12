@@ -34,7 +34,6 @@ public class Config {
          * <li><strong>TRACE</strong>: Also logs internal chess logic and in-depth WebSocket
          * implementation.</li>
          * </ul>
-         * </p>
          */
         private final String level;
 
