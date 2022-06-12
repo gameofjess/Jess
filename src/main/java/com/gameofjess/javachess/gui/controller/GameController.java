@@ -2,6 +2,7 @@ package com.gameofjess.javachess.gui.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -94,6 +94,34 @@ public class GameController extends Controller {
     public void initialize() {
         board = new Board();
         setBoardMessage("Waiting for opponent...");
+    }
+
+    /**
+     * Sets ConnectionHandler used to send and receive messages.
+     *
+     * @param connectionHandler ConnectionHandler that should be used to send messages from the GUI to
+     *        the server.
+     */
+    void setConnectionHandler(ConnectionHandler connectionHandler) {
+        this.connectionHandler = connectionHandler;
+    }
+
+    /**
+     * Sets Server to stop on application closure.
+     *
+     * @param server Server that shall be stopped on application closure.
+     */
+    void setServer(Server server) {
+        this.server = server;
+    }
+
+    /**
+     * Sets username used to send and receive messages.
+     *
+     * @param username Username that should be used.
+     */
+    void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -185,179 +213,8 @@ public class GameController extends Controller {
     }
 
     /**
-     * Sets ConnectionHandler used to send and receive messages.
-     * 
-     * @param connectionHandler ConnectionHandler that should be used to send messages from the GUI to
-     *        the server.
-     */
-    void setConnectionHandler(ConnectionHandler connectionHandler) {
-        this.connectionHandler = connectionHandler;
-    }
-
-    /**
-     * Sets Server to stop on application closure.
-     *
-     * @param server Server that shall be stopped on application closure.
-     */
-    void setServer(Server server) {
-        this.server = server;
-    }
-
-    /**
-     * Sets username used to send and receive messages.
-     *
-     * @param username Username that should be used.
-     */
-    void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Sends a chat message.
-     * 
-     * @param event GUI ActionEvent
-     */
-    public void sendChatMessage(ActionEvent event) {
-        String message = chatField.getText();
-        ClientMessage cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
-        sendMessage(cmsg);
-        chatField.clear();
-    }
-
-    /**
-     * Receives a chat message.
-     *
-     */
-    public void receiveMessage(ServerMessage serverMessage) {
-        String message = serverMessage.getMessage();
-        String username = serverMessage.getUsername();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String formattedDate = dateFormat.format(serverMessage.getTime());
-        switch (serverMessage.getType()) {
-            case CHATMESSAGE -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
-            }
-            case NEWMOVE -> {
-                Move m = new Gson().fromJson(message, Move.class);
-
-                board.getBoardMap().get(m.getOrigin()).makeMove(m);
-
-                updateTurnStatus(false);
-
-                highlightCheck();
-
-                renderPieces();
-                setupPieceHandler();
-            }
-            case SERVERINFO -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
-            }
-
-            case SERVERERROR -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
-                endGame("Ended game due to server error!");
-            }
-
-            case COLORINFO -> {
-                this.color = Color.valueOf(message);
-                log.debug("Got assigned color {}!", color.name());
-                updateTurnStatus(color == Color.BLACK);
-
-                Platform.runLater(() -> {
-                    boardPane = new BoardPane(color == Color.WHITE);
-                    main.add(boardPane, 1, 1);
-                    //board.initialize();
-                    renderPieces();
-                });
-            }
-
-            case USERLIST -> {
-                log.debug("Received user list!");
-                Object[] users = new Gson().fromJson(message, Object[].class);
-                for (Object o : users) {
-                    String name = (String) o;
-                    if (!name.equals(this.username)) {
-                        log.debug("Got other name: {}!", name);
-                        for (Node child : lowerUsernameField.getChildren()) {
-                            if (child instanceof Text text) {
-                                text.setText(this.username);
-                            }
-                            if (child instanceof Circle circle) {
-                                circle.setStroke(javafx.scene.paint.Color.BLACK);
-                                if (color == Color.WHITE) {
-                                    circle.setFill(javafx.scene.paint.Color.WHITE);
-                                } else {
-                                    circle.setFill(javafx.scene.paint.Color.BLACK);
-                                }
-                            }
-                        }
-
-                        for (Node child : upperUsernameField.getChildren()) {
-                            if (child instanceof Text text) {
-                                text.setText(name);
-                            }
-                            if (child instanceof Circle circle) {
-                                circle.setStroke(javafx.scene.paint.Color.BLACK);
-                                if (color != Color.WHITE) {
-                                    circle.setFill(javafx.scene.paint.Color.WHITE);
-                                } else {
-                                    circle.setFill(javafx.scene.paint.Color.BLACK);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            case BEGINMATCH -> {
-                Platform.runLater(() -> {
-                    root.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
-                            .ifPresent(node -> root.getChildren().remove(node));
-
-                    resignButton = new Button();
-                    resignButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;");
-                    resignButton.setOnAction(event -> resign());
-                    resignButton.setText("RESIGN");
-                    resignButtonField.getChildren().add(resignButton);
-
-                    main.getChildren().remove(1, 1);
-                });
-
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
-            }
-            case CHECKMATE -> {
-                Platform.runLater(() -> {
-                    endGame(username + " has won!");
-                });
-            }
-            default -> {
-                throw new IllegalArgumentException("Received message is not of any recognized type!");
-            }
-        }
-    }
-
-    /**
-     * Sends a message via the ConnectionHandler
-     * 
-     * @param clientMessage ClientMessage to be sent.
-     */
-    private void sendMessage(ClientMessage clientMessage) {
-        connectionHandler.send(clientMessage);
-    }
-
-    /**
-     * Removes the board and sets message that is shown in the boards' place.
-     * 
-     * @param message Message to be shown.
-     */
-    public void endGame(String message) {
-        Platform.runLater(() -> {
-            setBoardMessage(message);
-        });
-    }
-
-    /**
      * Sets message that is shown in the boards' place.
-     * 
+     *
      * @param message Message to be shown.
      */
     private void setBoardMessage(String message) {
@@ -425,6 +282,149 @@ public class GameController extends Controller {
         boardPane.setCheckStatusByCell(whiteKingCheck, whiteKingRow, whiteKingColumn);
     }
 
+    /**
+     * Removes the board and sets message that is shown in the boards' place.
+     *
+     * @param message Message to be shown.
+     */
+    public void endGame(String message) {
+        Platform.runLater(() -> {
+            setBoardMessage(message);
+        });
+    }
+
+    /**
+     * Sends a chat message.
+     * 
+     * @param event GUI ActionEvent
+     */
+    public void sendChatMessage(ActionEvent event) {
+        String message = chatField.getText();
+        ClientMessage cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
+        sendMessage(cmsg);
+        chatField.clear();
+    }
+
+    /**
+     * Receives a chat message.
+     *
+     */
+    public void receiveMessage(ServerMessage serverMessage) {
+        String message = serverMessage.getMessage();
+        String username = serverMessage.getUsername();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String formattedDate = dateFormat.format(serverMessage.getTime());
+        switch (serverMessage.getType()) {
+            case CHATMESSAGE -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
+            }
+            case NEWMOVE -> {
+                Move m = new Gson().fromJson(message, Move.class);
+
+                board.getBoardMap().get(m.getOrigin()).makeMove(m);
+
+                updateTurnStatus(false);
+
+                highlightCheck();
+
+                renderPieces();
+                setupPieceHandler();
+            }
+            case SERVERINFO -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+            }
+
+            case SERVERERROR -> {
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                endGame("Ended game due to server error!");
+            }
+
+            case COLORINFO -> {
+                this.color = Color.valueOf(message);
+                log.debug("Got assigned color {}!", color.name());
+                updateTurnStatus(color == Color.BLACK);
+
+                Platform.runLater(() -> {
+                    boardPane = new BoardPane(color == Color.WHITE);
+                    main.add(boardPane, 1, 1);
+                    //board.initialize();
+                    renderPieces();
+                });
+            }
+
+            case USERLIST -> {
+                log.debug("Received user list!");
+                Object[] users = new Gson().fromJson(message, Object[].class);
+                Arrays.stream(users).filter(user -> !user.equals(this.username)).findAny().ifPresent(user -> {
+                    lowerUsernameField.getChildren().forEach(child -> {
+                        if (child instanceof Text text) {
+                            text.setText(this.username);
+                        }
+                        if (child instanceof Circle circle) {
+                            circle.setStroke(javafx.scene.paint.Color.BLACK);
+                            if (color == Color.WHITE) {
+                                circle.setFill(javafx.scene.paint.Color.WHITE);
+                            } else {
+                                circle.setFill(javafx.scene.paint.Color.BLACK);
+                            }
+                        }
+                    });
+                    upperUsernameField.getChildren().forEach(child -> {
+                        if (child instanceof Text text) {
+                            text.setText((String) user);
+                        }
+                        if (child instanceof Circle circle) {
+                            circle.setStroke(javafx.scene.paint.Color.BLACK);
+                            if (color != Color.WHITE) {
+                                circle.setFill(javafx.scene.paint.Color.WHITE);
+                            } else {
+                                circle.setFill(javafx.scene.paint.Color.BLACK);
+                            }
+                        }
+                    });
+                });
+            }
+            case BEGINMATCH -> {
+                Platform.runLater(() -> {
+                    root.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
+                            .ifPresent(node -> root.getChildren().remove(node));
+
+                    resignButton = new Button();
+                    resignButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;");
+                    resignButton.setOnAction(event -> resign());
+                    resignButton.setText("RESIGN");
+                    resignButtonField.getChildren().add(resignButton);
+
+                    main.getChildren().remove(1, 1);
+                });
+
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+            }
+            case CHECKMATE -> {
+                Platform.runLater(() -> {
+                    endGame(username + " has won!");
+                });
+            }
+            default -> {
+                throw new IllegalArgumentException("Received message is not of any recognized type!");
+            }
+        }
+    }
+
+    /**
+     * Sends a message via the ConnectionHandler
+     * 
+     * @param clientMessage ClientMessage to be sent.
+     */
+    private void sendMessage(ClientMessage clientMessage) {
+        connectionHandler.send(clientMessage);
+    }
+
+    /**
+     * Disconnects from the server and closes the server if started.
+     * 
+     * @param reason Reason for closing the connection.
+     */
     void closeConnection(String reason) {
         this.connectionHandler.disconnect(CloseFrame.GOING_AWAY, reason);
 
@@ -440,7 +440,7 @@ public class GameController extends Controller {
     /**
      * Closes the connection and switches back to the join scene.
      */
-    public void resign() {
+    private void resign() {
         resignButtonField.getChildren().clear();
 
         VBox vBox = new VBox();
