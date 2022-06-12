@@ -61,10 +61,10 @@ public class Pawn extends Piece {
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
 				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -85,10 +85,10 @@ public class Pawn extends Piece {
 			if (testlocation != null && !testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
 				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -100,10 +100,10 @@ public class Pawn extends Piece {
 			if (testlocation != null && !testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
 				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -147,10 +147,10 @@ public class Pawn extends Piece {
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
 				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -171,10 +171,10 @@ public class Pawn extends Piece {
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
 				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -186,10 +186,10 @@ public class Pawn extends Piece {
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
 				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class));
-					moves.add(new Move(position, testposition, Knight.class));
-					moves.add(new Move(position, testposition, Queen.class));
-					moves.add(new Move(position, testposition, Rook.class));
+					moves.add(new Move(position, testposition, Bishop.class.getName()));
+					moves.add(new Move(position, testposition, Knight.class.getName()));
+					moves.add(new Move(position, testposition, Queen.class.getName()));
+					moves.add(new Move(position, testposition, Rook.class.getName()));
 				}
 				else if (!checking || !checkCheckMove(testmove)) {
 					moves.add(testmove);
@@ -232,23 +232,28 @@ public class Pawn extends Piece {
 	 */
 	@Override
 	public void makeMove(Move move){
+		log.debug("current board:\n{}", board);
 		log.trace("making move");
 		enpassant = move.getEnpassant();
 		if (move.getCapturePosition() != null) {
 			board.capture(move.getCapturePosition());
 		}
-		else if(move.getPromotion() != null) {
+		if (move.getPromotion() == null){
+			enpassant = move.getDestination().getY() - move.getOrigin().getY() != 1;
+			board.boardMapRemove(board.getPosition(this));
+			board.boardMapAdd(move.getDestination(), this);
+			log.debug("current board:\n{}", board);
+		}
+		else {
             board.boardMapRemove(getPosition());
 			try {
-                board.boardMapAdd(move.getDestination(), (Piece) move.getPromotion().getConstructor().newInstance(board, this.isWhite));
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+				Piece piece = (Piece) Class.forName(move.getPromotion()).getConstructor(Board.class, boolean.class).newInstance(board, this.isWhite);
+                board.boardMapAdd(move.getDestination(), piece);
+				log.debug(board);
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
 			}
 		}
-        enpassant = move.getDestination().getY() - move.getOrigin().getY() != 1;
-		board.boardMapRemove(board.getPosition(this));
-		board.boardMapAdd(move.getDestination(), this);
-		//System.out.println(board);
 	}
 
 	

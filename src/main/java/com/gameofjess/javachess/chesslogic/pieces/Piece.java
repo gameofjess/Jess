@@ -43,12 +43,14 @@ public abstract class Piece implements Cloneable {
      * @param move
      */
     public void makeMove(Move move) {
+        log.debug("current board:\n{}", board);
 		log.trace("making move");
         if (move.getCapturePosition() != null) {
             board.capture(move.getCapturePosition());;
         }
         board.boardMapRemove(board.getPosition(this));
         board.boardMapAdd(move.getDestination(), this);
+        log.debug("current board:\n{}", board);
     }
 
 

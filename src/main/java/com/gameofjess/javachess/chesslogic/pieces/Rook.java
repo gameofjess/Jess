@@ -145,6 +145,7 @@ public class Rook extends Piece {
 	 */
 	@Override
     public void makeMove(Move move) {
+		log.debug("current board:\n{}", board);
 		log.trace("making move");
 		rochade = false;
 		if (move.getCapturePosition() != null) {
@@ -152,6 +153,8 @@ public class Rook extends Piece {
 		}
 		board.boardMapRemove(board.getPosition(this));
         board.boardMapAdd(move.getDestination() , this);
+		log.debug("current board:\n{}", board);
+		log.debug("current board:\n{}", board);
     }
 
 	@Override

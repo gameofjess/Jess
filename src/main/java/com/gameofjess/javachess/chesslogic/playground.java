@@ -1,15 +1,19 @@
 package com.gameofjess.javachess.chesslogic;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.gameofjess.javachess.chesslogic.pieces.Bishop;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
 
 public class playground {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Piece piece = Bishop.class.getConstructor(Board.class, boolean.class).newInstance(null, true);
+        System.out.println(piece);
 		// Random rand = new Random();
-        Board board = new Board();
-		board.initialize();
+        //Board board = new Board();
+		//board.initialize();
 		// System.out.println(board.getKingBlack().checkCheck());
 		// board.print();
 		// System.out.println("\n");

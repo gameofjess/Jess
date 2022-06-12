@@ -237,6 +237,8 @@ public class King extends Piece {
 	 */
 	@Override
 	public void makeMove(Move move) {
+		log.debug("current board:\n{}", board);
+		log.debug("making move");
 		rochade = false;
 
 		if (move.getRochade()) {
@@ -274,6 +276,7 @@ public class King extends Piece {
 		}
 		board.boardMapRemove(board.getPosition(this));
 		board.boardMapAdd(move.getDestination(), this);
+		log.debug("current board:\n{}", board);
 	}
 
 

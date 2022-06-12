@@ -16,7 +16,7 @@ public class Move {
     Position capturePosition = null;
     boolean rochade = false;
     boolean enpassant = false;
-	Class promotion = null;
+	String promotion = null;
 
     public Move(Position origin, Position destination) {
 		//log.debug("Creating move object");
@@ -46,7 +46,7 @@ public class Move {
         this.rochade = rochade;
     }
 
-	public Move(Position origin, Position destination, Class promotion) {
+	public Move(Position origin, Position destination, String promotion) {
 		this.origin = origin;
 		this.destination = destination;
         this.promotion = promotion;
@@ -77,7 +77,7 @@ public class Move {
 	/**
 	 * @return the promotion
 	 */
-	public Class getPromotion() {
+	public String getPromotion() {
 		return promotion;
 	}
 

@@ -35,8 +35,9 @@ public class Board {
     King kingWhite;
 	King kingBlack;
 	public Board(){
-        this.initialize();
+        //this.initialize();
         // this.initialize_check();
+		this.initialize_promotion();
 		log.trace("Creating board");
 	}
 
@@ -118,7 +119,16 @@ public class Board {
 		board.put(new Position(2, 2), kingWhite);
 		board.put(new Position(4, 4), new Bishop(this, true));
 		board.put(new Position(3, 6), new Queen(this, true));
+	}
 
+	void initialize_promotion(){
+		kingBlack = new King(this, false);
+		board.put(new Position(6, 7), kingBlack);
+		kingWhite = new King(this, true);
+		board.put(new Position(2, 2), kingWhite);
+		board.put(new Position(4, 4), new Bishop(this, true));
+		board.put(new Position(3, 6), new Queen(this, true));
+		board.put(new Position(1,6), new Pawn(this, true));
 	}
 	/**
 	 * FOR DEBUGGING:
