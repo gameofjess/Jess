@@ -25,6 +25,7 @@ import com.gameofjess.javachess.server.Server;
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -99,10 +100,8 @@ public class GameController extends Controller {
      * Initializes the game GUI.
      */
     public void initialize() {
-        Platform.runLater(() -> {
-            board = new Board();
-            setBoardMessage("Waiting for opponent...");
-        });
+        board = new Board();
+        setBoardMessage("Waiting for opponent...");
     }
 
     /**
@@ -191,9 +190,19 @@ public class GameController extends Controller {
                                     GridPane.setHalignment(promotionSelectView, HPos.CENTER);
                                     GridPane.setValignment(promotionSelectView, VPos.BOTTOM);
 
-                                    main.add(promotionSelectView, 1, 0);
+                                    Task<Void> renderTask = new Task<>() {
+                                        @Override
+                                        protected Void call() {
+                                            promotionSelectView.renderImages();
+                                            return null;
+                                        }
+                                    };
 
-                                    Platform.runLater(promotionSelectView::renderImages);
+                                    renderTask.setOnSucceeded(e -> {
+                                        main.add(promotionSelectView, 1, 0);
+                                    });
+
+                                    new Thread(renderTask).start();
 
                                     promotionSelectView.setEventHandlerByColumn(0, event -> {
                                         log.trace("Chose Queen for promotion!");
