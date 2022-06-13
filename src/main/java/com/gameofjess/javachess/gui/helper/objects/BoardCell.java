@@ -1,10 +1,15 @@
 package com.gameofjess.javachess.gui.helper.objects;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.gameofjess.javachess.helper.configuration.Config;
+import com.gameofjess.javachess.helper.configuration.ConfigHandler;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,11 +25,11 @@ import javafx.scene.paint.Color;
 public class BoardCell extends StackPane {
     private static final Logger log = LogManager.getLogger(BoardCell.class);
 
-    private static final Color blackCellColor = Color.web("rgb(61,71,83)");
-    private static final Color whiteCellColor = Color.web("rgb(255,255,255)");
-    private static final Color activatedCellColor = Color.web("rgba(127, 255, 122, 0.75)");
-    private static final Color selectedCellColor = Color.web("rgba(100, 224, 255, 0.75)");
-    private static final Color checkCellColor = Color.web("rgba(255, 100, 100, 0.25)");
+    private final Color blackCellColor;
+    private final Color whiteCellColor;
+    private final Color activatedCellColor;
+    private final Color selectedCellColor;
+    private final Color checkCellColor;
 
     private boolean selected;
     private boolean activated;
@@ -40,6 +45,20 @@ public class BoardCell extends StackPane {
         activated = false;
         check = false;
         black = false;
+
+        Config config;
+        try {
+            config = new ConfigHandler().loadConfig(new File("config.json"));
+        } catch (IOException e) {
+            log.error("Could not read config file. Proceeding to use default values!");
+            config = new Config();
+        }
+
+        blackCellColor = Color.web(config.getBlackCellColor());
+        whiteCellColor = Color.web(config.getWhiteCellColor());
+        activatedCellColor = Color.web(config.getActivatedCellColor());
+        selectedCellColor = Color.web(config.getSelectedCellColor());
+        checkCellColor = Color.web(config.getCheckCellColor());
 
         piece = new ImageView();
 

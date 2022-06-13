@@ -8,10 +8,118 @@ public class Config {
 
     private static final Logger log = LogManager.getLogger(Config.class);
 
+    private final Appearance appearance = new Appearance("", new RGBColor(61, 71, 83), new RGBColor(255, 255, 255), new RGBAColor(127, 255, 122, 0.75),
+            new RGBAColor(100, 224, 255, 0.75), new RGBAColor(255, 100, 100, 0.25));
+
     private final Logging logging = new Logging("INFO");
     private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
     private final ServerConfiguration serverConfiguration = new ServerConfiguration(8887, "0.0.0.0");
 
+    private class Appearance {
+        /**
+         * <p>
+         * Custom icon pack
+         * </p>
+         * <p>
+         * <strong>Default:</strong> "" - empty String -> internal icon pack
+         * </p>
+         * <p>
+         * <strong>Possible values: every folder containing png-files that meet the criteria</strong>
+         * </p>
+         *
+         */
+        private final String iconPath;
+
+        /**
+         * <p>
+         * Custom color for black cells
+         * </p>
+         */
+        private final RGBColor blackCellColor;
+        /**
+         * <p>
+         * Custom color for white cells
+         * </p>
+         */
+        private final RGBColor whiteCellColor;
+        /**
+         * <p>
+         * Custom color for activated cells
+         * </p>
+         */
+        private final RGBAColor activatedCellColor;
+        /**
+         * <p>
+         * Custom color for selected cells
+         * </p>
+         */
+        private final RGBAColor selectedCellColor;
+        /**
+         * <p>
+         * Custom color for cells that are marked as "in check"
+         * </p>
+         */
+        private final RGBAColor checkCellColor;
+
+
+        Appearance(String iconPath, RGBColor blackCellColor, RGBColor whiteCellColor, RGBAColor activatedCellColor, RGBAColor selectedCellColor, RGBAColor checkCellColor) {
+
+            this.iconPath = iconPath;
+            this.blackCellColor = blackCellColor;
+            this.whiteCellColor = whiteCellColor;
+            this.activatedCellColor = activatedCellColor;
+            this.selectedCellColor = selectedCellColor;
+            this.checkCellColor = checkCellColor;
+        }
+
+        public String getIconPath() {
+            return iconPath;
+        }
+
+        public String getBlackCellColor() {
+            return blackCellColor.compose();
+        }
+
+        public String getWhiteCellColor() {
+            return whiteCellColor.compose();
+        }
+
+        public String getActivatedCellColor() {
+            return activatedCellColor.compose();
+        }
+
+        public String getSelectedCellColor() {
+            return selectedCellColor.compose();
+        }
+
+        public String getCheckCellColor() {
+            return checkCellColor.compose();
+        }
+    }
+
+    public String getIconPath() {
+        return appearance.getIconPath();
+    }
+
+    public String getBlackCellColor() {
+        return appearance.getBlackCellColor();
+    }
+
+    public String getWhiteCellColor() {
+        return appearance.getWhiteCellColor();
+    }
+
+    public String getActivatedCellColor() {
+        return appearance.getActivatedCellColor();
+    }
+
+    public String getSelectedCellColor() {
+        return appearance.getSelectedCellColor();
+    }
+
+    public String getCheckCellColor() {
+        return appearance.getCheckCellColor();
+    }
 
     private class Logging {
         /**
@@ -176,6 +284,44 @@ public class Config {
 
     public String getDefaultHostname() {
         return serverConfiguration.getDefaultHostname();
+    }
+
+
+
+    // HELPER CLASSES
+
+    private class RGBAColor {
+        private final int R;
+        private final int G;
+        private final int B;
+        private final double A;
+
+        RGBAColor(int R, int G, int B, double A) {
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            this.A = A;
+        }
+
+        public String compose() {
+            return "rgba(" + R + "," + G + "," + B + "," + A + ")";
+        }
+    }
+
+    private class RGBColor {
+        private final int R;
+        private final int G;
+        private final int B;
+
+        RGBColor(int R, int G, int B) {
+            this.R = R;
+            this.G = G;
+            this.B = B;
+        }
+
+        public String compose() {
+            return "rgb(" + R + "," + G + "," + B + ")";
+        }
     }
 
 

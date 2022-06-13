@@ -26,6 +26,115 @@ The following configuration will be generated on startup:
 
 The following values can be edited:
 
+### Appearance
+
+#### iconPath
+
+This specifies a custom icon pack.
+
+By default, this is set to an empty string, which indicates that Jess shall use the internal icon pack.
+
+##### Possible values:
+
+Any folder that contains icons that meet the following criteria:
+
+- PNG-Format and .png-ending
+- Tested resolution: 1024x1024 - lower or higher should be no problem, but that's untested.
+
+The following files are looked for:
+
+- bPawn.png -> black pawn
+- bRook.png -> black rook
+- bKnight.png -> black knight
+- bBishop.png -> black bishop
+- bKing.png -> black king
+- bQueen.png -> black queen
+
+- wPawn.png -> white pawn
+- wRook.png -> white rook
+- wKnight.png -> white knight
+- wBishop.png -> white bishop
+- wKing.png -> white king
+- wQueen.png -> white queen
+
+Many icon packs can be found here:
+
+[Lichess Icons](https://github.com/lichess-org/lila/tree/master/public/piece)
+
+These icons are in the svg-format. To convert them to PNGs, you may use the following bash script:
+
+```shell
+#!/bin/bash
+FILES="./*.svg"
+for f in $FILES
+do
+	echo "Processing $f file..."
+	inkscape -w 1024 -h 1024 $f -o $(basename $f .svg).png
+	mkdir -p input
+	mv $f input
+done
+
+mv ./bP.png ./bPawn.png
+mv ./bR.png ./bRook.png
+mv ./bN.png ./bKnight.png
+mv ./bB.png ./bBishop.png
+mv ./bK.png ./bKing.png
+mv ./bQ.png ./bQueen.png
+
+mv ./wP.png ./wPawn.png
+mv ./wR.png ./wRook.png
+mv ./wN.png ./wKnight.png
+mv ./wB.png ./wBishop.png
+mv ./wK.png ./wKing.png
+mv ./wQ.png ./wQueen.png
+```
+
+Note: Inkscape is needed for this script to work.
+
+#### Colors
+
+The different board colors can also be set.
+
+All of them have three or four values depending on their type, but they always mean the same:
+
+- R: Red channel
+- G: Green channel
+- B: Blue channel
+- A: Alpha channel (transparency, not always available)
+
+The default values are the following:
+
+```json
+"blackCellColor": {
+"R": 61,
+"G": 71,
+"B": 83
+},
+"whiteCellColor": {
+"R": 255,
+"G": 255,
+"B": 255
+},
+"activatedCellColor": {
+"R": 127,
+"G": 255,
+"B": 122,
+"A": 0.75
+},
+"selectedCellColor": {
+"R": 100,
+"G": 224,
+"B": 255,
+"A": 0.75
+},
+"checkCellColor": {
+"R": 255,
+"G": 100,
+"B": 100,
+"A": 0.25
+}
+```
+
 ### Logging
 
 #### level
