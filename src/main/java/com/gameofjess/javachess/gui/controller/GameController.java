@@ -349,7 +349,13 @@ public class GameController extends Controller {
                     boardOverlay.setExitButtonOnActionEventHandler(event -> {
                         closeConnection(username + " exited!");
                         try {
-                            switchJoinScene();
+                            if (server == null) {
+                                log.trace("Switching to join scene, because no server had been started!");
+                                switchJoinScene();
+                            } else {
+                                log.trace("Switching to host scene, because server had been started!");
+                                switchHostScene();
+                            }
                         } catch (IOException e) {
                             log.error("Could not switch scene!");
                         }
@@ -432,7 +438,7 @@ public class GameController extends Controller {
         String formattedDate = dateFormat.format(serverMessage.getTime());
         switch (serverMessage.getType()) {
             case CHATMESSAGE -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n");
+                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n"));
             }
             case NEWMOVE -> {
                 Move m = new Gson().fromJson(message, Move.class);
@@ -584,7 +590,13 @@ public class GameController extends Controller {
         yesButton.setOnAction(onActionEvent -> {
             closeConnection(username + " resigned!");
             try {
-                switchJoinScene();
+                if (server == null) {
+                    log.trace("Switching to join scene, because no server had been started!");
+                    switchJoinScene();
+                } else {
+                    log.trace("Switching to host scene, because server had been started!");
+                    switchHostScene();
+                }
             } catch (IOException e) {
                 log.error("Could not switch scene!");
             }
