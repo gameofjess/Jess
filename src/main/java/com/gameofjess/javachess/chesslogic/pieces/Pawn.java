@@ -57,14 +57,16 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
-				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
-				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				if (!checking || !checkCheckMove(testmove)) {
+					if (testposition.getY() == 7) {
+						moves.add(new Move(position, testposition, Bishop.class.getName()));
+						moves.add(new Move(position, testposition, Knight.class.getName()));
+						moves.add(new Move(position, testposition, Queen.class.getName()));
+						moves.add(new Move(position, testposition, Rook.class.getName()));
+					}
+					else {
+						moves.add(testmove);
+					}
 				}
 				//zwei vor
 				testposition = new Position(position.getX(), position.getY() + 2);
@@ -76,7 +78,7 @@ public class Pawn extends Piece {
 				}
 				}
 			}
-			//schlagen rechts
+			//TODO:CHeck CHeckschlagen rechts
 			testposition = new Position(position.getX() + 1, position.getY() + 1);
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
@@ -96,14 +98,16 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && !testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
-				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				if (!checking || !checkCheckMove(testmove)) {
+					if (testposition.getY() == 7) {
+						moves.add(new Move(position, testposition, Bishop.class.getName()));
+						moves.add(new Move(position, testposition, Knight.class.getName()));
+						moves.add(new Move(position, testposition, Queen.class.getName()));
+						moves.add(new Move(position, testposition, Rook.class.getName()));
+					}
+					else {
+						moves.add(testmove);
+					}
 				}
 			}
 
@@ -143,14 +147,16 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation == null) {
 				Move testmove = new Move(position, testposition);
-				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
-				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				if (!checking || !checkCheckMove(testmove)) {
+					if (testposition.getY() == 7) {
+						moves.add(new Move(position, testposition, Bishop.class.getName()));
+						moves.add(new Move(position, testposition, Knight.class.getName()));
+						moves.add(new Move(position, testposition, Queen.class.getName()));
+						moves.add(new Move(position, testposition, Rook.class.getName()));
+					}
+					else {
+						moves.add(testmove);
+					}
 				}
 				//zwei vor
 				testposition = new Position(position.getX(), position.getY() - 2);
@@ -167,14 +173,16 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
-				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				if (!checking || !checkCheckMove(testmove)) {
+					if (testposition.getY() == 7) {
+						moves.add(new Move(position, testposition, Bishop.class.getName()));
+						moves.add(new Move(position, testposition, Knight.class.getName()));
+						moves.add(new Move(position, testposition, Queen.class.getName()));
+						moves.add(new Move(position, testposition, Rook.class.getName()));
+					}
+					else {
+						moves.add(testmove);
+					}
 				}
 			}
 			//schalgen links
@@ -182,14 +190,16 @@ public class Pawn extends Piece {
 			testlocation = board.getBoardMap().get(testposition);
 			if (testlocation != null && testlocation.isWhite) {
 				Move testmove = new Move(position, testposition, testposition);
-				if (testposition.getY() == 0) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
-				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				if (!checking || !checkCheckMove(testmove)) {
+					if (testposition.getY() == 7) {
+						moves.add(new Move(position, testposition, Bishop.class.getName()));
+						moves.add(new Move(position, testposition, Knight.class.getName()));
+						moves.add(new Move(position, testposition, Queen.class.getName()));
+						moves.add(new Move(position, testposition, Rook.class.getName()));
+					}
+					else {
+						moves.add(testmove);
+					}
 				}
 			}
             // enpassant rechts weiss
