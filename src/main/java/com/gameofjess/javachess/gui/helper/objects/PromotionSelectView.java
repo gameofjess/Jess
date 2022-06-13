@@ -16,6 +16,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/**
+ * View that represents the menu used to select which piece a pawn shall promote to.
+ */
 public class PromotionSelectView extends VBox {
 
     private static final Logger log = LogManager.getLogger(PromotionSelectView.class);
@@ -27,6 +30,11 @@ public class PromotionSelectView extends VBox {
 
     private final Color color;
 
+    /**
+     * Constructs a PromotionSelectView
+     * 
+     * @param color Color of the displayed pieces.
+     */
     public PromotionSelectView(Color color) {
         this.setAlignment(Pos.CENTER);
 
@@ -70,13 +78,22 @@ public class PromotionSelectView extends VBox {
         getChildren().addAll(promotionLabel, hBox);
     }
 
-    public void setImages() {
+    /**
+     * Renders the images of the PromotionSelectView
+     */
+    public void renderImages() {
         queen.setImage(Pieces.QUEEN.getImage(color == Color.WHITE));
         knight.setImage(Pieces.KNIGHT.getImage(color == Color.WHITE));
         rook.setImage(Pieces.ROOK.getImage(color == Color.WHITE));
         bishop.setImage(Pieces.BISHOP.getImage(color == Color.WHITE));
     }
 
+    /**
+     * Adds an onMouseClick EventHandler for specified column of ImageView.
+     * 
+     * @param column Column of ImageView: 0 -> Queen, 1 -> Knight, 2 -> Rook, 3 -> Bishop
+     * @param handler EventHandler to add
+     */
     public void setEventHandlerByColumn(int column, EventHandler<MouseEvent> handler) {
         switch (column) {
             case 0 -> queen.setOnMouseClicked(handler);

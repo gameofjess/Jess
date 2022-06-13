@@ -64,8 +64,14 @@ public abstract class Piece implements Cloneable {
         return " " + fen + "  ";
     }
 
+    /**
+     * Method that returns the corresponding value in the Pieces-enum
+     */
     public abstract Pieces getEnumValue();
 
+    /**
+     * Method that returns the corresponding javafx image object.
+     */
     public abstract Image getImage();
 
     /**

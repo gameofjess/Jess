@@ -65,6 +65,9 @@ public class CapturedPieceView extends HBox {
         updateCount();
     }
 
+    /**
+     * Renders the image of a captured piece.
+     */
     public void renderPieceImage() {
         pieceImage.setImage(img);
     }

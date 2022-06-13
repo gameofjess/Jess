@@ -193,7 +193,7 @@ public class GameController extends Controller {
 
                                     main.add(promotionSelectView, 1, 0);
 
-                                    Platform.runLater(promotionSelectView::setImages);
+                                    Platform.runLater(promotionSelectView::renderImages);
 
                                     promotionSelectView.setEventHandlerByColumn(0, event -> {
                                         log.trace("Chose Queen for promotion!");
