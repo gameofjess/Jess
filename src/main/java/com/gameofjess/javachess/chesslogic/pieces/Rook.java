@@ -158,7 +158,7 @@ public class Rook extends Piece {
 
     @Override
     public Pieces getEnumValue() {
-        return Pieces.BISHOP;
+        return Pieces.ROOK;
     }
 
 	@Override
