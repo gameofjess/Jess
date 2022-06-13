@@ -79,7 +79,7 @@ public class Board {
 	 * Set the Board to the basic position
 	 */
 	void initialize() {
-		log.trace("initializeing board");
+        log.trace("Initializing board...");
 		board.put(new Position(0, 0), new Rook(this, true, true));
 		board.put(new Position(1, 0), new Knight(this, true));
 		board.put(new Position(2, 0), new Bishop(this, true));
