@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.chesslogic.pieces.Piece;
 import com.gameofjess.javachess.helper.game.Pieces;
 
+import javafx.concurrent.Task;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -45,21 +46,29 @@ public class CapturedPieceGrid extends GridPane {
                 blackKnight = new CapturedPieceView(Pieces.KNIGHT, false), blackRook = new CapturedPieceView(Pieces.ROOK, false),
                 blackPawn = new CapturedPieceView(Pieces.PAWN, false));
 
-        this.add(whiteKing, 0, 0);
-        this.add(whiteQueen, 0, 1);
-        this.add(whiteBishop, 0, 2);
-        this.add(whiteKnight, 0, 3);
-        this.add(whiteRook, 0, 4);
-        this.add(whitePawn, 0, 5);
+        Task<Void> capturedPieceGridTask = new Task<>() {
+            @Override
+            protected Void call() {
+                add(whiteKing, 0, 0);
+                add(whiteQueen, 0, 1);
+                add(whiteBishop, 0, 2);
+                add(whiteKnight, 0, 3);
+                add(whiteRook, 0, 4);
+                add(whitePawn, 0, 5);
+                add(blackKing, 1, 0);
+                add(blackQueen, 1, 1);
+                add(blackBishop, 1, 2);
+                add(blackKnight, 1, 3);
+                add(blackRook, 1, 4);
+                add(blackPawn, 1, 5);
 
-        this.add(blackKing, 1, 0);
-        this.add(blackQueen, 1, 1);
-        this.add(blackBishop, 1, 2);
-        this.add(blackKnight, 1, 3);
-        this.add(blackRook, 1, 4);
-        this.add(blackPawn, 1, 5);
+                return null;
+            }
+        };
 
-        capturedPieceViewList.forEach(CapturedPieceView::renderPieceImage);
+        capturedPieceGridTask.setOnSucceeded(e -> capturedPieceViewList.forEach(CapturedPieceView::renderPieceImage));
+
+        new Thread(capturedPieceGridTask).start();
     }
 
     /**
