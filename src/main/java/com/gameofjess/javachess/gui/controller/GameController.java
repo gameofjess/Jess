@@ -455,11 +455,11 @@ public class GameController extends Controller {
                 setupPieceHandler();
             }
             case SERVERINFO -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n"));
             }
 
             case SERVERERROR -> {
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n"));
                 endGame("Ended game due to server error!");
             }
 
@@ -524,9 +524,9 @@ public class GameController extends Controller {
 
                     main.setEffect(null);
                     capturedPiecesGrid.setEffect(null);
-                });
 
-                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                    chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
+                });
             }
             case CHECKMATE -> {
                 Platform.runLater(() -> {
