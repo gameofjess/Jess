@@ -2,9 +2,12 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.helper.game.Pieces;
+
 import javafx.scene.image.Image;
 
 public abstract class Piece implements Cloneable {
@@ -60,6 +63,8 @@ public abstract class Piece implements Cloneable {
     public String toString() {
         return " " + fen + "  ";
     }
+
+    public abstract Pieces getEnumValue();
 
     public abstract Image getImage();
 

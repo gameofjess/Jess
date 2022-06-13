@@ -1,10 +1,12 @@
 package com.gameofjess.javachess.gui.helper.objects;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.gameofjess.javachess.chesslogic.Board;
-import com.gameofjess.javachess.chesslogic.pieces.*;
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
+import com.gameofjess.javachess.helper.game.Pieces;
 
 import javafx.scene.layout.GridPane;
 
@@ -36,21 +38,12 @@ public class CapturedPieceGrid extends GridPane {
     public CapturedPieceGrid() {
         log.debug("Building the view for captured pieces.");
 
-        Board tempBoard = new Board();
-
-        whiteKing = new CapturedPieceView(new King(tempBoard, true).getImage());
-        whiteQueen = new CapturedPieceView(new Queen(tempBoard, true).getImage());
-        whiteBishop = new CapturedPieceView(new Bishop(tempBoard, true).getImage());
-        whiteKnight = new CapturedPieceView(new Knight(tempBoard, true).getImage());
-        whiteRook = new CapturedPieceView(new Rook(tempBoard, true).getImage());
-        whitePawn = new CapturedPieceView(new Pawn(tempBoard, true).getImage());
-
-        blackKing = new CapturedPieceView(new King(tempBoard, false).getImage());
-        blackQueen = new CapturedPieceView(new Queen(tempBoard, false).getImage());
-        blackBishop = new CapturedPieceView(new Bishop(tempBoard, false).getImage());
-        blackKnight = new CapturedPieceView(new Knight(tempBoard, false).getImage());
-        blackRook = new CapturedPieceView(new Rook(tempBoard, false).getImage());
-        blackPawn = new CapturedPieceView(new Pawn(tempBoard, false).getImage());
+        List<CapturedPieceView> capturedPieceViewList = List.of(whiteKing = new CapturedPieceView(Pieces.KING, true), whiteQueen = new CapturedPieceView(Pieces.QUEEN, true),
+                whiteBishop = new CapturedPieceView(Pieces.BISHOP, true), whiteKnight = new CapturedPieceView(Pieces.KNIGHT, true),
+                whiteRook = new CapturedPieceView(Pieces.ROOK, true), whitePawn = new CapturedPieceView(Pieces.PAWN, true), blackKing = new CapturedPieceView(Pieces.KING, false),
+                blackQueen = new CapturedPieceView(Pieces.QUEEN, false), blackBishop = new CapturedPieceView(Pieces.BISHOP, false),
+                blackKnight = new CapturedPieceView(Pieces.KNIGHT, false), blackRook = new CapturedPieceView(Pieces.ROOK, false),
+                blackPawn = new CapturedPieceView(Pieces.PAWN, false));
 
         this.add(whiteKing, 0, 0);
         this.add(whiteQueen, 0, 1);
@@ -65,6 +58,8 @@ public class CapturedPieceGrid extends GridPane {
         this.add(blackKnight, 1, 3);
         this.add(blackRook, 1, 4);
         this.add(blackPawn, 1, 5);
+
+        capturedPieceViewList.forEach(CapturedPieceView::renderPieceImage);
     }
 
     /**
@@ -75,8 +70,8 @@ public class CapturedPieceGrid extends GridPane {
     public void add(Piece capturedPiece) {
         log.trace("Adding piece {} to captured pieces.", capturedPiece);
         boolean isWhite = capturedPiece.isWhite();
-        switch (capturedPiece.getClass().getSimpleName()) {
-            case "King" -> {
+        switch (capturedPiece.getEnumValue()) {
+            case KING -> {
                 if (isWhite) {
                     whiteKing.add();
                 } else {
@@ -84,7 +79,7 @@ public class CapturedPieceGrid extends GridPane {
                 }
             }
 
-            case "Queen" -> {
+            case QUEEN -> {
                 if (isWhite) {
                     whiteQueen.add();
                 } else {
@@ -92,7 +87,7 @@ public class CapturedPieceGrid extends GridPane {
                 }
             }
 
-            case "Bishop" -> {
+            case BISHOP -> {
                 if (isWhite) {
                     whiteBishop.add();
                 } else {
@@ -100,7 +95,7 @@ public class CapturedPieceGrid extends GridPane {
                 }
             }
 
-            case "Knight" -> {
+            case KNIGHT -> {
                 if (isWhite) {
                     whiteKnight.add();
                 } else {
@@ -108,7 +103,7 @@ public class CapturedPieceGrid extends GridPane {
                 }
             }
 
-            case "Rook" -> {
+            case ROOK -> {
                 if (isWhite) {
                     whiteRook.add();
                 } else {
@@ -116,7 +111,7 @@ public class CapturedPieceGrid extends GridPane {
                 }
             }
 
-            case "Pawn" -> {
+            case PAWN -> {
                 if (isWhite) {
                     whitePawn.add();
                 } else {

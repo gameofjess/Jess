@@ -11,11 +11,12 @@ import org.java_websocket.framing.CloseFrame;
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
-import com.gameofjess.javachess.chesslogic.pieces.Piece;
+import com.gameofjess.javachess.chesslogic.pieces.*;
 import com.gameofjess.javachess.client.ConnectionHandler;
 import com.gameofjess.javachess.gui.helper.objects.BoardOverlay;
 import com.gameofjess.javachess.gui.helper.objects.BoardPane;
 import com.gameofjess.javachess.gui.helper.objects.CapturedPieceGrid;
+import com.gameofjess.javachess.gui.helper.objects.PromotionSelectView;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.MessageType;
@@ -26,7 +27,9 @@ import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -38,7 +41,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class GameController extends Controller {
@@ -97,8 +99,10 @@ public class GameController extends Controller {
      * Initializes the game GUI.
      */
     public void initialize() {
-        board = new Board();
-        setBoardMessage("Waiting for opponent...");
+        Platform.runLater(() -> {
+            board = new Board();
+            setBoardMessage("Waiting for opponent...");
+        });
     }
 
     /**
@@ -178,17 +182,104 @@ public class GameController extends Controller {
                                     capturedPiecesGrid.add(capturedPiece);
                                 }
 
-                                piece1.makeMove(m);
+                                // Handle promotion
+                                if (m.getPromotion() != null) {
+                                    log.debug("Promotion detected!");
 
-                                boardPane.resetStatus();
-                                highlightCheck();
+                                    PromotionSelectView promotionSelectView = new PromotionSelectView(color);
 
-                                sendMessage(new ClientMessage(m));
+                                    GridPane.setHalignment(promotionSelectView, HPos.CENTER);
+                                    GridPane.setValignment(promotionSelectView, VPos.BOTTOM);
 
-                                updateTurnStatus(true);
+                                    main.add(promotionSelectView, 1, 0);
 
-                                renderPieces();
-                                setupPieceHandler();
+                                    Platform.runLater(promotionSelectView::setImages);
+
+                                    promotionSelectView.setEventHandlerByColumn(0, event -> {
+                                        log.trace("Chose Queen for promotion!");
+                                        m.changePromotion(Queen.class.getName());
+                                        main.getChildren().remove(promotionSelectView);
+
+                                        piece1.makeMove(m);
+
+                                        boardPane.resetStatus();
+                                        highlightCheck();
+
+                                        sendMessage(new ClientMessage(m));
+
+                                        updateTurnStatus(true);
+
+                                        renderPieces();
+                                        setupPieceHandler();
+                                    });
+
+                                    promotionSelectView.setEventHandlerByColumn(1, event -> {
+                                        log.trace("Chose Knight for promotion!");
+                                        m.changePromotion(Knight.class.getName());
+                                        main.getChildren().remove(promotionSelectView);
+
+                                        piece1.makeMove(m);
+
+                                        boardPane.resetStatus();
+                                        highlightCheck();
+
+                                        sendMessage(new ClientMessage(m));
+
+                                        updateTurnStatus(true);
+
+                                        renderPieces();
+                                        setupPieceHandler();
+                                    });
+
+                                    promotionSelectView.setEventHandlerByColumn(2, event -> {
+                                        log.trace("Chose Rook for promotion!");
+                                        m.changePromotion(Rook.class.getName());
+                                        main.getChildren().remove(promotionSelectView);
+
+                                        piece1.makeMove(m);
+
+                                        boardPane.resetStatus();
+                                        highlightCheck();
+
+                                        sendMessage(new ClientMessage(m));
+
+                                        updateTurnStatus(true);
+
+                                        renderPieces();
+                                        setupPieceHandler();
+                                    });
+
+                                    promotionSelectView.setEventHandlerByColumn(3, event -> {
+                                        log.trace("Chose Bishop for promotion!");
+                                        m.changePromotion(Bishop.class.getName());
+                                        main.getChildren().remove(promotionSelectView);
+
+                                        piece1.makeMove(m);
+
+                                        boardPane.resetStatus();
+                                        highlightCheck();
+
+                                        sendMessage(new ClientMessage(m));
+
+                                        updateTurnStatus(true);
+
+                                        renderPieces();
+                                        setupPieceHandler();
+                                    });
+
+                                } else {
+                                    piece1.makeMove(m);
+
+                                    boardPane.resetStatus();
+                                    highlightCheck();
+
+                                    sendMessage(new ClientMessage(m));
+
+                                    updateTurnStatus(true);
+
+                                    renderPieces();
+                                    setupPieceHandler();
+                                }
 
                             }, destY, destX);
                         }
@@ -271,11 +362,11 @@ public class GameController extends Controller {
     private void updateTurnStatus(boolean locked) {
         this.locked = locked;
         if (locked) {
-            upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
-            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(false));
+            upperUsernameField.getChildren().stream().filter(child -> child instanceof Label).findAny().ifPresent(node -> ((Label) node).setUnderline(true));
+            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Label).findAny().ifPresent(node -> ((Label) node).setUnderline(false));
         } else {
-            upperUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(false));
-            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Text).findAny().ifPresent(node -> ((Text) node).setUnderline(true));
+            upperUsernameField.getChildren().stream().filter(child -> child instanceof Label).findAny().ifPresent(node -> ((Label) node).setUnderline(false));
+            lowerUsernameField.getChildren().stream().filter(child -> child instanceof Label).findAny().ifPresent(node -> ((Label) node).setUnderline(true));
         }
     }
 
@@ -370,41 +461,42 @@ public class GameController extends Controller {
 
                 Platform.runLater(() -> {
                     boardPane = new BoardPane(color == Color.WHITE);
-                    main.add(boardPane, 1, 1);
-                    //board.initialize();
                     renderPieces();
+                    main.add(boardPane, 1, 1);
                 });
             }
 
             case USERLIST -> {
                 log.debug("Received user list!");
                 Object[] users = new Gson().fromJson(message, Object[].class);
-                Arrays.stream(users).filter(user -> !user.equals(this.username)).findAny().ifPresent(user -> {
-                    lowerUsernameField.getChildren().forEach(child -> {
-                        if (child instanceof Text text) {
-                            text.setText(this.username);
-                        }
-                        if (child instanceof Circle circle) {
-                            circle.setStroke(javafx.scene.paint.Color.BLACK);
-                            if (color == Color.WHITE) {
-                                circle.setFill(javafx.scene.paint.Color.WHITE);
-                            } else {
-                                circle.setFill(javafx.scene.paint.Color.BLACK);
+                Platform.runLater(() -> {
+                    Arrays.stream(users).filter(user -> !user.equals(this.username)).findAny().ifPresent(user -> {
+                        lowerUsernameField.getChildren().forEach(child -> {
+                            if (child instanceof Label text) {
+                                text.setText(this.username);
                             }
-                        }
-                    });
-                    upperUsernameField.getChildren().forEach(child -> {
-                        if (child instanceof Text text) {
-                            text.setText((String) user);
-                        }
-                        if (child instanceof Circle circle) {
-                            circle.setStroke(javafx.scene.paint.Color.BLACK);
-                            if (color != Color.WHITE) {
-                                circle.setFill(javafx.scene.paint.Color.WHITE);
-                            } else {
-                                circle.setFill(javafx.scene.paint.Color.BLACK);
+                            if (child instanceof Circle circle) {
+                                circle.setStroke(javafx.scene.paint.Color.BLACK);
+                                if (color == Color.WHITE) {
+                                    circle.setFill(javafx.scene.paint.Color.WHITE);
+                                } else {
+                                    circle.setFill(javafx.scene.paint.Color.BLACK);
+                                }
                             }
-                        }
+                        });
+                        upperUsernameField.getChildren().forEach(child -> {
+                            if (child instanceof Label text) {
+                                text.setText((String) user);
+                            }
+                            if (child instanceof Circle circle) {
+                                circle.setStroke(javafx.scene.paint.Color.BLACK);
+                                if (color != Color.WHITE) {
+                                    circle.setFill(javafx.scene.paint.Color.WHITE);
+                                } else {
+                                    circle.setFill(javafx.scene.paint.Color.BLACK);
+                                }
+                            }
+                        });
                     });
                 });
             }

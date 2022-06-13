@@ -2,20 +2,19 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.helper.game.Pieces;
 
 import javafx.scene.image.Image;
 
 public class Knight extends Piece {
 	private static final Logger log = LogManager.getLogger(Knight.class);
-
-    private static final Image whiteImage = new Image(Objects.requireNonNull(Piece.class.getResourceAsStream("/icons/wKnight.png")));
-    private static final Image blackImage = new Image(Objects.requireNonNull(Piece.class.getResourceAsStream("/icons/bKnight.png")));
 
     public Knight(Board Board, boolean isWhite) {
         super(Board, isWhite);
@@ -176,16 +175,15 @@ public class Knight extends Piece {
         return moves.toArray(new Move[moves.size()]);
     }
 
+    @Override
+    public Pieces getEnumValue() {
+        return Pieces.KNIGHT;
+    }
 
     @Override
     public Image getImage() {
-        if (isWhite) {
-            return whiteImage;
-        } else {
-            return blackImage;
-        }
+        return getEnumValue().getImage(isWhite);
     }
-
 
 	@Override
 	public Piece getClone(Board board) {

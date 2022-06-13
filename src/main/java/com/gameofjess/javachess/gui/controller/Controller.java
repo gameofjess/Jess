@@ -45,14 +45,17 @@ public abstract class Controller {
      */
     void switchGameScene(Scene scene, GameController gameController, ActionEvent event) {
         Stage stage = getStage();
+
         stage.setScene(scene);
+
+        stage.setMinWidth(750);
+        stage.setMinHeight(750);
 
         log.debug("Setting on close request!");
         stage.setOnCloseRequest(windowEvent -> {
             gameController.closeConnection("Application closed!");
         });
 
-        stage.show();
         log.debug("Switched scene to {}", scene);
     }
 
@@ -67,8 +70,15 @@ public abstract class Controller {
         SceneFactory factory = new SceneFactory(type);
         Scene scene = factory.getScene();
         Stage stage = getStage();
+
         stage.setScene(scene);
-        stage.show();
+
+        stage.setMinWidth(400);
+        stage.setMinHeight(600);
+
+        stage.setWidth(400);
+        stage.setHeight(600);
+
         log.debug("Switched scene to {}", type.toString());
         return factory.getController();
     }

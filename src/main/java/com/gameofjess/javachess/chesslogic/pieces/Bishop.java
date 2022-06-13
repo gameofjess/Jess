@@ -2,26 +2,24 @@ package com.gameofjess.javachess.chesslogic.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.helper.game.Pieces;
 
 import javafx.scene.image.Image;
 
 public class Bishop extends Piece {
 	private static final Logger log = LogManager.getLogger(Bishop.class);
 
-    private static final Image whiteImage = new Image(Objects.requireNonNull(Bishop.class.getResourceAsStream("/icons/wBishop.png")));
-    private static final Image blackImage = new Image(Objects.requireNonNull(Bishop.class.getResourceAsStream("/icons/bBishop.png")));
-
 	public Bishop(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "b";
 	}
-
 
 	/**
 	 * @param checking
@@ -127,13 +125,14 @@ public class Bishop extends Piece {
 		return moves.toArray(new Move[moves.size()]);
 	}
 
+    @Override
+    public Pieces getEnumValue() {
+        return Pieces.BISHOP;
+    }
+
 	@Override
 	public Image getImage() {
-		if (isWhite) {
-            return whiteImage;
-		} else {
-            return blackImage;
-		}
+        return getEnumValue().getImage(isWhite);
 	}
 
 

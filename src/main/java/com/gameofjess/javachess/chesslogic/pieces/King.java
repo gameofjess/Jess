@@ -3,20 +3,19 @@ package com.gameofjess.javachess.chesslogic.pieces;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.helper.game.Pieces;
 
 import javafx.scene.image.Image;
 
 public class King extends Piece {
 	private static final Logger log = LogManager.getLogger(Board.class);
-
-	private static final Image whiteImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/wKing.png")));
-	private static final Image blackImage = new Image(Objects.requireNonNull(King.class.getResourceAsStream("/icons/bKing.png")));
 
 	boolean rochade = true;
 
@@ -322,13 +321,14 @@ public class King extends Piece {
 	// 	return false;
 	// }
 
+    @Override
+    public Pieces getEnumValue() {
+        return Pieces.KING;
+    }
+
 	@Override
 	public Image getImage() {
-		if (isWhite) {
-			return whiteImage;
-		} else {
-			return blackImage;
-		}
+        return getEnumValue().getImage(isWhite);
 	}
 
 	public boolean checkCheck(){

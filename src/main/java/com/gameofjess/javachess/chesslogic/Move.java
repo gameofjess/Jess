@@ -81,6 +81,10 @@ public class Move {
 		return promotion;
 	}
 
+    public void changePromotion(String className) {
+        this.promotion = className;
+    }
+
 	/**
 	 * @return the origin
 	 */

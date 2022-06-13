@@ -3,6 +3,8 @@ package com.gameofjess.javachess.gui.helper.objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.gameofjess.javachess.helper.game.Pieces;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,6 +22,8 @@ public class CapturedPieceView extends HBox {
 
     private final ImageView pieceImage;
 
+    private final Image img;
+
     private final Label countLabel;
 
     private int count;
@@ -27,15 +31,15 @@ public class CapturedPieceView extends HBox {
     /**
      * Constructs a CapturedPieceView with the given Image.
      * 
-     * @param img Image to be used.
+     * @param piece Piece to be displayed.
      */
-    public CapturedPieceView(Image img) {
+    public CapturedPieceView(Pieces piece, boolean isWhite) {
+        this.img = piece.getImage(isWhite);
         log.trace("Constructing a single captured piece display.");
-        this.pieceImage = new ImageView(img);
+        this.pieceImage = new ImageView();
         pieceImage.setPreserveRatio(true);
         pieceImage.setSmooth(true);
-        pieceImage.fitHeightProperty().bind(heightProperty().divide(2));
-        pieceImage.fitWidthProperty().bind(widthProperty().divide(2));
+
 
         HBox.setHgrow(pieceImage, Priority.SOMETIMES);
 
@@ -48,6 +52,9 @@ public class CapturedPieceView extends HBox {
         updateCount();
         this.getChildren().add(pieceImage);
         this.getChildren().add(countLabel);
+
+        pieceImage.fitHeightProperty().bind(heightProperty().divide(2));
+        pieceImage.fitWidthProperty().bind(widthProperty().divide(2));
     }
 
     /**
@@ -56,6 +63,10 @@ public class CapturedPieceView extends HBox {
     public void add() {
         log.trace("Increasing count to: {}", count++);
         updateCount();
+    }
+
+    public void renderPieceImage() {
+        pieceImage.setImage(img);
     }
 
     /**
