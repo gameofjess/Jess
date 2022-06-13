@@ -115,8 +115,8 @@ public class Server extends WebSocketServer {
 
     @Override
     public void onError(WebSocket webSocket, Exception e) {
-        String message = "An error occurred in the server instance: " + e.getMessage();
-        log.error(message);
+        String message = "An error ({}) occurred in the server instance: " + e.getMessage();
+        log.error(message, e.getClass().getSimpleName());
         broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, message);
 
         final StringBuilder stackTraceBuilder = new StringBuilder();

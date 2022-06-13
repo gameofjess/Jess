@@ -70,6 +70,7 @@ public class ServerBuilder {
         } else {
             server = new Server(new InetSocketAddress(host, port));
         }
+        server.setReuseAddr(true);
         return server;
     }
 

@@ -222,10 +222,7 @@ public class MenuController extends Controller {
         ServerBuilder serverBuilder = new ServerBuilder();
 
         Server server = serverBuilder.build();
-        Thread serverThread = new Thread(() -> {
-            server.setReuseAddr(true);
-            server.start();
-        });
+        Thread serverThread = new Thread(server::start);
 
         serverThread.start();
 

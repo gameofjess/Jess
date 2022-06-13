@@ -5,6 +5,7 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import com.gameofjess.javachess.client.ConnectionHandler;
 import com.gameofjess.javachess.extensions.AssertLoggedExtension;
+import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 
@@ -44,7 +46,6 @@ public class ServerCommandListenerTest {
             testServer.stop();
         port++;
         testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
         testServer.start();
     }
 
@@ -83,9 +84,13 @@ public class ServerCommandListenerTest {
      */
     @Test
     void listTest() throws InvalidHostnameException, URISyntaxException, InvalidPortException {
+        GameController mock = mock(GameController.class); // Not necessary, but prevents NullPointerExceptions
+
         ConnectionHandler testConnection1 = new ConnectionHandler("127.0.0.1", port);
+        testConnection1.setGameController(mock);
         testConnection1.connect("TestUser");
         ConnectionHandler testConnection2 = new ConnectionHandler("127.0.0.1", port);
+        testConnection2.setGameController(mock);
         testConnection2.connect("TestUser2");
 
         String command = "list\nstop";

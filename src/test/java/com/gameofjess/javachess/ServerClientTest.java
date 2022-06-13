@@ -41,7 +41,6 @@ public class ServerClientTest {
             testServer.stop();
         port++;
         testServer = new ServerBuilder().setPort(port).build();
-        testServer.setReuseAddr(true);
         testServer.start();
     }
 
