@@ -455,6 +455,8 @@ public class GameController extends Controller {
 
                 updateTurnStatus(false);
 
+                boardPane.resetStatus();
+
                 highlightCheck();
 
                 renderPieces();
