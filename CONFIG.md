@@ -8,6 +8,37 @@ The following configuration will be generated on startup:
 
 ```json
 {
+  "appearance": {
+    "iconPath": "",
+    "blackCellColor": {
+      "R": 61,
+      "G": 71,
+      "B": 83
+    },
+    "whiteCellColor": {
+      "R": 255,
+      "G": 255,
+      "B": 255
+    },
+    "activatedCellColor": {
+      "R": 127,
+      "G": 255,
+      "B": 122,
+      "A": 0.75
+    },
+    "selectedCellColor": {
+      "R": 100,
+      "G": 224,
+      "B": 255,
+      "A": 0.75
+    },
+    "checkCellColor": {
+      "R": 255,
+      "G": 100,
+      "B": 100,
+      "A": 0.25
+    }
+  },
   "logging": {
     "level": "INFO"
   },
