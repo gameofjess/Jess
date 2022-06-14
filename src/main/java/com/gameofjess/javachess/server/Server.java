@@ -1,10 +1,7 @@
 package com.gameofjess.javachess.server;
 
 import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,12 +25,12 @@ public class Server extends WebSocketServer {
     /**
      * saves the usernames mapped to the specific UUID of the WebSocket-instance.
      */
-    private final ConcurrentHashMap<UUID, String> users = new ConcurrentHashMap<>();
+    private final Map<UUID, String> users = new ConcurrentHashMap<>();
 
     /**
      * saves the colors mapped to the specific UUID of the WebSocket-instance.
      */
-    private final ConcurrentHashMap<UUID, Color> gameColors = new ConcurrentHashMap<>();
+    private final Map<UUID, Color> gameColors = new ConcurrentHashMap<>();
 
     /**
      * saves whether the server is opened or closed.
@@ -330,7 +327,7 @@ public class Server extends WebSocketServer {
             } else {
                 log.debug("Ignoring custom color choice {} of user {} from {}.", color.name(), users.get(u), webSocket.getRemoteSocketAddress());
 
-                UUID otherUUID = gameColors.keys().nextElement();
+                UUID otherUUID = ((ConcurrentHashMap<UUID, Color>) gameColors).keys().nextElement();
                 if (gameColors.get(otherUUID) == Color.WHITE) {
                     gameColors.put(u, Color.BLACK);
                 } else {
