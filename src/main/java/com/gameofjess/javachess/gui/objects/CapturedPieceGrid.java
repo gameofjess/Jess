@@ -1,4 +1,4 @@
-package com.gameofjess.javachess.gui.helper.objects;
+package com.gameofjess.javachess.gui.objects;
 
 import java.util.List;
 
