@@ -41,6 +41,8 @@ Any folder that contains icons that meet the following criteria:
 - PNG-Format and .png-ending
 - Tested resolution: 1024x1024 - lower or higher should be no problem, but that's untested.
 
+Note: The path has to end with a "/"!
+
 The following files are looked for:
 
 - bPawn.png -> black pawn
