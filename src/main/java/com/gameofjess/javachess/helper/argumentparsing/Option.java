@@ -36,7 +36,7 @@ public enum Option {
      * 
      * @param value value to be set.
      */
-    public void setValue(String value) {
+    void setValue(String value) {
         this.value = value;
     }
 
