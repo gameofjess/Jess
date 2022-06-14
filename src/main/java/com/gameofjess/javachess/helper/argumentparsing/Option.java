@@ -12,15 +12,15 @@ public enum Option {
     /**
      * Just the dedicated server should be started.
      */
-    dedicatedServer('s', "server"),
+    DEDICATED_SERVER('s', "server"),
     /**
      * A different host should be used.
      */
-    host('H', "host"),
+    HOST('H', "host"),
     /**
      * A different port shall be used.
      */
-    port('p', "port");
+    PORT('p', "port");
 
     private final char shortAlias;
     private final String longAlias;

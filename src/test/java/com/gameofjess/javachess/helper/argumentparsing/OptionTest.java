@@ -19,8 +19,8 @@ public class OptionTest {
     @ParameterizedTest(name = "#{index} - Option Value Test with String {0}")
     @MethodSource("getRandomStrings")
     void valueTest(String randomString){
-        Option.host.setValue(randomString);
-        assertEquals(randomString, Option.host.getValue());
+        Option.HOST.setValue(randomString);
+        assertEquals(randomString, Option.HOST.getValue());
     }
 
     /**
@@ -30,9 +30,9 @@ public class OptionTest {
      */
     @Test
     void getByShortAliasTest(){
-        assertEquals(Option.dedicatedServer, Option.getByShortAlias('s'));
-        assertEquals(Option.host, Option.getByShortAlias('H'));
-        assertEquals(Option.port, Option.getByShortAlias('p'));
+        assertEquals(Option.DEDICATED_SERVER, Option.getByShortAlias('s'));
+        assertEquals(Option.HOST, Option.getByShortAlias('H'));
+        assertEquals(Option.PORT, Option.getByShortAlias('p'));
     }
 
     /**
@@ -42,9 +42,9 @@ public class OptionTest {
      */
     @Test
     void getByLongAliasTest(){
-        assertEquals(Option.dedicatedServer, Option.getByLongAlias("server"));
-        assertEquals(Option.host, Option.getByLongAlias("host"));
-        assertEquals(Option.port, Option.getByLongAlias("port"));
+        assertEquals(Option.DEDICATED_SERVER, Option.getByLongAlias("server"));
+        assertEquals(Option.HOST, Option.getByLongAlias("host"));
+        assertEquals(Option.PORT, Option.getByLongAlias("port"));
     }
 
     /**

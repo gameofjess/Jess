@@ -49,16 +49,16 @@ public class Launcher {
             Option[] options = ArgumentParser.getOpts(args);
             List<Option> optionList = Arrays.asList(options);
 
-            if (optionList.contains(Option.dedicatedServer)) {
+            if (optionList.contains(Option.DEDICATED_SERVER)) {
                 ServerBuilder sb = new ServerBuilder();
-                if (optionList.contains(Option.port)) {
+                if (optionList.contains(Option.PORT)) {
                     int port = Integer
-                            .parseInt(optionList.get(optionList.indexOf(Option.port)).getValue());
+                            .parseInt(optionList.get(optionList.indexOf(Option.PORT)).getValue());
                     sb.setPort(port);
                     log.debug("Manually set server port to {}", port);
                 }
-                if (optionList.contains(Option.host)) {
-                    String host = optionList.get(optionList.indexOf(Option.host)).getValue();
+                if (optionList.contains(Option.HOST)) {
+                    String host = optionList.get(optionList.indexOf(Option.HOST)).getValue();
                     sb.setHost(host);
                     log.debug("Manually set server hostname to {}", host);
                 }

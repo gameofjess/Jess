@@ -26,13 +26,13 @@ public class ArgumentParserTest {
     void regularTest()
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
         String[] args = {"-s", "-H", "10.1.1.1", "-p", "8888"};
-        Option hostname = Option.host;
-        Option port = Option.port;
+        Option hostname = Option.HOST;
+        Option port = Option.PORT;
         hostname.setValue("10.1.1.1");
         port.setValue("8888");
 
         assertArrayEquals(ArgumentParser.getOpts(args),
-                new Option[] {Option.dedicatedServer, hostname, port});
+                new Option[] {Option.DEDICATED_SERVER, hostname, port});
     }
 
     /**
@@ -44,10 +44,10 @@ public class ArgumentParserTest {
     void regularServerTest()
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
         String[] args = {"-s"};
-        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.dedicatedServer});
+        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.DEDICATED_SERVER});
 
         args = new String[] {"--server"};
-        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.dedicatedServer});
+        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.DEDICATED_SERVER});
     }
 
     /**
@@ -60,7 +60,7 @@ public class ArgumentParserTest {
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
         for (int port = 1024; port <= 65535; port++) {
             String[] args = {"-p", String.valueOf(port)};
-            Option portOption = Option.port;
+            Option portOption = Option.PORT;
             portOption.setValue(String.valueOf(port));
 
             assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {portOption});
@@ -80,7 +80,7 @@ public class ArgumentParserTest {
 
         for (String host : exampleHostnames) {
             String[] args = {"-H", host};
-            Option hostOption = Option.host;
+            Option hostOption = Option.HOST;
             hostOption.setValue(host);
 
             assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {hostOption});
@@ -100,7 +100,7 @@ public class ArgumentParserTest {
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
 
         String[] args = {"-H", hostIP};
-        Option hostOption = Option.host;
+        Option hostOption = Option.HOST;
         hostOption.setValue(hostIP);
 
         assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {hostOption});

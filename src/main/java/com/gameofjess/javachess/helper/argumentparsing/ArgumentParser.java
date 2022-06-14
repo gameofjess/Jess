@@ -44,7 +44,7 @@ public class ArgumentParser {
                     log.debug("Got option {}.", option.getLongAlias());
                 }
 
-                if (option == Option.port) {
+                if (option == Option.PORT) {
                     if (!(args.length < i + 2)) {
                         int port;
                         try {
@@ -64,7 +64,7 @@ public class ArgumentParser {
                     }
                 }
 
-                if (option == Option.host) {
+                if (option == Option.HOST) {
                     if (!(args.length < i + 2)) {
                         String host = args[i + 1];
                         log.debug("Got host-argument {}.", host);
