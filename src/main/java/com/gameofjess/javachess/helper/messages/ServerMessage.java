@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.helper.messages;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -112,5 +113,20 @@ public class ServerMessage implements Message {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ServerMessage that = (ServerMessage) o;
+        return Objects.equals(username, that.username) && Objects.equals(message, that.message) && Objects.equals(time.toString(), that.time.toString()) && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, message, time, type);
     }
 }
