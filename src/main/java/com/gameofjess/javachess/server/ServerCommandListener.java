@@ -22,7 +22,7 @@ public class ServerCommandListener implements Runnable {
     private Server server;
     private final InputStream stream;
 
-    volatile boolean stop = false;
+    private volatile boolean stop = false;
 
     /**
      * Constructor ServerCommandListener
