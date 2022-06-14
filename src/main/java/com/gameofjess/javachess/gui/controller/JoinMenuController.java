@@ -47,7 +47,7 @@ public class JoinMenuController extends MenuController {
         log.debug("Switching to game scene.");
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.GAME);
-        Scene gameScene = sceneFactory.getScene();
+        Scene gameScene = sceneFactory.getScene().getFXScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
         if (connect(host, port, usernameString, gameController)) {

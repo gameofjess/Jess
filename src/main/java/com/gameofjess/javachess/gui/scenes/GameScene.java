@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 /**
  * This class provides an easy-to-use wrapper for the corresponding JavaFX-Scene.
  */
-public class GameScene {
+public class GameScene implements IScene {
 
     private static final Logger log = LogManager.getLogger(GameScene.class);
     private static final URL fxmlFileURL = GameScene.class.getClassLoader().getResource("play.fxml");
@@ -40,7 +40,7 @@ public class GameScene {
      * 
      * @return JavaFX-Scene
      */
-    Scene getScene() {
+    public Scene getFXScene() {
         return scene;
     }
 
@@ -49,7 +49,7 @@ public class GameScene {
      * 
      * @return corresponding controller.
      */
-    public GameController getController() {
+    public Controller getController() {
         return (GameController) controller;
     }
 

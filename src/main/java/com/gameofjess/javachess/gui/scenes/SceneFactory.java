@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import com.gameofjess.javachess.gui.controller.Controller;
 
-import javafx.scene.Scene;
-
 /**
  * This factory is used to construct the various scenes of the application.
  */
@@ -13,26 +11,31 @@ public class SceneFactory {
     private final SceneType type;
     private Controller controller;
 
+    /**
+     * Constructs a SceneFactory
+     * 
+     * @param type Type of scene to create
+     */
     public SceneFactory(SceneType type) {
         this.type = type;
     }
 
-    public Scene getScene() throws IOException {
+    public IScene getScene() throws IOException {
         switch (type) {
             case JOIN -> {
                 JoinScene scene = new JoinScene();
                 controller = scene.getController();
-                return scene.getScene();
+                return scene;
             }
             case HOST -> {
                 HostScene scene = new HostScene();
                 controller = scene.getController();
-                return scene.getScene();
+                return scene;
             }
             case GAME -> {
                 GameScene scene = new GameScene();
                 controller = scene.getController();
-                return scene.getScene();
+                return scene;
             }
         }
         throw new IllegalArgumentException();

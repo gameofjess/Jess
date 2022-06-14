@@ -167,7 +167,7 @@ public class HostMenuController extends MenuController {
         serverThread.start();
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.GAME);
-        Scene gameScene = sceneFactory.getScene();
+        Scene gameScene = sceneFactory.getScene().getFXScene();
 
         GameController gameController = (GameController) sceneFactory.getController();
         gameController.setServer(server);

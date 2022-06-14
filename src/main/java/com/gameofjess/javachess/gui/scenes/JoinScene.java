@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 /**
  * This class provides an easy-to-use wrapper for the corresponding JavaFX-Scene.
  */
-public class JoinScene {
+public class JoinScene implements IScene {
     private static final Logger log = LogManager.getLogger(JoinScene.class);
     private static final URL fxmlFileURL = JoinScene.class.getClassLoader().getResource("menu.fxml");
     private final Controller controller;
@@ -39,7 +39,7 @@ public class JoinScene {
      * 
      * @return JavaFX-Scene
      */
-    Scene getScene() {
+    public Scene getFXScene() {
         return scene;
     }
 
@@ -48,7 +48,7 @@ public class JoinScene {
      * 
      * @return corresponding controller.
      */
-    public MenuController getController() {
+    public Controller getController() {
         return (MenuController) controller;
     }
 }

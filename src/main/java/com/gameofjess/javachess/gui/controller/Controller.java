@@ -66,7 +66,7 @@ public class Controller {
 
     private Controller switchScene(SceneType type) throws IOException {
         SceneFactory factory = new SceneFactory(type);
-        Scene scene = factory.getScene();
+        Scene scene = factory.getScene().getFXScene();
         Stage stage = getStage();
 
         stage.setScene(scene);
