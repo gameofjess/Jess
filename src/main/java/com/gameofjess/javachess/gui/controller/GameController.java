@@ -26,7 +26,6 @@ import com.google.gson.Gson;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -62,7 +61,7 @@ public class GameController extends Controller {
     @FXML
     private HBox lowerUsernameField;
     @FXML
-    public CapturedPieceGrid capturedPiecesGrid;
+    private CapturedPieceGrid capturedPiecesGrid;
     /**
      * Board model
      */
@@ -417,10 +416,8 @@ public class GameController extends Controller {
 
     /**
      * Sends a chat message.
-     * 
-     * @param event GUI ActionEvent
      */
-    public void sendChatMessage(ActionEvent event) {
+    public void sendChatMessage() {
         String message = chatField.getText();
         ClientMessage cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
         sendMessage(cmsg);
@@ -561,7 +558,7 @@ public class GameController extends Controller {
      * 
      * @param reason Reason for closing the connection.
      */
-    void closeConnection(String reason) {
+    protected void closeConnection(String reason) {
         this.connectionHandler.disconnect(CloseFrame.GOING_AWAY, reason);
 
         if (server != null) {
