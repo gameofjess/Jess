@@ -62,8 +62,7 @@ public class Config {
         private final RGBAColor checkCellColor;
 
 
-        Appearance(String iconPath, RGBColor blackCellColor, RGBColor whiteCellColor, RGBAColor activatedCellColor, RGBAColor selectedCellColor, RGBAColor checkCellColor) {
-
+        private Appearance(String iconPath, RGBColor blackCellColor, RGBColor whiteCellColor, RGBAColor activatedCellColor, RGBAColor selectedCellColor, RGBAColor checkCellColor) {
             this.iconPath = iconPath;
             this.blackCellColor = blackCellColor;
             this.whiteCellColor = whiteCellColor;
@@ -71,54 +70,30 @@ public class Config {
             this.selectedCellColor = selectedCellColor;
             this.checkCellColor = checkCellColor;
         }
-
-        public String getIconPath() {
-            return iconPath;
-        }
-
-        public String getBlackCellColor() {
-            return blackCellColor.compose();
-        }
-
-        public String getWhiteCellColor() {
-            return whiteCellColor.compose();
-        }
-
-        public String getActivatedCellColor() {
-            return activatedCellColor.compose();
-        }
-
-        public String getSelectedCellColor() {
-            return selectedCellColor.compose();
-        }
-
-        public String getCheckCellColor() {
-            return checkCellColor.compose();
-        }
     }
 
     public String getIconPath() {
-        return appearance.getIconPath();
+        return appearance.iconPath;
     }
 
     public String getBlackCellColor() {
-        return appearance.getBlackCellColor();
+        return appearance.blackCellColor.compose();
     }
 
     public String getWhiteCellColor() {
-        return appearance.getWhiteCellColor();
+        return appearance.whiteCellColor.compose();
     }
 
     public String getActivatedCellColor() {
-        return appearance.getActivatedCellColor();
+        return appearance.activatedCellColor.compose();
     }
 
     public String getSelectedCellColor() {
-        return appearance.getSelectedCellColor();
+        return appearance.selectedCellColor.compose();
     }
 
     public String getCheckCellColor() {
-        return appearance.getCheckCellColor();
+        return appearance.checkCellColor.compose();
     }
 
     private class Logging {
@@ -145,17 +120,13 @@ public class Config {
          */
         private final String level;
 
-        Logging(String level) {
+        private Logging(String level) {
             this.level = level;
-        }
-
-        String getLogLevel() {
-            return level;
         }
     }
 
     public Level getLogLevel() {
-        String level = logging.getLogLevel();
+        String level = logging.level;
         Level logLevel = Level.getLevel(level);
 
         if (logLevel == null) {
@@ -206,26 +177,18 @@ public class Config {
          */
         private final String ipAddressServer;
 
-        HostMenuConfiguration(boolean loadPublicIPAddress, String ipAddressServer) {
+        private HostMenuConfiguration(boolean loadPublicIPAddress, String ipAddressServer) {
             this.loadPublicIPAddress = loadPublicIPAddress;
             this.ipAddressServer = ipAddressServer;
-        }
-
-        String getIpAddressServer() {
-            return ipAddressServer;
-        }
-
-        boolean getLoadPublicIPAddress() {
-            return loadPublicIPAddress;
         }
     }
 
     public String getIPAddressServer() {
-        return hostMenuConfiguration.getIpAddressServer();
+        return hostMenuConfiguration.ipAddressServer;
     }
 
     public boolean getShowPublicIPAddress() {
-        return hostMenuConfiguration.getLoadPublicIPAddress();
+        return hostMenuConfiguration.loadPublicIPAddress;
     }
 
     private class ServerConfiguration {
@@ -264,26 +227,18 @@ public class Config {
          */
         private final String defaultHostname;
 
-        ServerConfiguration(int defaultPort, String defaultHostname) {
+        private ServerConfiguration(int defaultPort, String defaultHostname) {
             this.defaultPort = defaultPort;
             this.defaultHostname = defaultHostname;
-        }
-
-        int getDefaultPort() {
-            return defaultPort;
-        }
-
-        String getDefaultHostname() {
-            return defaultHostname;
         }
     }
 
     public int getDefaultPort() {
-        return serverConfiguration.getDefaultPort();
+        return serverConfiguration.defaultPort;
     }
 
     public String getDefaultHostname() {
-        return serverConfiguration.getDefaultHostname();
+        return serverConfiguration.defaultHostname;
     }
 
 
@@ -296,14 +251,14 @@ public class Config {
         private final int B;
         private final double A;
 
-        RGBAColor(int R, int G, int B, double A) {
+        private RGBAColor(int R, int G, int B, double A) {
             this.R = R;
             this.G = G;
             this.B = B;
             this.A = A;
         }
 
-        public String compose() {
+        private String compose() {
             return "rgba(" + R + "," + G + "," + B + "," + A + ")";
         }
     }
@@ -313,13 +268,13 @@ public class Config {
         private final int G;
         private final int B;
 
-        RGBColor(int R, int G, int B) {
+        private RGBColor(int R, int G, int B) {
             this.R = R;
             this.G = G;
             this.B = B;
         }
 
-        public String compose() {
+        private String compose() {
             return "rgb(" + R + "," + G + "," + B + ")";
         }
     }
