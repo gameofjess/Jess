@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.gui.scenes.SceneFactory;
 import com.gameofjess.javachess.gui.scenes.SceneType;
 
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -41,9 +40,8 @@ public class Controller {
      * Switches to pregenerated gameScene and sets onCloseRequest-EventHandler.
      *
      * @param scene Scene to switch to.
-     * @param event GUI ActionEvent.
      */
-    void switchGameScene(Scene scene, GameController gameController, ActionEvent event) {
+    void switchGameScene(Scene scene, GameController gameController) {
         Stage stage = getStage();
 
         stage.setScene(scene);

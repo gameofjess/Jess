@@ -176,9 +176,8 @@ public class MenuController extends Controller {
     /**
      * Gets user inputs and calls the connect method.
      *
-     * @param event GUI ActionEvent
      */
-    public void joinGame(ActionEvent event) throws IOException {
+    public void joinGame() throws IOException {
         final String[] splittedAddress = address.getText().split(":");
         final String host;
         final int port;
@@ -206,16 +205,15 @@ public class MenuController extends Controller {
         GameController gameController = (GameController) sceneFactory.getController();
 
         if (connect(host, port, usernameString, gameController)) {
-            switchGameScene(gameScene, gameController, event);
+            switchGameScene(gameScene, gameController);
         }
     }
 
     /**
      * Starts the server and calls the connect function to connect to the server.
      *
-     * @param event GUI ActionEvent
      */
-    public void hostGame(ActionEvent event) throws IOException {
+    public void hostGame() throws IOException {
         String host = config.getDefaultHostname();
         int port = config.getDefaultPort();
 
@@ -233,7 +231,7 @@ public class MenuController extends Controller {
         gameController.setServer(server);
 
         if (connect(host, port, username.getText(), gameColor, gameController)) {
-            switchGameScene(gameScene, gameController, event);
+            switchGameScene(gameScene, gameController);
         }
     }
 
