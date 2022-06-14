@@ -8,7 +8,8 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
           minWidth="-Infinity"
           prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #FFFFFF;"
-          xmlns="http://javafx.com/javafx/18" fx:controller="com.gameofjess.javachess.gui.controller.MenuController">
+          xmlns="http://javafx.com/javafx/18"
+          fx:controller="com.gameofjess.javachess.gui.controller.HostMenuController">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="15.0"/>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="70.0"/>
