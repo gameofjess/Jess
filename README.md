@@ -4,7 +4,9 @@
 
 ## About
 
-This repository will be used for a uni project for the module "Software Development 2" in the course "Medieninformatik", second semester.
+Jess (short for JavaChess) is a chess game written in Java. It was made for a uni project for the module "Software Development 2" in the second semester of the course "BSc Medieninformatik" (engl.: "Computer Science and Media") at [Hochschule der Medien / Stuttgart Media University](https://www.hdm-stuttgart.de).
+
+Screenshots can be found [here](Screenshots.md).
 
 ## How to build and use
 
