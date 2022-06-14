@@ -40,7 +40,7 @@ public class BoardCell extends StackPane {
     /**
      * Constructs a BoardCell.
      */
-    public BoardCell() {
+    BoardCell() {
         selected = false;
         activated = false;
         check = false;
@@ -76,7 +76,7 @@ public class BoardCell extends StackPane {
      * 
      * @param img Image that shall be displayed.
      */
-    public synchronized void setImage(Image img) {
+    synchronized void setImage(Image img) {
         piece.setImage(img);
         piece.setPreserveRatio(true);
     }
@@ -87,7 +87,7 @@ public class BoardCell extends StackPane {
      * 
      * @param status true/false
      */
-    public void setActivationStatus(boolean status) {
+    void setActivationStatus(boolean status) {
         activated = status;
         updateBackground();
     }
@@ -98,7 +98,7 @@ public class BoardCell extends StackPane {
      * 
      * @param status true/false
      */
-    public void setSelectionStatus(boolean status) {
+    void setSelectionStatus(boolean status) {
         selected = status;
         updateBackground();
     }
@@ -108,7 +108,7 @@ public class BoardCell extends StackPane {
      *
      * @return Whether the selection status after calling this method is true or false.
      */
-    public boolean changeSelectionStatus() {
+    boolean changeSelectionStatus() {
         if (selected) {
             selected = false;
         } else {
@@ -123,7 +123,7 @@ public class BoardCell extends StackPane {
      *
      * @param status true/false
      */
-    public void setCheckStatus(boolean status) {
+    void setCheckStatus(boolean status) {
         check = status;
         updateBackground();
     }
@@ -132,7 +132,7 @@ public class BoardCell extends StackPane {
      * Resets all cell status.
      *
      */
-    public void resetStatus() {
+    void resetStatus() {
         selected = false;
         activated = false;
         check = false;
@@ -142,7 +142,7 @@ public class BoardCell extends StackPane {
     /**
      * Changes the BoardCell's background color to black.
      */
-    public void changeBackgroundColorToBlack() {
+    void changeBackgroundColorToBlack() {
         this.black = true;
         updateBackground();
     }
@@ -172,14 +172,14 @@ public class BoardCell extends StackPane {
      * 
      * @param handler EventHandler for the onClickEvent.
      */
-    public void addEventHandlerToPiece(EventHandler<MouseEvent> handler) {
+    void addEventHandlerToPiece(EventHandler<MouseEvent> handler) {
         this.setOnMouseClicked(handler);
     }
 
     /**
      * Resets the EventHandler.
      */
-    public void resetEventHandler() {
+    void resetEventHandler() {
         this.setOnMouseClicked(null);
     }
 }

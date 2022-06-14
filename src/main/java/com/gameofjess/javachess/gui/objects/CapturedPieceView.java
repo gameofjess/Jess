@@ -33,7 +33,7 @@ public class CapturedPieceView extends HBox {
      * 
      * @param piece Piece to be displayed.
      */
-    public CapturedPieceView(Pieces piece, boolean isWhite) {
+    CapturedPieceView(Pieces piece, boolean isWhite) {
         this.img = piece.getImage(isWhite);
         log.trace("Constructing a single captured piece display.");
         this.pieceImage = new ImageView();
@@ -60,7 +60,7 @@ public class CapturedPieceView extends HBox {
     /**
      * Adds a captured piece to the counter.
      */
-    public void add() {
+    void add() {
         log.trace("Increasing count to: {}", count++);
         updateCount();
     }
@@ -68,7 +68,7 @@ public class CapturedPieceView extends HBox {
     /**
      * Renders the image of a captured piece.
      */
-    public void renderPieceImage() {
+    void renderPieceImage() {
         pieceImage.setImage(img);
     }
 
