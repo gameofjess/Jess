@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public abstract class Controller {
+public class Controller {
 
     private static final Logger log = LogManager.getLogger(Controller.class);
 
