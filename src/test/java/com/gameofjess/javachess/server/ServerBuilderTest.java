@@ -18,6 +18,6 @@ public class ServerBuilderTest {
         Server server = sb.build();
 
         assertEquals(server.getPort(), 10000);
-        assertTrue(server.getAddress().getHostName().contains("localhost"));
+        assertEquals("/127.0.0.1", server.getAddress().getAddress().toString());
     }
 }
