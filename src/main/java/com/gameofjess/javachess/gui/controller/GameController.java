@@ -182,6 +182,10 @@ public class GameController extends Controller {
                                 if (m.getPromotion() != null) {
                                     log.debug("Promotion detected!");
 
+                                    main.getChildren().stream().parallel()
+                                            .filter(child -> child instanceof PromotionSelectView).findAny()
+                                            .ifPresent(child -> main.getChildren().remove(child));
+
                                     PromotionSelectView promotionSelectView = new PromotionSelectView(color);
 
                                     GridPane.setHalignment(promotionSelectView, HPos.CENTER);
