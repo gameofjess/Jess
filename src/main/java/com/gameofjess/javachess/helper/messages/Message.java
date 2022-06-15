@@ -4,6 +4,8 @@ import java.util.Date;
 
 public interface Message {
 
+    String getUsername();
+
     String getMessage();
 
     Date getTime();

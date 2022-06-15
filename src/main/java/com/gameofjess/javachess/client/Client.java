@@ -2,6 +2,7 @@ package com.gameofjess.javachess.client;
 
 import java.net.URI;
 
+import com.gameofjess.javachess.helper.messages.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
@@ -36,8 +37,8 @@ public class Client extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         log.debug("Received message: {}", message);
-        ServerMessage smsg = new ServerMessage(message);
-        connectionHandler.handleServerMessage(smsg);
+        Message smsg = new ServerMessage(message);
+        connectionHandler.handleMessage(smsg);
     }
 
     @Override

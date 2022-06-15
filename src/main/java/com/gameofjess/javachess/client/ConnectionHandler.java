@@ -1,18 +1,16 @@
 package com.gameofjess.javachess.client;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.helper.game.Color;
-import com.gameofjess.javachess.helper.messages.ClientMessage;
-import com.gameofjess.javachess.helper.messages.ServerMessage;
+import com.gameofjess.javachess.helper.messages.Message;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectionHandler {
 
@@ -54,7 +52,7 @@ public class ConnectionHandler {
      * 
      * @param msg Sends a message to the server.
      */
-    public void send(ClientMessage msg) {
+    public void send(Message msg) {
         client.send(msg.toJSON());
     }
 
@@ -136,9 +134,9 @@ public class ConnectionHandler {
     /**
      * Handles received messages according to their type.
      *
-     * @param msg ServerMessage to be handled.
+     * @param msg Message to be handled.
      */
-    void handleServerMessage(ServerMessage msg) {
+    void handleMessage(Message msg) {
         log.debug("Received {} from {}: {}", msg.getType().name(), msg.getUsername(), msg.getMessage());
         gameController.receiveMessage(msg);
     }

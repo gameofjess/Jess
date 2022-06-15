@@ -1,13 +1,5 @@
 package com.gameofjess.javachess.gui.controller;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.java_websocket.framing.CloseFrame;
-
 import com.gameofjess.javachess.chesslogic.Board;
 import com.gameofjess.javachess.chesslogic.Move;
 import com.gameofjess.javachess.chesslogic.Position;
@@ -19,11 +11,10 @@ import com.gameofjess.javachess.gui.objects.CapturedPieceGrid;
 import com.gameofjess.javachess.gui.objects.PromotionSelectView;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.Message;
 import com.gameofjess.javachess.helper.messages.MessageType;
-import com.gameofjess.javachess.helper.messages.ServerMessage;
 import com.gameofjess.javachess.server.Server;
 import com.google.gson.Gson;
-
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -42,6 +33,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.java_websocket.framing.CloseFrame;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 public class GameController extends Controller {
     private static final Logger log = LogManager.getLogger(GameController.class);
@@ -197,9 +195,7 @@ public class GameController extends Controller {
                                         }
                                     };
 
-                                    renderTask.setOnSucceeded(e -> {
-                                        main.add(promotionSelectView, 1, 0);
-                                    });
+                                    renderTask.setOnSucceeded(e -> main.add(promotionSelectView, 1, 0));
 
                                     new Thread(renderTask).start();
 
@@ -409,9 +405,7 @@ public class GameController extends Controller {
      * @param message Message to be shown.
      */
     public void endGame(String message) {
-        Platform.runLater(() -> {
-            setBoardMessage(message);
-        });
+        Platform.runLater(() -> setBoardMessage(message));
     }
 
     /**
@@ -419,7 +413,7 @@ public class GameController extends Controller {
      */
     public void sendChatMessage() {
         String message = chatField.getText();
-        ClientMessage cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
+        Message cmsg = new ClientMessage(message, MessageType.CHATMESSAGE);
         sendMessage(cmsg);
         chatField.clear();
     }
@@ -428,24 +422,20 @@ public class GameController extends Controller {
      * Receives a chat message.
      *
      */
-    public void receiveMessage(ServerMessage serverMessage) {
-        String message = serverMessage.getMessage();
-        String username = serverMessage.getUsername();
+    public void receiveMessage(Message message) {
+        String messageStr = message.getMessage();
+        String username = message.getUsername();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String formattedDate = dateFormat.format(serverMessage.getTime());
-        switch (serverMessage.getType()) {
-            case CHATMESSAGE -> {
-                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + message + "\n"));
-            }
+        String formattedDate = dateFormat.format(message.getTime());
+        switch (message.getType()) {
+            case CHATMESSAGE -> Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - " + username + ": " + messageStr + "\n"));
             case NEWMOVE -> {
-                Move m = new Gson().fromJson(message, Move.class);
+                Move m = new Gson().fromJson(messageStr, Move.class);
 
                 Piece capturedPiece = board.getBoardMap().get(m.getCapturePosition());
 
                 if (capturedPiece != null) {
-                    Platform.runLater(() -> {
-                        capturedPiecesGrid.add(capturedPiece);
-                    });
+                    Platform.runLater(() -> capturedPiecesGrid.add(capturedPiece));
                 }
 
                 board.getBoardMap().get(m.getOrigin()).makeMove(m);
@@ -459,17 +449,15 @@ public class GameController extends Controller {
                 renderPieces();
                 setupPieceHandler();
             }
-            case SERVERINFO -> {
-                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n"));
-            }
+            case SERVERINFO -> Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + messageStr + "\n"));
 
             case SERVERERROR -> {
-                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n"));
+                Platform.runLater(() -> chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + messageStr + "\n"));
                 endGame("Ended game due to server error!");
             }
 
             case COLORINFO -> {
-                this.color = Color.valueOf(message);
+                this.color = Color.valueOf(messageStr);
                 log.debug("Got assigned color {}!", color.name());
                 updateTurnStatus(color == Color.BLACK);
 
@@ -482,75 +470,65 @@ public class GameController extends Controller {
 
             case USERLIST -> {
                 log.debug("Received user list!");
-                Object[] users = new Gson().fromJson(message, Object[].class);
-                Platform.runLater(() -> {
-                    Arrays.stream(users).filter(user -> !user.equals(this.username)).findAny().ifPresent(user -> {
-                        lowerUsernameField.getChildren().forEach(child -> {
-                            if (child instanceof Label text) {
-                                text.setText(this.username);
+                Object[] users = new Gson().fromJson(messageStr, Object[].class);
+                Platform.runLater(() -> Arrays.stream(users).filter(user -> !user.equals(this.username)).findAny().ifPresent(user -> {
+                    lowerUsernameField.getChildren().forEach(child -> {
+                        if (child instanceof Label text) {
+                            text.setText(this.username);
+                        }
+                        if (child instanceof Circle circle) {
+                            circle.setStroke(javafx.scene.paint.Color.BLACK);
+                            if (color == Color.WHITE) {
+                                circle.setFill(javafx.scene.paint.Color.WHITE);
+                            } else {
+                                circle.setFill(javafx.scene.paint.Color.BLACK);
                             }
-                            if (child instanceof Circle circle) {
-                                circle.setStroke(javafx.scene.paint.Color.BLACK);
-                                if (color == Color.WHITE) {
-                                    circle.setFill(javafx.scene.paint.Color.WHITE);
-                                } else {
-                                    circle.setFill(javafx.scene.paint.Color.BLACK);
-                                }
-                            }
-                        });
-                        upperUsernameField.getChildren().forEach(child -> {
-                            if (child instanceof Label text) {
-                                text.setText((String) user);
-                            }
-                            if (child instanceof Circle circle) {
-                                circle.setStroke(javafx.scene.paint.Color.BLACK);
-                                if (color != Color.WHITE) {
-                                    circle.setFill(javafx.scene.paint.Color.WHITE);
-                                } else {
-                                    circle.setFill(javafx.scene.paint.Color.BLACK);
-                                }
-                            }
-                        });
+                        }
                     });
-                });
+                    upperUsernameField.getChildren().forEach(child -> {
+                        if (child instanceof Label text) {
+                            text.setText((String) user);
+                        }
+                        if (child instanceof Circle circle) {
+                            circle.setStroke(javafx.scene.paint.Color.BLACK);
+                            if (color != Color.WHITE) {
+                                circle.setFill(javafx.scene.paint.Color.WHITE);
+                            } else {
+                                circle.setFill(javafx.scene.paint.Color.BLACK);
+                            }
+                        }
+                    });
+                }));
             }
-            case BEGINMATCH -> {
-                Platform.runLater(() -> {
-                    root.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
-                            .ifPresent(node -> root.getChildren().remove(node));
+            case BEGINMATCH -> Platform.runLater(() -> {
+                root.getChildren().stream().parallel().filter(child -> child.idProperty().get() != null && child.idProperty().get().equals("boardOverlay")).findAny()
+                        .ifPresent(node -> root.getChildren().remove(node));
 
-                    resignButton = new Button();
-                    resignButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;");
-                    resignButton.setOnAction(event -> resign());
-                    resignButton.setText("RESIGN");
-                    resignButtonField.getChildren().add(resignButton);
+                resignButton = new Button();
+                resignButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;");
+                resignButton.setOnAction(event -> resign());
+                resignButton.setText("RESIGN");
+                resignButtonField.getChildren().add(resignButton);
 
-                    main.getChildren().remove(1, 1);
+                main.getChildren().remove(1, 1);
 
-                    main.setEffect(null);
-                    capturedPiecesGrid.setEffect(null);
+                main.setEffect(null);
+                capturedPiecesGrid.setEffect(null);
 
-                    chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + message + "\n");
-                });
-            }
-            case CHECKMATE -> {
-                Platform.runLater(() -> {
-                    endGame(username + " has won!");
-                });
-            }
-            default -> {
-                throw new IllegalArgumentException("Received message is not of any recognized type!");
-            }
+                chatHistory.setText(chatHistory.getText() + formattedDate + " - INFO: " + messageStr + "\n");
+            });
+            case CHECKMATE -> Platform.runLater(() -> endGame(username + " has won!"));
+            default -> throw new IllegalArgumentException("Received message is not of any recognized type!");
         }
     }
 
     /**
      * Sends a message via the ConnectionHandler
      * 
-     * @param clientMessage ClientMessage to be sent.
+     * @param message Message to be sent.
      */
-    private void sendMessage(ClientMessage clientMessage) {
-        connectionHandler.send(clientMessage);
+    private void sendMessage(Message message) {
+        connectionHandler.send(message);
     }
 
     /**

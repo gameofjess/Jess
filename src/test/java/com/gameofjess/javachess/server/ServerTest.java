@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import com.gameofjess.javachess.helper.messages.Message;
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
 import org.java_websocket.framing.CloseFrame;
@@ -233,11 +234,11 @@ public class ServerTest {
         when(testWS.getAttachment()).thenReturn(UUID.randomUUID());
         when(testWS.getRemoteSocketAddress()).thenReturn(new InetSocketAddress(1111));
 
-        ClientMessage cmsg = new ClientMessage("TestMessage!", MessageType.CHATMESSAGE);
+        Message cmsg = new ClientMessage("TestMessage!", MessageType.CHATMESSAGE);
 
         testServer.onMessage(testWS, cmsg.toJSON());
 
-        ServerMessage smsg = new ServerMessage(null, MessageType.CHATMESSAGE, cmsg.getMessage());
+        Message smsg = new ServerMessage(null, MessageType.CHATMESSAGE, cmsg.getMessage());
 
         verify(testServer).broadcast(smsg.toJSON());
     }
@@ -277,11 +278,11 @@ public class ServerTest {
 
         Piece piece = board.getBoardMap().get(new Position(1, 1));
 
-        ClientMessage cmsg = new ClientMessage(piece.getMoves()[0]);
+        Message cmsg = new ClientMessage(piece.getMoves()[0]);
 
         testServer.onMessage(testWS, cmsg.toJSON());
 
-        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getMessage());
+        Message smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getMessage());
 
         verify(testWS2).send(smsg.toJSON());
     }
@@ -319,15 +320,15 @@ public class ServerTest {
 
         Move move = new Move(new Position(1, 1), new Position(4, 5));
 
-        ClientMessage cmsg = new ClientMessage(move);
+        Message cmsg = new ClientMessage(move);
 
         testServer.onMessage(testWS, cmsg.toJSON());
 
-        ServerMessage smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getTime(), cmsg.getMessage());
+        Message smsg = new ServerMessage("TestUser", MessageType.NEWMOVE, cmsg.getTime(), cmsg.getMessage());
 
         verify(testWS2, never()).send(smsg.toJSON());
 
-        ServerMessage errorMessage = new ServerMessage(MessageType.SERVERERROR, cmsg.getTime(), "Invalid move made by TestUser! Closing game!");
+        Message errorMessage = new ServerMessage(MessageType.SERVERERROR, cmsg.getTime(), "Invalid move made by TestUser! Closing game!");
 
         verify(testServer).broadcast(errorMessage.toJSON());
     }

@@ -70,6 +70,11 @@ public class ClientMessage implements Message {
     }
 
     @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
     public String getMessage() {
         return message;
     }

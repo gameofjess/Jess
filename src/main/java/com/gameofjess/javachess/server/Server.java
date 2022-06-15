@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.gameofjess.javachess.helper.messages.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
@@ -40,7 +41,7 @@ public class Server extends WebSocketServer {
     /**
      * saves the board used to check Moves
      * 
-     * @see #handleClientMessage(ClientMessage, WebSocket)
+     * @see #handleClientMessage(Message, WebSocket)
      */
     private final Board board;
 
@@ -92,7 +93,7 @@ public class Server extends WebSocketServer {
         }
 
         log.info(" Connection to client {} from {} disconnected!", username, webSocket.getRemoteSocketAddress());
-        ServerMessage msg = new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
+        Message msg = new ServerMessage(MessageType.SERVERINFO, "Client " + username + " disconnected!");
         broadcast(msg.toJSON());
         log.info("Connection from {} was terminated with exit code {}. Reason: {}", webSocket.getRemoteSocketAddress(), exitCode, reason);
         for (WebSocket ws : getConnections()) {
@@ -106,7 +107,7 @@ public class Server extends WebSocketServer {
     public void onMessage(WebSocket webSocket, String message) {
         UUID u = webSocket.getAttachment();
         log.debug("Received message from {} with username {}: {}", webSocket.getRemoteSocketAddress().getAddress(), users.get(u), message);
-        ClientMessage cmsg = new ClientMessage(message);
+        Message cmsg = new ClientMessage(message);
         handleClientMessage(cmsg, webSocket);
     }
 
@@ -117,9 +118,7 @@ public class Server extends WebSocketServer {
         broadcastServerError(CloseFrame.UNEXPECTED_CONDITION, message);
 
         final StringBuilder stackTraceBuilder = new StringBuilder();
-        Arrays.stream(e.getStackTrace()).forEach(line -> {
-            stackTraceBuilder.append("\n").append(line);
-        });
+        Arrays.stream(e.getStackTrace()).forEach(line -> stackTraceBuilder.append("\n").append(line));
         log.debug("Stacktrace of error: {}", stackTraceBuilder.toString());
     }
 
@@ -201,7 +200,7 @@ public class Server extends WebSocketServer {
      * @param cmsg ClientMessage to be handled.
      * @param webSocket WebSocket that sent the Message.
      */
-    private void handleClientMessage(ClientMessage cmsg, WebSocket webSocket) {
+    private void handleClientMessage(Message cmsg, WebSocket webSocket) {
         UUID webSocketUUID = webSocket.getAttachment();
         String username = users.get(webSocketUUID);
         Date sentDate = cmsg.getTime();
@@ -210,7 +209,7 @@ public class Server extends WebSocketServer {
             case CHATMESSAGE -> {
                 log.info("New chat message received: {}", cmsg.getMessage());
 
-                ServerMessage msg =
+                Message msg =
                         new ServerMessage(username, MessageType.CHATMESSAGE, sentDate, cmsg.getMessage());
                 broadcast(msg.toJSON());
             }
@@ -223,7 +222,7 @@ public class Server extends WebSocketServer {
                 if (board.isMoveValid(m)) {
                     log.debug("Move from {} was found valid!", username);
                     board.getBoardMap().get(m.getOrigin()).makeMove(m);
-                    ServerMessage msg = new ServerMessage(username, MessageType.NEWMOVE, sentDate, cmsg.getMessage());
+                    Message msg = new ServerMessage(username, MessageType.NEWMOVE, sentDate, cmsg.getMessage());
 
                     getConnections().parallelStream().filter(ws -> !(ws.equals(webSocket))).forEach(ws -> ws.send(msg.toJSON()));
 
@@ -232,17 +231,13 @@ public class Server extends WebSocketServer {
                             String winnerUsername = users.get(winnerEntry.getKey());
                             broadcast(new ServerMessage(winnerUsername, MessageType.CHECKMATE, "").toJSON());
                         });
-                        getConnections().forEach(ws -> {
-                            ws.close(CloseFrame.NORMAL);
-                        });
+                        getConnections().forEach(ws -> ws.close(CloseFrame.NORMAL));
                     } else if (board.getKingWhite().checkCheckMate()) {
                         gameColors.entrySet().stream().filter(entry -> entry.getValue() == Color.BLACK).findFirst().ifPresent(winnerEntry -> {
                             String winnerUsername = users.get(winnerEntry.getKey());
                             broadcast(new ServerMessage(winnerUsername, MessageType.CHECKMATE, "").toJSON());
                         });
-                        getConnections().forEach(ws -> {
-                            ws.close(CloseFrame.NORMAL);
-                        });
+                        getConnections().forEach(ws -> ws.close(CloseFrame.NORMAL));
                     }
                 } else {
                     log.info("Move from {} was found invalid. Closing game!", username);
@@ -259,7 +254,7 @@ public class Server extends WebSocketServer {
      * @param errorMessage Error message to send to all clients.
      */
     private void broadcastServerError(int closeCode, String errorMessage) {
-        ServerMessage msg = new ServerMessage(MessageType.SERVERERROR, errorMessage);
+        Message msg = new ServerMessage(MessageType.SERVERERROR, errorMessage);
         broadcast(msg.toJSON());
         for (WebSocket ws : this.getConnections()) {
             ws.close(closeCode, errorMessage);
@@ -314,15 +309,9 @@ public class Server extends WebSocketServer {
             if (users.size() == 1) {
                 log.debug("User with username {} from {} is connecting with color choice {}", users.get(u), webSocket.getRemoteSocketAddress(), color.name());
                 switch (color) {
-                    case BLACK -> {
-                        gameColors.put(u, Color.BLACK);
-                    }
-                    case WHITE -> {
-                        gameColors.put(u, Color.WHITE);
-                    }
-                    case RANDOM -> {
-                        gameColors.put(u, getRandomColor());
-                    }
+                    case BLACK -> gameColors.put(u, Color.BLACK);
+                    case WHITE -> gameColors.put(u, Color.WHITE);
+                    case RANDOM -> gameColors.put(u, getRandomColor());
                 }
             } else {
                 log.debug("Ignoring custom color choice {} of user {} from {}.", color.name(), users.get(u), webSocket.getRemoteSocketAddress());
@@ -351,12 +340,12 @@ public class Server extends WebSocketServer {
      */
     private void beginMatch(String joinedUser) {
         //board.initialize();
-        ServerMessage msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + joinedUser + " joined. The match begins!");
+        Message msg = new ServerMessage(MessageType.BEGINMATCH, "Player " + joinedUser + " joined. The match begins!");
         users.forEach((uuid, username) -> {
             WebSocket webSocket = getWebSocketByUUID(uuid);
             if (webSocket != null) {
-                ServerMessage colorInfo = new ServerMessage(MessageType.COLORINFO, gameColors.get(uuid).name());
-                ServerMessage userList = new ServerMessage(MessageType.USERLIST, new Gson().toJson(users.values().toArray()));
+                Message colorInfo = new ServerMessage(MessageType.COLORINFO, gameColors.get(uuid).name());
+                Message userList = new ServerMessage(MessageType.USERLIST, new Gson().toJson(users.values().toArray()));
                 webSocket.send(colorInfo.toJSON());
                 webSocket.send(userList.toJSON());
             }
