@@ -12,8 +12,8 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import com.gameofjess.javachess.helper.argumentparsing.ArgumentParser;
 import com.gameofjess.javachess.helper.argumentparsing.Option;
-import com.gameofjess.javachess.helper.configuration.Config;
-import com.gameofjess.javachess.helper.configuration.ConfigHandler;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
 import com.gameofjess.javachess.server.ServerCommandListener;
@@ -33,12 +33,12 @@ public class Launcher {
      */
     public static void main(String[] args) {
 
-        Config config;
+        StandardConfig config;
         try {
-            config = new ConfigHandler().loadConfig(new File("config.json"));
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
         } catch (IOException e) {
             log.error("Could not read config file. Proceeding to use default values!");
-            config = new Config();
+            config = new StandardConfig();
         }
 
         Level level = config.getLogLevel();

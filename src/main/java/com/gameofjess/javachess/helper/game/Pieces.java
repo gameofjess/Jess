@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import com.gameofjess.javachess.helper.configuration.Config;
-import com.gameofjess.javachess.helper.configuration.ConfigHandler;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
 
 import javafx.scene.image.Image;
 
@@ -18,11 +18,11 @@ public enum Pieces {
     private final Image whiteImage;
 
     Pieces(String blackImageFileName, String whiteImageFileName) {
-        Config config;
+        StandardConfig config;
         try {
-            config = new ConfigHandler().loadConfig(new File("config.json"));
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
         } catch (IOException e) {
-            config = new Config();
+            config = new StandardConfig();
         }
 
         String path;

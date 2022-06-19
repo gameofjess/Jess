@@ -14,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.gameofjess.javachess.gui.scenes.SceneFactory;
 import com.gameofjess.javachess.gui.scenes.SceneType;
-import com.gameofjess.javachess.helper.configuration.Config;
-import com.gameofjess.javachess.helper.configuration.ConfigHandler;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
@@ -31,7 +31,7 @@ public class HostMenuController extends MenuController {
     private static final Logger log = LogManager.getLogger(HostMenuController.class);
 
     private Color gameColor;
-    private Config config;
+    private StandardConfig config;
 
     @FXML
     private RadioButton colorBlack;
@@ -49,10 +49,10 @@ public class HostMenuController extends MenuController {
         // Load config
 
         try {
-            config = new ConfigHandler().loadConfig(new File("config.json"));
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
         } catch (IOException e) {
             log.error("Could not read config file. Proceeding to use default values!");
-            config = new Config();
+            config = new StandardConfig();
         }
 
         // Get gameColor

@@ -8,8 +8,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.gameofjess.javachess.helper.configuration.Config;
-import com.gameofjess.javachess.helper.configuration.ConfigHandler;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -46,12 +46,12 @@ public class BoardCell extends StackPane {
         check = false;
         black = false;
 
-        Config config;
+        StandardConfig config;
         try {
-            config = new ConfigHandler().loadConfig(new File("config.json"));
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
         } catch (IOException e) {
             log.error("Could not read config file. Proceeding to use default values!");
-            config = new Config();
+            config = new StandardConfig();
         }
 
         blackCellColor = Color.web(config.getBlackCellColor());
@@ -109,11 +109,7 @@ public class BoardCell extends StackPane {
      * @return Whether the selection status after calling this method is true or false.
      */
     boolean changeSelectionStatus() {
-        if (selected) {
-            selected = false;
-        } else {
-            selected = true;
-        }
+        selected = !selected;
         updateBackground();
         return selected;
     }

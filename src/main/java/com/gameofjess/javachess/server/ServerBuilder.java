@@ -7,8 +7,8 @@ import java.net.InetSocketAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.gameofjess.javachess.helper.configuration.Config;
-import com.gameofjess.javachess.helper.configuration.ConfigHandler;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
 
 /**
  * This builder is used to build a Server.
@@ -22,12 +22,12 @@ public class ServerBuilder {
     private String host;
 
     public ServerBuilder() {
-        Config config;
+        StandardConfig config;
         try {
-            config = new ConfigHandler().loadConfig(new File("config.json"));
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
         } catch (IOException e) {
             log.error("Could not read config file. Proceeding to use default values!");
-            config = new Config();
+            config = new StandardConfig();
         }
 
         port = config.getDefaultPort();
