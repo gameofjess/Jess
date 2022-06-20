@@ -17,16 +17,16 @@ import javafx.scene.image.Image;
 public class Queen extends Piece {
 	private static final Logger log = LogManager.getLogger(Queen.class);
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
 	public Queen(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "q";
 	}
 
-
-	/**
-	 * @param checking
-	 * @return Move[]
-	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
 		log.trace("getting moves queen");

@@ -10,65 +10,41 @@ import org.apache.logging.log4j.Logger;
 
 import com.gameofjess.javachess.chesslogic.pieces.*;
 
-/*
- * ----------------------------------------- 8 | 07 |*17*| 27 |*37*| 47 |*57*| 67 |*77*|
- * ----------------------------------------- 7 |*06*| 16 |*26*| 36 |*46*| 56 |*66*| 76 |
- * ----------------------------------------- 6 | 05 |*15*| 25 |*35*| 45 |*55*| 65 |*75*|
- * ----------------------------------------- 5 |*04*| 14 |*24*| 34 |*44*| 54 |*64*| 74 |
- * ----------------------------------------- 4 | 03 |*13*| 23 |*33*| 43 |*53*| 63 |*73*|
- * ----------------------------------------- 3 |*02*| 12 |*22*| 32 |*42*| 52 |*62*| 72 |
- * ----------------------------------------- 2 | 01 |*11*| 21 |*31*| 41 |*51*| 61 |*71*|
- * ----------------------------------------- 1 |*00*| 10 |*20*| 30 |*40*| 50 |*60*| 70 |
- * ----------------------------------------- A B C D E F G H
- */
 
 public class Board {
 	/**
-	 * The Class representing the Chessboard 
+	 * The Class representing the Chessboard
 	 */
 	private static final Logger log = LogManager.getLogger(Board.class);
 
 	BidiMap<Position, Piece> board = new DualHashBidiMap<Position, Piece>();
 
-	List<Piece> capturedPieces = new ArrayList<Piece>();
-
     King kingWhite;
 	King kingBlack;
+
+	/**
+	 * Create a new Chessboard and set it to the initial position
+	 */
 	public Board(){
         this.initialize();
-        // this.initialize_check();
-        // this.initialize_promotion();
 		log.trace("Creating board");
 	}
 
+	/**
+	 * Constructor to deep clone a Chessboard
+	 * @param board Board to be cloned
+	 */
 	public Board(Board board){
 		log.trace("Cloning board");
-		//this.board = new DualHashBidiMap<Position, Piece>();
-		this.capturedPieces = new ArrayList<Piece>();
-		
-		// for (Map.Entry<Position, Piece> entry : board.getBoardMap().entrySet()) {
-		// 	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
-		// }
-
-		//board.getBoardMap().entrySet().stream().forEach(entry -> {
-		//	this.board.put(entry.getKey().getClone(), entry.getValue().getClone(this));
-		//});
-
 		this.board = new DualHashBidiMap<Position, Piece>(board.getBoardMap().entrySet().stream().parallel().collect(Collectors.toMap(
 				entry -> entry.getKey().getClone(), entry -> entry.getValue().getClone(this)
 				)));
-
-		// for (Piece piece : capturedPieces) {
-		// 	this.capturedPieces.add(piece.getClone(this));
-		// }
-		// this.kingWhite = KingWhite;
-		// this.kingBlack = KingBlack;
 	}
-	
-	/** 
-	 * 
+
+	/**
+	 * Method to get the position of a given Piece
 	 * @param piece
-	 * @return Position Position Object of the passed Piece
+	 * @return Position Position of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
 		log.trace("Getting Position of {}", piece.getClass().getSimpleName());
@@ -76,7 +52,7 @@ public class Board {
 	}
 
 	/**
-	 * Set the Board to the basic position
+	 * Set the Board to the initial position
 	 */
 	void initialize() {
         log.trace("Initializing board...");
@@ -130,31 +106,12 @@ public class Board {
 		board.put(new Position(3, 6), new Queen(this, true));
 		board.put(new Position(1,6), new Pawn(this, true));
 	}
-	/**
-	 * FOR DEBUGGING:
-	 * Print the current state of the Board to the console
-	 */
-	public void print(){
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				System.out.print(board.get(new Position(j, i)));
-			}
-			System.out.print("\n");
-		}
-	}
 
 	/**
-	 * @return the board
+	 * @return an immutable copy version of the Map representing the Chessbord
 	 */
 	public BidiMap<Position, Piece> getBoardMap() {
 		return org.apache.commons.collections4.bidimap.UnmodifiableBidiMap.unmodifiableBidiMap(board);
-	}
-
-	/**
-	 * @return the capturedPieces
-	 */
-	public List<Piece> getCapturedPieces() {
-		return Collections.unmodifiableList(capturedPieces);
 	}
 
 	/**
@@ -171,41 +128,47 @@ public class Board {
 		return kingBlack;
 	}
 
+	/**
+	 * Capture a Chess piece at a given Position
+	 * @param position
+	 */
 	public void capture(Position position){
 		log.trace("Capturing Piece");
-		Piece capture = getPiece(position);
-		capturedPieces.add(capture);
-		board.removeValue(capture);
+		board.removeValue(getPiece(position));
 	}
 
+	/**
+	 * get the piece from a Position or null
+	 * @param position
+	 * @return piece
+	 */
 	private Piece getPiece(Position position) {
 		return board.get(position);
-	}
-
-	public void boardMapRemove(Position position){
-		board.remove(position);
 	}
 
 	public void boardMapAdd(Position position, Piece piece){
 		board.put(position, piece);
 	}
 
+	/**
+	 * Check if a given move is legal on the current Board
+	 * @param move
+	 * @return boolean
+	 */
 	public boolean isMoveValid(Move move){
 		log.trace("Checking move validity");
 		Piece testPiece = board.get(move.origin);
 		Move[] moves = testPiece.getMoves();
-		// for (Move move2 : moves) {
-		// 	if (move2.equals(move)) {
-		// 		return true;
-		// 	}
-		// }
 
-		return Arrays.stream(moves).parallel().anyMatch(move2 -> 
+		return Arrays.stream(moves).parallel().anyMatch(move2 ->
 			move.equals(move2)
 		);
 	}
 
 	@Override
+	/**
+	 * return a text representation of the chess board
+	 */
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		for (Map.Entry<Position, Piece> entry : board.entrySet()) {
@@ -229,5 +192,13 @@ public class Board {
 	 */
 	public void setKingWhite(King kingWhite) {
 		this.kingWhite = kingWhite;
+	}
+
+	/**
+	 * remove piece from board map
+	 * @param position
+	 */
+	public void boardMapRemove(Position position) {
+		board.remove(position);
 	}
 }

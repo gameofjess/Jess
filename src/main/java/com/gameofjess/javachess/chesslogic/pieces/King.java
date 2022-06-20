@@ -17,23 +17,29 @@ import javafx.scene.image.Image;
 public class King extends Piece {
 	private static final Logger log = LogManager.getLogger(Board.class);
 
-	boolean rochade = true;
+	boolean castling = true;
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
 	public King(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "k";
 	}
 
+	/**
+	 * Clone constructor
+	 * @param Board
+	 * @param isWhite
+	 * @param rochade
+	 */
 	public King(Board Board, boolean isWhite, boolean rochade) {
 		super(Board, isWhite);
-		this.rochade = rochade;
+		this.castling = rochade;
 	}
 
-
-	/**
-	 * @param checking
-	 * @return Move[]
-	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
 		log.trace("getting moves king");
@@ -189,7 +195,7 @@ public class King extends Piece {
 
 
 		// rochade kurz
-		if (rochade && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null) {
+		if (castling && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null) {
 			Piece rook = board.getBoardMap().get(new Position(0, position.getY()));
 			if (rook instanceof Rook) {
 				if (((Rook) rook).rochade) {
@@ -208,7 +214,7 @@ public class King extends Piece {
 		}
 
 		//rochade lang
-		if (rochade && board.getBoardMap().get(new Position(6, position.getY())) == null && board.getBoardMap().get(new Position(5, position.getY())) == null
+		if (castling && board.getBoardMap().get(new Position(6, position.getY())) == null && board.getBoardMap().get(new Position(5, position.getY())) == null
 				&& board.getBoardMap().get(new Position(4, position.getY())) == null) {
 			Piece rook = board.getBoardMap().get(new Position(7, position.getY()));
 			if (rook instanceof Rook) {
@@ -230,17 +236,13 @@ public class King extends Piece {
 		return moves.toArray(new Move[moves.size()]);
 	}
 
-
-	/**
-	 * @param move
-	 */
 	@Override
 	public void makeMove(Move move) {
 		log.debug("current board:\n{}", board);
 		log.debug("making move");
-		rochade = false;
+		castling = false;
 
-		if (move.getRochade()) {
+		if (move.getCastling()) {
 			// kurz
 			if (move.getDestination().getX() == 6) {
 				Position rookpos = new Position(7, move.getDestination().getY());
@@ -252,7 +254,7 @@ public class King extends Piece {
 				board.boardMapAdd(move.getDestination(), king);
 				board.boardMapAdd(new Position(5, move.getDestination().getY()), rook);
 				rook.rochade = false;
-				king.rochade = false;
+				king.castling = false;
 
 			}
 			else{
@@ -265,7 +267,7 @@ public class King extends Piece {
 				board.boardMapAdd(move.getDestination(), king);
 				board.boardMapAdd(new Position(3, move.getDestination().getY()), rook);
 				rook.rochade = false;
-				king.rochade = false;
+				king.castling = false;
 			}
 			//lang
 		}
@@ -278,49 +280,6 @@ public class King extends Piece {
 		log.debug("current board:\n{}", board);
 	}
 
-
-	// /**
-	//  * @return boolean
-	//  */
-	// public boolean checkCheck() {
-
-	// 	for (Piece piece : board.getBoardMap().values()) {
-
-	// 		for (Move move : piece.getMoves()) {
-	// 			if (move.getDestination() == board.getPosition(this)) {
-	// 				return true;
-	// 			}
-	// 		}
-	// 	}
-	// 	return false;
-	// }
-
-
-	// /**
-	//  * @param test_move
-	//  * @param test_piece
-	//  * @return boolean
-	//  */
-	// public boolean checkCheck(Move test_move, Piece test_piece) {
-	// 	/*
-	// 	 * TODO
-	// 	 * 
-	// 	 * 
-	// 	 * List<Piece> piecesCopy = new ArrayList<Piece>();
-	// 	 * 
-	// 	 * 
-	// 	 * // clone board for (Piece piece : Board.pieces) { piecesCopy.add(piece.getClone()); }
-	// 	 * 
-	// 	 * // simulate move for (Piece piece : piecesCopy) { if (piece.position.getX() ==
-	// 	 * test_piece.position.x && piece.position.getY() == test_piece.position.getY()) {
-	// 	 * piece.makeMove(test_move); break; } }
-	// 	 * 
-	// 	 * for (Piece piece : piecesCopy) { for (Move move : piece.getMoves(false)) { if (move.destinationX
-	// 	 * == position.getX() && move.destinationY == position.getY()) { return true; } } }
-	// 	 */
-	// 	return false;
-	// }
-
     @Override
     public Pieces getEnumValue() {
         return Pieces.KING;
@@ -331,26 +290,24 @@ public class King extends Piece {
         return getEnumValue().getImage(isWhite);
 	}
 
+	/**
+	 * Check if the King is in Check
+	 * @return
+	 */
 	public boolean checkCheck(){
 		log.trace("check check King");
 		Position position = getPosition();
 		log.trace(position);
-		// for (Piece piece : board.getBoardMap().values()) {
-		// 	log.debug(position);
-		// 	for (Move move : piece.getMoves(false)) {
-		// 		if (move.getCapturePosition() != null && move.getCapturePosition().equals(position)) {
-		// 			return true;
-		// 		}
-		// 	}
-		// }
-		// return false;
 
-		
 		return board.getBoardMap().values().stream().parallel().anyMatch(piece ->
 			Arrays.stream(piece.getMoves(false)).parallel().map(move -> move.getCapturePosition()).filter(position2 -> position2 != null).anyMatch(position2 -> position2.equals(position))
 		);
 	}
 
+	/**
+	 * Check if the King is Checkmate
+	 * @return
+	 */
 	public boolean checkCheckMate(){
 		return board.getBoardMap().values().parallelStream().allMatch(piece -> 
 			piece.isWhite != this.isWhite || piece.getMoves().length == 0
@@ -359,7 +316,7 @@ public class King extends Piece {
 
 	@Override
 	public Piece getClone(Board board) {
-		King king = new King(board, isWhite, rochade);
+		King king = new King(board, isWhite, castling);
 		if (isWhite) {
 			board.setKingWhite(king);
 		}

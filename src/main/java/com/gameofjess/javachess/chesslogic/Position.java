@@ -8,17 +8,23 @@ public class Position {
 	 * This Class represents a position on the Chessboard
 	 */
 	private static final Logger log = LogManager.getLogger(Position.class);
-	final int x;
-	final int y;
+	final byte x;
+	final byte y;
 
+	/**
+	 * constructor
+	 * @param x value of the position between 0 and 7
+	 * @param y value of the position between 0 and 7
+	 */
 	public Position(int x, int y) {
-		//log.debug("Creating Position Object ({},{})", x, y);
 		this.x = (byte)x;
 		this.y = (byte)y;
 	}
 
+	/**
+	 * @return clone of the position object
+	 */
 	public Position getClone(){
-		//log.debug("Cloning Position Object ({},{})", x, y);
 		return new Position(x, y);
 	}
 
@@ -26,9 +32,8 @@ public class Position {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof Position))
+		if (!(o instanceof Position position))
 			return false;
-		Position position = (Position) o;
 		return x == position.x && y == position.y;
 	}
 
@@ -40,15 +45,15 @@ public class Position {
 	}
 
 	/**
-	 * @return the x
+	 * @return the x value of the position
 	 */
-	public int getX() {
+	public byte getX() {
 		return x;
 	}
 	/**
-	 * @return the y
+	 * @return the y value of the position
 	 */
-	public int getY() {
+	public byte getY() {
 		return y;
 	}
 

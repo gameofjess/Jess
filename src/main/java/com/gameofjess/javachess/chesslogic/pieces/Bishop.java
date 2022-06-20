@@ -16,6 +16,11 @@ import javafx.scene.image.Image;
 public class Bishop extends Piece {
 	private static final Logger log = LogManager.getLogger(Bishop.class);
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
 	public Bishop(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "b";
@@ -140,7 +145,6 @@ public class Bishop extends Piece {
 	public Image getImage() {
         return getEnumValue().getImage(isWhite);
 	}
-
 
 	@Override
 	public Piece getClone(Board board) {

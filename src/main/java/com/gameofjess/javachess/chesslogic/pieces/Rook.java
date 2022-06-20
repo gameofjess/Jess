@@ -18,21 +18,27 @@ public class Rook extends Piece {
 
     boolean rochade = false;
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
     public Rook(Board Board, boolean isWhite) {
         super(Board, isWhite);
         super.fen = "r";
     }
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 * @param rochade
+	 */
     public Rook(Board Board, boolean isWhite, boolean rochade) {
         super(Board, isWhite);
         this.rochade = rochade;
     }
 
-    
-	/** 
-	 * @param checking
-	 * @return Move[]
-	 */
 	@Override
     public Move[] getMoves(boolean checking) {
 		log.trace("getting moves rook");
@@ -138,10 +144,6 @@ public class Rook extends Piece {
         return moves.toArray(new Move[moves.size()]);
     }
 
-    
-	/** 
-	 * @param move
-	 */
 	@Override
     public void makeMove(Move move) {
 		log.debug("current board:\n{}", board);

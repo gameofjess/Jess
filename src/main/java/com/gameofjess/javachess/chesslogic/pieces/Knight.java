@@ -16,16 +16,16 @@ import javafx.scene.image.Image;
 public class Knight extends Piece {
 	private static final Logger log = LogManager.getLogger(Knight.class);
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
     public Knight(Board Board, boolean isWhite) {
         super(Board, isWhite);
         super.fen = "n";
     }
 
-    
-	/** 
-	 * @param checking
-	 * @return Move[]
-	 */
 	@Override
     public Move[] getMoves(boolean checking) {
 		log.trace("getting moves knight");

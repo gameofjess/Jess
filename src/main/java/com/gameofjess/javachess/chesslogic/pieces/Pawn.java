@@ -20,28 +20,34 @@ public class Pawn extends Piece {
 
 	boolean enpassant = false;
 
-	/**
+	/** returns if the Pawn can be captured by enpassant
 	 * @return the enpassant
 	 */
 	public boolean isEnpassant() {
 		return enpassant;
 	}
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 */
 	public Pawn(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "p";
 	}
 
+	/**
+	 * Constructor
+	 * @param Board
+	 * @param isWhite
+	 * @param enpassant
+	 */
 	public Pawn(Board Board, boolean isWhite, boolean enpassant) {
 		super(Board, isWhite);
 		this.enpassant = enpassant;
 	}
 
-
-	/**
-	 * @param checking
-	 * @return Move[]
-	 */
 	@Override
 	public Move[] getMoves(boolean checking) {
 		log.trace("getting moves pawn");
@@ -233,10 +239,6 @@ public class Pawn extends Piece {
 		return moves.toArray(new Move[moves.size()]);
 	}
 
-
-	/**
-	 * @param move
-	 */
 	@Override
 	public void makeMove(Move move){
 		log.debug("current board:\n{}", board);

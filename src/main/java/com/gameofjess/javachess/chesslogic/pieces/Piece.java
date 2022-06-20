@@ -20,20 +20,29 @@ public abstract class Piece implements Cloneable {
     boolean isWhite;
     String fen;
 
+    /**
+     * Constructor
+     * @param board
+     * @param isWhite
+     */
     public Piece(Board board, boolean isWhite) {
 		log.trace("Creating {}", this.getClass().getSimpleName());
         this.board = board;
         this.isWhite = isWhite;
     }
 
+    /**
+     * get possible moves moves
+     * @param checking enable/disable moves that put the king into check
+     * @return array of move objects
+     */
     public abstract Move[] getMoves(boolean checking);
 
 	public abstract Piece getClone(Board board);
 
     /**
-     * Returns an Array of all valid moves for the Current Board
-     * 
-     * @return Move[]
+     * get all legal moves
+     * @return
      */
     public Move[] getMoves() {
         return getMoves(true);
@@ -42,7 +51,6 @@ public abstract class Piece implements Cloneable {
 
     /**
      * Make a given move on the Board
-     * 
      * @param move
      */
     public void makeMove(Move move) {
@@ -92,6 +100,11 @@ public abstract class Piece implements Cloneable {
 		return board.getPosition(this);
 	}
 
+    /**
+     * Checks if a move puts the King into check
+     * @param move
+     * @return
+     */
 	boolean checkCheckMove(Move move){
 		log.trace("Check Check for move generation");
 		Board cloneBoard = new Board(board);
