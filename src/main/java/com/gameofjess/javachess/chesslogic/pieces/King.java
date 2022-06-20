@@ -189,11 +189,11 @@ public class King extends Piece {
 
 
 		// rochade kurz
-		if (rochade && board.getBoardMap().get(new Position(5, position.getY())) == null && board.getBoardMap().get(new Position(6, position.getY())) == null) {
-			Piece rook = board.getBoardMap().get(new Position(7, position.getY()));
+		if (rochade && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null) {
+			Piece rook = board.getBoardMap().get(new Position(0, position.getY()));
 			if (rook instanceof Rook) {
 				if (((Rook) rook).rochade) {
-					Move test_move = new Move(position, new Position(6, position.getY()), true);
+					Move test_move = new Move(position, new Position(1, position.getY()), true);
 					if (isWhite) {
 						if (!checking || true) {
 							moves.add(test_move);
@@ -208,12 +208,12 @@ public class King extends Piece {
 		}
 
 		//rochade lang
-		if (rochade && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null
-				&& board.getBoardMap().get(new Position(3, position.getY())) == null) {
-			Piece rook = board.getBoardMap().get(new Position(0, position.getY()));
+		if (rochade && board.getBoardMap().get(new Position(6, position.getY())) == null && board.getBoardMap().get(new Position(5, position.getY())) == null
+				&& board.getBoardMap().get(new Position(4, position.getY())) == null) {
+			Piece rook = board.getBoardMap().get(new Position(7, position.getY()));
 			if (rook instanceof Rook) {
 				if (((Rook) rook).rochade) {
-					Move test_move = new Move(position, new Position(2, position.getY()), true);
+					Move test_move = new Move(position, new Position(5, position.getY()), true);
 					if (isWhite) {
 						if (!checking || true) {
 							moves.add(test_move);
