@@ -6,6 +6,7 @@
 .idea
 out
 *.iml
+*.json
 .~lock*
 logs/2022-06/app-06-10-2022-1.log.gz
 logs/app.log
