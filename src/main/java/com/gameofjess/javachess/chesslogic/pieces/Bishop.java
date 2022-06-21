@@ -18,114 +18,110 @@ public class Bishop extends Piece {
 
 	/**
 	 * Constructor
-	 * @param Board
-	 * @param isWhite
+	 * @param Board to be linked
+	 * @param isWhite color of the piece
 	 */
 	public Bishop(Board Board, boolean isWhite) {
 		super(Board, isWhite);
 		super.fen = "b";
 	}
-
-	/**
-	 * @param checking
-	 * @return Move[]
-	 */
+	
 	@Override
 	public Move[] getMoves(boolean checking) {
 		log.trace("getting moves bishop");
-		List<Move> moves = new ArrayList<Move>();
+		List<Move> moves = new ArrayList<>();
 		Position position = board.getPosition(this);
 
-		// hoch rechts
+		// up, right
 		for (int j = 1; j < 8; j++) {
-			Position testposition = new Position(position.getX() + j, position.getY() + j);
-			if (testposition.getX() < 8 && testposition.getY() < 8) {
-				Piece testlocation = board.getBoardMap().get(testposition);
-				if(testlocation == null){
-					Move testmove = new Move(position, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+			Position testPosition = new Position(position.getX() + j, position.getY() + j);
+			if (testPosition.getX() < 8 && testPosition.getY() < 8) {
+				Piece testLocation = board.getBoardMap().get(testPosition);
+				if(testLocation == null){
+					Move testMove = new Move(position, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 				}
-				else if (testlocation.isWhite() == isWhite) {
+				else if (testLocation.isWhite() == isWhite) {
 					break;
 				}
-				else if(testlocation.isWhite() != isWhite){
-					Move testmove = new Move(position, testposition, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+				else if(testLocation.isWhite() != isWhite){
+					Move testMove = new Move(position, testPosition, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 					break;
 				}
 			}
 			else break;
 		}
-		//runter rechts
+		//down, right
 		for (int j = 1; j < 8; j++) {
-			Position testposition = new Position(position.getX() + j, position.getY() - j);
-			if (testposition.getX() < 8 && testposition.getY() >= 0) {
-				Piece testlocation = board.getBoardMap().get(testposition);
-				if(testlocation == null){
-					Move testmove = new Move(position, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+			Position testPosition = new Position(position.getX() + j, position.getY() - j);
+			if (testPosition.getX() < 8 && testPosition.getY() >= 0) {
+				Piece testLocation = board.getBoardMap().get(testPosition);
+				if(testLocation == null){
+					Move testMove = new Move(position, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 				}
-				else if (testlocation.isWhite() == isWhite) {
+				else if (testLocation.isWhite() == isWhite) {
 					break;
 				}
-				else if(testlocation.isWhite() != isWhite){
-					Move testmove = new Move(position, testposition, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+				else if(testLocation.isWhite() != isWhite){
+					Move testMove = new Move(position, testPosition, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 					break;
 				}
 			}
 			else break;
 		}
-		// runter links
+		// down, left
 		for (int j = 1; j < 8; j++) {
-			Position testposition = new Position(position.getX() - j, position.getY() - j);
-			if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-				Piece testlocation = board.getBoardMap().get(testposition);
-				if(testlocation == null){
-					Move testmove = new Move(position, testposition);
-					if (!checking || !checkCheckMove(testmove)){
-						moves.add(testmove);
+			Position testPosition = new Position(position.getX() - j, position.getY() - j);
+			if (testPosition.getX() >= 0 && testPosition.getY() >= 0) {
+				Piece testLocation = board.getBoardMap().get(testPosition);
+				if(testLocation == null){
+					Move testMove = new Move(position, testPosition);
+					if (!checking || !checkCheckMove(testMove)){
+						moves.add(testMove);
 					}
 				}
-				else if (testlocation.isWhite() == isWhite) {
+				else if (testLocation.isWhite() == isWhite) {
 					break;
 				}
-				else if(testlocation.isWhite() != isWhite){
-					Move testmove = new Move(position, testposition, testposition);
-					if (!checking || !checkCheckMove(testmove)){
-						moves.add(testmove);
+				else if(testLocation.isWhite() != isWhite){
+					Move testMove = new Move(position, testPosition, testPosition);
+					if (!checking || !checkCheckMove(testMove)){
+						moves.add(testMove);
 					}
 					break;
 				}
 			}
 			else break;
 		}
-		// hoch links
+		// up, left
 		for (int j = 1; j < 8; j++) {
-			Position testposition = new Position(position.getX() - j, position.getY() + j);
-			if (testposition.getX() >= 0 && testposition.getY() < 8) {
-				Piece testlocation = board.getBoardMap().get(testposition);
-				if(testlocation == null){
-					Move testmove = new Move(position, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+			Position testPosition = new Position(position.getX() - j, position.getY() + j);
+			if (testPosition.getX() >= 0 && testPosition.getY() < 8) {
+				Piece testLocation = board.getBoardMap().get(testPosition);
+				if(testLocation == null){
+					Move testMove = new Move(position, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 				}
-				else if (testlocation.isWhite() == isWhite) {
+				else if (testLocation.isWhite() == isWhite) {
 					break;
 				}
-				else if(testlocation.isWhite() != isWhite){
-					Move testmove = new Move(position, testposition, testposition);
-					if (!checking || !checkCheckMove(testmove)) {
-						moves.add(testmove);
+				else if(testLocation.isWhite() != isWhite){
+					Move testMove = new Move(position, testPosition, testPosition);
+					if (!checking || !checkCheckMove(testMove)) {
+						moves.add(testMove);
 					}
 					break;
 				}
@@ -133,7 +129,7 @@ public class Bishop extends Piece {
 			else break;
 		}
 
-		return moves.toArray(new Move[moves.size()]);
+		return moves.toArray(new Move[0]);
 	}
 
     @Override

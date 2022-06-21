@@ -20,8 +20,8 @@ public class Move {
 
 	/**
 	 * Constructor for normal Moves
-	 * @param origin
-	 * @param destination
+	 * @param origin of the move
+	 * @param destination of the move
 	 */
     public Move(Position origin, Position destination) {
 		this.origin = origin;
@@ -30,10 +30,10 @@ public class Move {
 
 	/**
 	 * Constructor for Enpassant moves
-	 * @param origin
-	 * @param destination
-	 * @param capturePosition
-	 * @param enpassant
+	 * @param origin of the move
+	 * @param destination of the move
+	 * @param capturePosition of the piece to be captured
+	 * @param enpassant boolean if the move is enpassant
 	 */
     public Move(Position origin, Position destination, Position capturePosition, boolean enpassant) {
         this.origin = origin;
@@ -44,9 +44,9 @@ public class Move {
 
 	/**
 	 * Constructor for Capture moves
-	 * @param origin
-	 * @param destination
-	 * @param capturePosition
+	 * @param origin of the move
+	 * @param destination of the move
+	 * @param capturePosition of the piece to be captured
 	 */
     public Move(Position origin, Position destination, Position capturePosition) {
 		this.origin = origin;
@@ -56,9 +56,9 @@ public class Move {
 
 	/**
 	 * Constructor for Castling moves
-	 * @param origin
-	 * @param destination
-	 * @param castling
+	 * @param origin of the move
+	 * @param destination of the move
+	 * @param castling boolean if castling is happening
 	 */
     public Move(Position origin, Position destination, boolean castling) {
 		this.origin = origin;
@@ -68,9 +68,9 @@ public class Move {
 
 	/**
 	 * Constructor for Promotion moves
-	 * @param origin
-	 * @param destination
-	 * @param promotion
+	 * @param origin of the move
+	 * @param destination of the move
+	 * @param promotion class string of the promoted piece
 	 */
 	public Move(Position origin, Position destination, String promotion) {
 		this.origin = origin;

@@ -17,7 +17,7 @@ public class Board {
 	 */
 	private static final Logger log = LogManager.getLogger(Board.class);
 
-	BidiMap<Position, Piece> board = new DualHashBidiMap<Position, Piece>();
+	BidiMap<Position, Piece> board = new DualHashBidiMap<>();
 
     King kingWhite;
 	King kingBlack;
@@ -34,17 +34,18 @@ public class Board {
 	 * Constructor to deep clone a Chessboard
 	 * @param board Board to be cloned
 	 */
+	@SuppressWarnings("CopyConstructorMissesField")
 	public Board(Board board){
 		log.trace("Cloning board");
-		this.board = new DualHashBidiMap<Position, Piece>(board.getBoardMap().entrySet().stream().parallel().collect(Collectors.toMap(
+		this.board = new DualHashBidiMap<>(board.getBoardMap().entrySet().stream().parallel().collect(Collectors.toMap(
 				entry -> entry.getKey().getClone(), entry -> entry.getValue().getClone(this)
 				)));
 	}
 
 	/**
 	 * Method to get the position of a given Piece
-	 * @param piece
-	 * @return Position Position of the passed Piece
+	 * @param piece Piece to et the Position from
+	 * @return Position of the passed Piece
 	 */
 	public  Position getPosition(Piece piece){
 		log.trace("Getting Position of {}", piece.getClass().getSimpleName());
@@ -108,7 +109,7 @@ public class Board {
 	}
 
 	/**
-	 * @return an immutable copy version of the Map representing the Chessbord
+	 * @return an immutable copy version of the Map representing the Chess bord
 	 */
 	public BidiMap<Position, Piece> getBoardMap() {
 		return org.apache.commons.collections4.bidimap.UnmodifiableBidiMap.unmodifiableBidiMap(board);
@@ -130,7 +131,7 @@ public class Board {
 
 	/**
 	 * Capture a Chess piece at a given Position
-	 * @param position
+	 * @param position Position to get the Piece from
 	 */
 	public void capture(Position position){
 		log.trace("Capturing Piece");
@@ -139,7 +140,7 @@ public class Board {
 
 	/**
 	 * get the piece from a Position or null
-	 * @param position
+	 * @param position Position to get the Piece from
 	 * @return piece
 	 */
 	private Piece getPiece(Position position) {
@@ -152,7 +153,7 @@ public class Board {
 
 	/**
 	 * Check if a given move is legal on the current Board
-	 * @param move
+	 * @param move Move to be checked
 	 * @return boolean
 	 */
 	public boolean isMoveValid(Move move){
@@ -160,15 +161,10 @@ public class Board {
 		Piece testPiece = board.get(move.origin);
 		Move[] moves = testPiece.getMoves();
 
-		return Arrays.stream(moves).parallel().anyMatch(move2 ->
-			move.equals(move2)
-		);
+		return Arrays.stream(moves).parallel().anyMatch(move::equals);
 	}
 
 	@Override
-	/**
-	 * return a text representation of the chess board
-	 */
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		for (Map.Entry<Position, Piece> entry : board.entrySet()) {
@@ -196,7 +192,7 @@ public class Board {
 
 	/**
 	 * remove piece from board map
-	 * @param position
+	 * @param position Position of the Piece to remove
 	 */
 	public void boardMapRemove(Position position) {
 		board.remove(position);

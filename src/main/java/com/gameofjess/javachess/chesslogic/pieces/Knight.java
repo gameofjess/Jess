@@ -18,8 +18,8 @@ public class Knight extends Piece {
 
 	/**
 	 * Constructor
-	 * @param Board
-	 * @param isWhite
+	 * @param Board to be linked
+	 * @param isWhite color of the piece
 	 */
     public Knight(Board Board, boolean isWhite) {
         super(Board, isWhite);
@@ -29,150 +29,150 @@ public class Knight extends Piece {
 	@Override
     public Move[] getMoves(boolean checking) {
 		log.trace("getting moves knight");
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
 		Position position = board.getPosition(this);
 
 
-		Position testposition;
-		Piece testlocation;
+		Position testPosition;
+		Piece testLocation;
         
-		// hoch rechts
-		testposition = new Position(position.getX() + 1, position.getY() + 2);
-		if (testposition.getX() < 8 && testposition.getY() < 8) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+		// up, right
+		testPosition = new Position(position.getX() + 1, position.getY() + 2);
+		if (testPosition.getX() < 8 && testPosition.getY() < 8) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-		}
-        // rechts hoch
-		testposition = new Position(position.getX() + 2, position.getY() + 1);
-		if (testposition.getX() < 8 && testposition.getY() < 8) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
-        // rechts runter
-        testposition = new Position(position.getX() + 2, position.getY() - 1);
-		if (testposition.getX() < 8 && testposition.getY() >= 0) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+        // right, up
+		testPosition = new Position(position.getX() + 2, position.getY() + 1);
+		if (testPosition.getX() < 8 && testPosition.getY() < 8) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-		}
-		// runter rechts
-        testposition = new Position(position.getX() + 1, position.getY() - 2);
-		if (testposition.getX() < 8 && testposition.getY() >= 0) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
-		// runter links
-        testposition = new Position(position.getX() - 1, position.getY() - 2);
-		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+        //right, down
+        testPosition = new Position(position.getX() + 2, position.getY() - 1);
+		if (testPosition.getX() < 8 && testPosition.getY() >= 0) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-		}
-		// links runter
-        testposition = new Position(position.getX() - 2, position.getY() - 1);
-		if (testposition.getX() >= 0 && testposition.getY() >= 0) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
-		// links hoch
-        testposition = new Position(position.getX() - 2, position.getY() + 1);
-		if (testposition.getX() >= 0 && testposition.getY() < 8) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+		//down, right
+        testPosition = new Position(position.getX() + 1, position.getY() - 2);
+		if (testPosition.getX() < 8 && testPosition.getY() >= 0) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-		}
-		// hoch links
-        testposition = new Position(position.getX() - 1, position.getY() + 2);
-		if (testposition.getX() >= 0 && testposition.getY() < 8) {
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
-				}
-			}
-			else if (testlocation.isWhite != isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
-        return moves.toArray(new Move[moves.size()]);
+		//down, right
+        testPosition = new Position(position.getX() - 1, position.getY() - 2);
+		if (testPosition.getX() >= 0 && testPosition.getY() >= 0) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+		}
+		//left, down
+        testPosition = new Position(position.getX() - 2, position.getY() - 1);
+		if (testPosition.getX() >= 0 && testPosition.getY() >= 0) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+		}
+		//left, up
+        testPosition = new Position(position.getX() - 2, position.getY() + 1);
+		if (testPosition.getX() >= 0 && testPosition.getY() < 8) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+		}
+		//up, left
+        testPosition = new Position(position.getX() - 1, position.getY() + 2);
+		if (testPosition.getX() >= 0 && testPosition.getY() < 8) {
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+			else if (testLocation.isWhite != isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
+				}
+			}
+		}
+        return moves.toArray(new Move[0]);
     }
 
     @Override
