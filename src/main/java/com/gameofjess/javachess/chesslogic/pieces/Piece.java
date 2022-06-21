@@ -10,9 +10,9 @@ import com.gameofjess.javachess.helper.game.Pieces;
 
 import javafx.scene.image.Image;
 
-public abstract class Piece implements Cloneable {
+public abstract class Piece{
     /**
-     * Abstract Class to represent a chesspiece
+     * Abstract Class to represent a chess piece
      */
 	private static final Logger log = LogManager.getLogger(Board.class);
 
@@ -22,8 +22,8 @@ public abstract class Piece implements Cloneable {
 
     /**
      * Constructor
-     * @param board
-     * @param isWhite
+     * @param board to be linked
+     * @param isWhite colo of piece
      */
     public Piece(Board board, boolean isWhite) {
 		log.trace("Creating {}", this.getClass().getSimpleName());
@@ -42,7 +42,7 @@ public abstract class Piece implements Cloneable {
 
     /**
      * get all legal moves
-     * @return
+     * @return Array of move objects
      */
     public Move[] getMoves() {
         return getMoves(true);
@@ -51,13 +51,13 @@ public abstract class Piece implements Cloneable {
 
     /**
      * Make a given move on the Board
-     * @param move
+     * @param move to execute
      */
     public void makeMove(Move move) {
         log.debug("current board:\n{}", board);
 		log.trace("making move");
         if (move.getCapturePosition() != null) {
-            board.capture(move.getCapturePosition());;
+            board.capture(move.getCapturePosition());
         }
         board.boardMapRemove(board.getPosition(this));
         board.boardMapAdd(move.getDestination(), this);
@@ -89,21 +89,14 @@ public abstract class Piece implements Cloneable {
         return isWhite;
     }
 
-    /**
-     * @return the fen
-     */
-    public String getFen() {
-        return fen;
-    }
-
 	public Position getPosition(){
 		return board.getPosition(this);
 	}
 
     /**
      * Checks if a move puts the King into check
-     * @param move
-     * @return
+     * @param move to be checked
+     * @return boolean if move is checking
      */
 	boolean checkCheckMove(Move move){
 		log.trace("Check Check for move generation");

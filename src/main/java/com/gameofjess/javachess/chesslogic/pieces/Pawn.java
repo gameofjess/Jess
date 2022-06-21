@@ -29,8 +29,8 @@ public class Pawn extends Piece {
 
 	/**
 	 * Constructor
-	 * @param Board
-	 * @param isWhite
+	 * @param Board to be linked
+	 * @param isWhite color of the piece
 	 */
 	public Pawn(Board Board, boolean isWhite) {
 		super(Board, isWhite);
@@ -39,9 +39,9 @@ public class Pawn extends Piece {
 
 	/**
 	 * Constructor
-	 * @param Board
-	 * @param isWhite
-	 * @param enpassant
+	 * @param Board to be linked
+	 * @param isWhite color of the piece
+	 * @param enpassant status
 	 */
 	public Pawn(Board Board, boolean isWhite, boolean enpassant) {
 		super(Board, isWhite);
@@ -51,192 +51,192 @@ public class Pawn extends Piece {
 	@Override
 	public Move[] getMoves(boolean checking) {
 		log.trace("getting moves pawn");
-		List<Move> moves = new ArrayList<Move>();
+		List<Move> moves = new ArrayList<>();
 		Position position = board.getPosition(this);
 
 
-		Position testposition;
-		Piece testlocation;
+		Position testPosition;
+		Piece testLocation;
 		if (isWhite) {
-			//eins vor
-			testposition = new Position(position.getX(), position.getY() + 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					if (testposition.getY() == 7) {
-						moves.add(new Move(position, testposition, Bishop.class.getName()));
-						moves.add(new Move(position, testposition, Knight.class.getName()));
-						moves.add(new Move(position, testposition, Queen.class.getName()));
-						moves.add(new Move(position, testposition, Rook.class.getName()));
+			//one forward
+			testPosition = new Position(position.getX(), position.getY() + 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					if (testPosition.getY() == 7) {
+						moves.add(new Move(position, testPosition, Bishop.class.getName()));
+						moves.add(new Move(position, testPosition, Knight.class.getName()));
+						moves.add(new Move(position, testPosition, Queen.class.getName()));
+						moves.add(new Move(position, testPosition, Rook.class.getName()));
 					}
 					else {
-						moves.add(testmove);
+						moves.add(testMove);
 					}
 				}
-				//zwei vor
-				testposition = new Position(position.getX(), position.getY() + 2);
-				testlocation = board.getBoardMap().get(testposition);
-				if (position.getY() == 1 && testlocation == null) {
-					testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				//two forward
+				testPosition = new Position(position.getX(), position.getY() + 2);
+				testLocation = board.getBoardMap().get(testPosition);
+				if (position.getY() == 1 && testLocation == null) {
+					testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 				}
 			}
-			//TODO:CHeck CHeckschlagen rechts
-			testposition = new Position(position.getX() + 1, position.getY() + 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation != null && !testlocation.isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (testposition.getY() == 7) {
-					moves.add(new Move(position, testposition, Bishop.class.getName()));
-					moves.add(new Move(position, testposition, Knight.class.getName()));
-					moves.add(new Move(position, testposition, Queen.class.getName()));
-					moves.add(new Move(position, testposition, Rook.class.getName()));
+			//beat right
+			testPosition = new Position(position.getX() + 1, position.getY() + 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation != null && !testLocation.isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (testPosition.getY() == 7) {
+					moves.add(new Move(position, testPosition, Bishop.class.getName()));
+					moves.add(new Move(position, testPosition, Knight.class.getName()));
+					moves.add(new Move(position, testPosition, Queen.class.getName()));
+					moves.add(new Move(position, testPosition, Rook.class.getName()));
 				}
-				else if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				else if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
-			//schlagen links
-			testposition = new Position(position.getX() - 1, position.getY() + 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation != null && !testlocation.isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					if (testposition.getY() == 7) {
-						moves.add(new Move(position, testposition, Bishop.class.getName()));
-						moves.add(new Move(position, testposition, Knight.class.getName()));
-						moves.add(new Move(position, testposition, Queen.class.getName()));
-						moves.add(new Move(position, testposition, Rook.class.getName()));
+			//beat left
+			testPosition = new Position(position.getX() - 1, position.getY() + 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation != null && !testLocation.isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					if (testPosition.getY() == 7) {
+						moves.add(new Move(position, testPosition, Bishop.class.getName()));
+						moves.add(new Move(position, testPosition, Knight.class.getName()));
+						moves.add(new Move(position, testPosition, Queen.class.getName()));
+						moves.add(new Move(position, testPosition, Rook.class.getName()));
 					}
 					else {
-						moves.add(testmove);
+						moves.add(testMove);
 					}
 				}
 			}
 
-            // enpassant rechts weiss
-			testposition = new Position(position.getX() + 1, position.getY() + 1);
-			testlocation = board.getBoardMap().get(testposition);
-			Position enpassantposition = new Position(position.getX() + 1, position.getY());
-			Piece enpassantlocation = board.getBoardMap().get(enpassantposition);
+            // enpassant right white
+			testPosition = new Position(position.getX() + 1, position.getY() + 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			Position enpassantPosition = new Position(position.getX() + 1, position.getY());
+			Piece enpassantLocation = board.getBoardMap().get(enpassantPosition);
 
-			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
-					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			if (testLocation == null && enpassantLocation instanceof Pawn && ((Pawn) enpassantLocation).isEnpassant()
+					&& enpassantLocation.isWhite() != isWhite) {
+				Move testMove = new Move(position, testPosition, enpassantPosition, true);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 
             // enpassant links weiss
-			testposition = new Position(position.getX() - 1, position.getY() + 1);
-			testlocation = board.getBoardMap().get(testposition);
-			enpassantposition = new Position(position.getX() - 1, position.getY());
-			enpassantlocation = board.getBoardMap().get(enpassantposition);
+			testPosition = new Position(position.getX() - 1, position.getY() + 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			enpassantPosition = new Position(position.getX() - 1, position.getY());
+			enpassantLocation = board.getBoardMap().get(enpassantPosition);
 
-			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
-					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			if (testLocation == null && enpassantLocation instanceof Pawn && ((Pawn) enpassantLocation).isEnpassant()
+					&& enpassantLocation.isWhite() != isWhite) {
+				Move testMove = new Move(position, testPosition, enpassantPosition, true);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
 
 		// SCHWARZ
 		else {
-			//eins vor
-			testposition = new Position(position.getX(), position.getY() - 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation == null) {
-				Move testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					if (testposition.getY() == 7) {
-						moves.add(new Move(position, testposition, Bishop.class.getName()));
-						moves.add(new Move(position, testposition, Knight.class.getName()));
-						moves.add(new Move(position, testposition, Queen.class.getName()));
-						moves.add(new Move(position, testposition, Rook.class.getName()));
+			//one up
+			testPosition = new Position(position.getX(), position.getY() - 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation == null) {
+				Move testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					if (testPosition.getY() == 7) {
+						moves.add(new Move(position, testPosition, Bishop.class.getName()));
+						moves.add(new Move(position, testPosition, Knight.class.getName()));
+						moves.add(new Move(position, testPosition, Queen.class.getName()));
+						moves.add(new Move(position, testPosition, Rook.class.getName()));
 					}
 					else {
-						moves.add(testmove);
+						moves.add(testMove);
 					}
 				}
-				//zwei vor
-				testposition = new Position(position.getX(), position.getY() - 2);
-				testlocation = board.getBoardMap().get(testposition);
-				if (position.getY() == 6 && testlocation == null) {
-					testmove = new Move(position, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+				//two forward
+				testPosition = new Position(position.getX(), position.getY() - 2);
+				testLocation = board.getBoardMap().get(testPosition);
+				if (position.getY() == 6 && testLocation == null) {
+					testMove = new Move(position, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 				}
 			}
-			//schlagen rechts
-			testposition = new Position(position.getX() + 1, position.getY() - 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation != null && testlocation.isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					if (testposition.getY() == 7) {
-						moves.add(new Move(position, testposition, Bishop.class.getName()));
-						moves.add(new Move(position, testposition, Knight.class.getName()));
-						moves.add(new Move(position, testposition, Queen.class.getName()));
-						moves.add(new Move(position, testposition, Rook.class.getName()));
+			//beat right
+			testPosition = new Position(position.getX() + 1, position.getY() - 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation != null && testLocation.isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					if (testPosition.getY() == 7) {
+						moves.add(new Move(position, testPosition, Bishop.class.getName()));
+						moves.add(new Move(position, testPosition, Knight.class.getName()));
+						moves.add(new Move(position, testPosition, Queen.class.getName()));
+						moves.add(new Move(position, testPosition, Rook.class.getName()));
 					}
 					else {
-						moves.add(testmove);
+						moves.add(testMove);
 					}
 				}
 			}
-			//schalgen links
-			testposition = new Position(position.getX() - 1, position.getY() - 1);
-			testlocation = board.getBoardMap().get(testposition);
-			if (testlocation != null && testlocation.isWhite) {
-				Move testmove = new Move(position, testposition, testposition);
-				if (!checking || !checkCheckMove(testmove)) {
-					if (testposition.getY() == 7) {
-						moves.add(new Move(position, testposition, Bishop.class.getName()));
-						moves.add(new Move(position, testposition, Knight.class.getName()));
-						moves.add(new Move(position, testposition, Queen.class.getName()));
-						moves.add(new Move(position, testposition, Rook.class.getName()));
+			//beat left
+			testPosition = new Position(position.getX() - 1, position.getY() - 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			if (testLocation != null && testLocation.isWhite) {
+				Move testMove = new Move(position, testPosition, testPosition);
+				if (!checking || !checkCheckMove(testMove)) {
+					if (testPosition.getY() == 7) {
+						moves.add(new Move(position, testPosition, Bishop.class.getName()));
+						moves.add(new Move(position, testPosition, Knight.class.getName()));
+						moves.add(new Move(position, testPosition, Queen.class.getName()));
+						moves.add(new Move(position, testPosition, Rook.class.getName()));
 					}
 					else {
-						moves.add(testmove);
+						moves.add(testMove);
 					}
 				}
 			}
-            // enpassant rechts weiss
-			testposition = new Position(position.getX() + 1, position.getY() - 1);
-			testlocation = board.getBoardMap().get(testposition);
-			Position enpassantposition = new Position(position.getX() + 1, position.getY());
-			Piece enpassantlocation = board.getBoardMap().get(enpassantposition);
+            // enpassant right white
+			testPosition = new Position(position.getX() + 1, position.getY() - 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			Position enpassantPosition = new Position(position.getX() + 1, position.getY());
+			Piece enpassantLocation = board.getBoardMap().get(enpassantPosition);
 
-			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
-					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			if (testLocation == null && enpassantLocation instanceof Pawn && ((Pawn) enpassantLocation).isEnpassant()
+					&& enpassantLocation.isWhite() != isWhite) {
+				Move testMove = new Move(position, testPosition, enpassantPosition, true);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 
             // enpassant links weiss
-			testposition = new Position(position.getX() - 1, position.getY() - 1);
-			testlocation = board.getBoardMap().get(testposition);
-			enpassantposition = new Position(position.getX() - 1, position.getY());
-			enpassantlocation = board.getBoardMap().get(enpassantposition);
+			testPosition = new Position(position.getX() - 1, position.getY() - 1);
+			testLocation = board.getBoardMap().get(testPosition);
+			enpassantPosition = new Position(position.getX() - 1, position.getY());
+			enpassantLocation = board.getBoardMap().get(enpassantPosition);
 
-			if (testlocation == null && enpassantlocation != null && enpassantlocation instanceof Pawn && ((Pawn) enpassantlocation).isEnpassant()
-					&& ((Pawn) enpassantlocation).isWhite() != isWhite) {
-				Move testmove = new Move(position, testposition, enpassantposition, true);
-				if (!checking || !checkCheckMove(testmove)) {
-					moves.add(testmove);
+			if (testLocation == null && enpassantLocation instanceof Pawn && ((Pawn) enpassantLocation).isEnpassant()
+					&& enpassantLocation.isWhite() != isWhite) {
+				Move testMove = new Move(position, testPosition, enpassantPosition, true);
+				if (!checking || !checkCheckMove(testMove)) {
+					moves.add(testMove);
 				}
 			}
 		}
-		return moves.toArray(new Move[moves.size()]);
+		return moves.toArray(new Move[0]);
 	}
 
 	@Override
