@@ -12,7 +12,7 @@ public class StandardConfig implements Config {
             new RGBAColor(100, 224, 255, 0.75), new RGBAColor(255, 100, 100, 0.25));
 
     private final Logging logging = new Logging("INFO");
-    private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(true, "https://ipaddr.gameofjess.com");
+    private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(false, "https://ipaddr.gameofjess.com");
     private final ServerConfiguration serverConfiguration = new ServerConfiguration(8887, "0.0.0.0");
 
     private class Appearance {
