@@ -43,7 +43,7 @@ The following configuration will be generated on startup:
     "level": "INFO"
   },
   "hostMenuConfiguration": {
-    "loadPublicIPAddress": true,
+    "loadPublicIPAddress": false,
     "ipAddressServer": "https://ipaddr.gameofjess.com"
   },
   "serverConfiguration": {
@@ -190,7 +190,7 @@ This specifies the user log level. By default, this is set to INFO.
 This specifies whether the public IP Address should be shown and determined in the first place on the host menu.
 Disabling this comes in handy when streaming and also allows for more privacy.
 
-By default, this value is set to true.
+By default, this value is set to false.
 
 #### ipAddressServer
 
