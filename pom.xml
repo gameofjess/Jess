@@ -10,7 +10,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.release>17</maven.compiler.release>
-		<javafx.base.version>18</javafx.base.version>
+		<javafx.base.version>18.0.1</javafx.base.version>
+		<testfx.version>4.0.16-alpha</testfx.version>
+		<log4j2.version>2.17.2</log4j2.version>
+		<mockito.version>4.6.1</mockito.version>
 	</properties>
 
 	<dependencies>
@@ -36,14 +39,14 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.17.2</version>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<!-- Adds log4j logging framework unit test utilities-->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<classifier>tests</classifier>
-			<version>2.17.2</version>
+			<version>${log4j2.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Adds log4j-slf4j binding for Java-WebSocket library -->
@@ -75,7 +78,13 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>4.6.0</version>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Adds Apache Commons Collections library-->
@@ -112,7 +121,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration combine.self="append">
-					<argLine>@{argLine} --add-opens JavaChess/com.gameofjess.javachess=ALL-UNNAMED</argLine>
+					<argLine>@{argLine} --add-opens JavaChess/com.gameofjess.javachess=ALL-UNNAMED --add-exports
+						javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+					</argLine>
 				</configuration>
 				<version>3.0.0-M5</version>
 			</plugin>

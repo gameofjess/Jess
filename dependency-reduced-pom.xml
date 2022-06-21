@@ -26,7 +26,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
         <configuration>
-          <argLine>@{argLine} --add-opens JavaChess/com.gameofjess.javachess=ALL-UNNAMED</argLine>
+          <argLine>@{argLine} --add-opens JavaChess/com.gameofjess.javachess=ALL-UNNAMED --add-exports
+            javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+          </argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -82,6 +84,22 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>maven</executable>
+          <mainClass>com.gameofjess.javachess.mainpackage.Main</mainClass>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -127,7 +145,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>4.6.0</version>
+      <version>4.6.1</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -141,6 +159,18 @@
         <exclusion>
           <artifactId>objenesis</artifactId>
           <groupId>org.objenesis</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>4.6.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-jupiter-api</artifactId>
+          <groupId>org.junit.jupiter</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -162,8 +192,11 @@
   </reporting>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
-    <javafx.base.version>18</javafx.base.version>
+    <javafx.base.version>18.0.1</javafx.base.version>
+    <log4j2.version>2.17.2</log4j2.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <mockito.version>4.6.1</mockito.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <testfx.version>4.0.16-alpha</testfx.version>
   </properties>
 </project>
