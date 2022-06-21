@@ -116,6 +116,9 @@ public class ConnectionHandler {
         }
     }
 
+    /**
+     * @return true if the client is connected, false if it is not.
+     */
     public boolean getConnectionStatus() {
         return client.isOpen();
     }

@@ -70,6 +70,11 @@ public class MenuController extends Controller {
         return connected;
     }
 
+    /**
+     * Displays an error message.
+     * 
+     * @param message Error message to be displayed.
+     */
     protected void displayErrorMessage(String message) {
         log.debug("Displaying error message: {}", message);
         errorMessage.setText(message);
