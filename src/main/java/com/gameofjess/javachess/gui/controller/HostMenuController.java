@@ -14,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.gameofjess.javachess.gui.scenes.SceneFactory;
 import com.gameofjess.javachess.gui.scenes.SceneType;
-import com.gameofjess.javachess.helper.configuration.StandardConfig;
 import com.gameofjess.javachess.helper.configuration.ConfigLoader;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.server.Server;
 import com.gameofjess.javachess.server.ServerBuilder;
@@ -174,6 +174,8 @@ public class HostMenuController extends MenuController {
 
         if (connect(host, port, username.getText(), gameColor, gameController)) {
             switchGameScene(gameScene, gameController);
+        } else {
+            displayErrorMessage("Could not reach started server!");
         }
     }
 

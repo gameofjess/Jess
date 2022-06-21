@@ -1,16 +1,18 @@
 package com.gameofjess.javachess.client;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.Message;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
 
 public class ConnectionHandler {
 
@@ -92,16 +94,23 @@ public class ConnectionHandler {
     public boolean connect(String username, Color color) {
         try {
             log.info("Attempting to connect to {}.", client.getURI());
+
             log.debug("Attempting to assign username {}.", username);
             client.addHeader("username", username);
+
             log.debug("Attempting to assign color {}.", color.name());
             client.addHeader("color", color.name());
-            boolean connected = client.connectBlocking();
+
+            boolean connected = client.connectBlocking(1, TimeUnit.SECONDS);
+
             if (connected) {
                 log.info("Connected successfully!");
+            } else {
+                client.getSocket().close();
             }
+
             return connected;
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             log.error(e.getMessage());
             return false;
         }

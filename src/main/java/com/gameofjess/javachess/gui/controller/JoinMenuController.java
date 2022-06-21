@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.gameofjess.javachess.gui.scenes.SceneFactory;
 import com.gameofjess.javachess.gui.scenes.SceneType;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -50,10 +51,22 @@ public class JoinMenuController extends MenuController {
         Scene gameScene = sceneFactory.getScene().getFXScene();
         GameController gameController = (GameController) sceneFactory.getController();
 
-        if (connect(host, port, usernameString, gameController)) {
-            switchGameScene(gameScene, gameController);
-        }
+        Task<Boolean> connectTask = new Task<>() {
+            @Override
+            protected Boolean call() {
+                return connect(host, port, usernameString, gameController);
+            }
+        };
+
+        connectTask.setOnSucceeded(event -> {
+            if ((Boolean) event.getSource().getValue()) {
+                switchGameScene(gameScene, gameController);
+            } else {
+                displayErrorMessage("Could not reach server at " + address.getText() + "!");
+            }
+        });
+
+        Thread connectThread = new Thread(connectTask);
+        connectThread.start();
     }
-
-
 }
