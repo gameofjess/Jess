@@ -27,7 +27,7 @@
         <version>3.0.0-M5</version>
         <configuration>
           <argLine>@{argLine} --add-opens JavaChess/com.gameofjess.javachess=ALL-UNNAMED --add-exports
-            javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+              javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
           </argLine>
         </configuration>
       </plugin>
@@ -163,17 +163,39 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <version>4.6.1</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit-jupiter-api</artifactId>
-          <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-      </exclusions>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>4.6.1</version>
+        <scope>test</scope>
+        <exclusions>
+            <exclusion>
+                <artifactId>junit-jupiter-api</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+            </exclusion>
+        </exclusions>
     </dependency>
+      <dependency>
+          <groupId>org.testfx</groupId>
+          <artifactId>testfx-core</artifactId>
+          <version>4.0.16-alpha</version>
+          <scope>test</scope>
+          <exclusions>
+              <exclusion>
+                  <artifactId>hamcrest-core</artifactId>
+                  <groupId>org.hamcrest</groupId>
+              </exclusion>
+              <exclusion>
+                  <artifactId>assertj-core</artifactId>
+                  <groupId>org.assertj</groupId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+          <groupId>org.testfx</groupId>
+          <artifactId>testfx-junit5</artifactId>
+          <version>4.0.16-alpha</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
   <reporting>
     <plugins>
