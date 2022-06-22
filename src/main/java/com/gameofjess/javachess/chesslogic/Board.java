@@ -27,7 +27,7 @@ public class Board {
 	 */
 	public Board(){
         this.initialize();
-		log.trace("Creating board");
+		log.info("Creating board");
 	}
 
 	/**
