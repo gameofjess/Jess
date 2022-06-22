@@ -54,7 +54,6 @@ public abstract class Piece{
      * @param move to execute
      */
     public void makeMove(Move move) {
-        log.debug("current board:\n{}", board);
 		log.trace("making move");
         if (move.getCapturePosition() != null) {
             board.capture(move.getCapturePosition());

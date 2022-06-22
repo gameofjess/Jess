@@ -241,7 +241,6 @@ public class Pawn extends Piece {
 
 	@Override
 	public void makeMove(Move move){
-		log.debug("current board:\n{}", board);
 		log.trace("making move");
 		enpassant = move.getEnpassant();
 		if (move.getCapturePosition() != null) {
@@ -251,7 +250,6 @@ public class Pawn extends Piece {
 			enpassant = move.getDestination().getY() - move.getOrigin().getY() != 1;
 			board.boardMapRemove(board.getPosition(this));
 			board.boardMapAdd(move.getDestination(), this);
-			log.debug("current board:\n{}", board);
 		}
 		else {
             board.boardMapRemove(getPosition());

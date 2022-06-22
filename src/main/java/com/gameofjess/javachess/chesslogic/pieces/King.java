@@ -43,7 +43,7 @@ public class King extends Piece {
 
 	@Override
 	public Move[] getMoves(boolean checking) {
-		log.trace("getting moves king");
+		log.trace("getting moves");
 		List<Move> moves = new ArrayList<>();
 		Position position = board.getPosition(this);
 
@@ -227,7 +227,6 @@ public class King extends Piece {
 
 	@Override
 	public void makeMove(Move move) {
-		log.debug("current board:\n{}", board);
 		log.debug("making move");
 		castling = false;
 
@@ -298,6 +297,7 @@ public class King extends Piece {
 	 * @return boolean Checkmate
 	 */
 	public boolean checkCheckMate(){
+		log.trace("Checking mate");
 		return board.getBoardMap().values().parallelStream().allMatch(piece ->
 			piece.isWhite != this.isWhite || piece.getMoves().length == 0
 		);
