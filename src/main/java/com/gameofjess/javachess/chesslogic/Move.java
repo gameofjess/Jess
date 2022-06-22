@@ -24,6 +24,7 @@ public class Move {
 	 * @param destination of the move
 	 */
     public Move(Position origin, Position destination) {
+		log.trace("Creating normal move");
 		this.origin = origin;
         this.destination = destination;
 	}
@@ -36,6 +37,7 @@ public class Move {
 	 * @param enpassant boolean if the move is enpassant
 	 */
     public Move(Position origin, Position destination, Position capturePosition, boolean enpassant) {
+		log.trace("Creating enpassant move");
         this.origin = origin;
 		this.destination = destination;
 		this.capturePosition = capturePosition;
@@ -49,6 +51,7 @@ public class Move {
 	 * @param capturePosition of the piece to be captured
 	 */
     public Move(Position origin, Position destination, Position capturePosition) {
+		log.trace("Creating capture move");
 		this.origin = origin;
 		this.destination = destination;
         this.capturePosition = capturePosition;
@@ -61,6 +64,7 @@ public class Move {
 	 * @param castling boolean if castling is happening
 	 */
     public Move(Position origin, Position destination, boolean castling) {
+		log.trace("Creating castling move");
 		this.origin = origin;
 		this.destination = destination;
         this.castling = castling;
@@ -73,6 +77,7 @@ public class Move {
 	 * @param promotion class string of the promoted piece
 	 */
 	public Move(Position origin, Position destination, String promotion) {
+		log.trace("Creating promotion move");
 		this.origin = origin;
 		this.destination = destination;
         this.promotion = promotion;
@@ -139,5 +144,5 @@ public class Move {
 		}
         return false;
 	}
-	
+
 }

@@ -17,6 +17,7 @@ public class Position {
 	 * @param y value of the position between 0 and 7
 	 */
 	public Position(int x, int y) {
+		log.trace("Create Position object");
 		this.x = (byte)x;
 		this.y = (byte)y;
 	}

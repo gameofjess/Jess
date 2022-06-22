@@ -18,7 +18,7 @@ import javafx.scene.image.Image;
 public class King extends Piece {
 	private static final Logger log = LogManager.getLogger(Board.class);
 
-	boolean castling = true;
+	private boolean castling = true;
 
 	/**
 	 * Constructor
@@ -298,7 +298,7 @@ public class King extends Piece {
 	 * @return boolean Checkmate
 	 */
 	public boolean checkCheckMate(){
-		return board.getBoardMap().values().parallelStream().allMatch(piece -> 
+		return board.getBoardMap().values().parallelStream().allMatch(piece ->
 			piece.isWhite != this.isWhite || piece.getMoves().length == 0
 		);
 	}
@@ -314,5 +314,4 @@ public class King extends Piece {
 		}
 		return king;
 	}
-
 }
