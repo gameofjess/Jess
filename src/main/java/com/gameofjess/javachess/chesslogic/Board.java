@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.chesslogic;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.BidiMap;
@@ -26,7 +27,7 @@ public class Board {
 	 * Create a new Chessboard and set it to the initial position
 	 */
 	public Board(){
-        this.initialize_rochade();
+        this.initialize();
 		log.info("Creating board");
 	}
 
