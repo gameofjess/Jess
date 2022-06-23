@@ -26,7 +26,7 @@ public class Board {
 	 * Create a new Chessboard and set it to the initial position
 	 */
 	public Board(){
-        this.initialize();
+        this.initialize_rochade();
 		log.info("Creating board");
 	}
 
@@ -107,6 +107,18 @@ public class Board {
 		board.put(new Position(4, 4), new Bishop(this, true));
 		board.put(new Position(3, 6), new Queen(this, true));
 		board.put(new Position(1,6), new Pawn(this, true));
+	}
+
+	void initialize_rochade(){
+		board.put(new Position(0, 0), new Rook(this, true, true));
+		kingWhite = new King(this, true);
+		board.put(new Position(3, 0), kingWhite);
+		board.put(new Position(7, 0), new Rook(this, true, true));
+		board.put(new Position(0, 7), new Rook(this, false, true));
+		kingBlack = new King(this, false);
+		board.put(new Position(3, 7), kingBlack);
+		board.put(new Position(7, 7), new Rook(this, false, true));
+
 	}
 
 	/**

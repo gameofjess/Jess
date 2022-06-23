@@ -202,7 +202,7 @@ public class King extends Piece {
 			if (rook instanceof Rook) {
 				if (((Rook) rook).isCastling()) {
 					Move test_move = new Move(position, new Position(1, position.getY()), true, rookPosition);
-					if (checkCheckMove(test_move) || !checking){
+					if (!checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
 					}
 				}
@@ -217,7 +217,7 @@ public class King extends Piece {
 			if (rook instanceof Rook) {
 				if (((Rook) rook).isCastling()) {
 					Move test_move = new Move(position, new Position(5, position.getY()), true, rookPosition);
-					if (checkCheckMove(test_move) || !checking){
+					if (!checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
 					}
 				}
@@ -238,7 +238,8 @@ public class King extends Piece {
 				board.boardMapRemove(move.getOrigin());
 				board.boardMapRemove(move.getCastling());
 				board.boardMapAdd(move.getDestination(), king);
-				board.boardMapAdd(move.getCastling(), rook);
+				if (move.getCastling().getX() == 0) board.boardMapAdd(new Position(2, move.getCastling().getY()), rook);
+				else board.boardMapAdd(new Position(4, move.getCastling().getY()), rook);
 				rook.setCastling(false);
 				this.castling = false;
 		}
@@ -289,12 +290,12 @@ public class King extends Piece {
 	@Override
 	public Piece getClone(Board board) {
 		King king = new King(board, isWhite, castling);
-		if (isWhite) {
-			board.setKingWhite(king);
-		}
-		else{
-			board.setKingBlack(king);
-		}
+//		if (isWhite) {
+//			board.setKingWhite(king);
+//		}
+//		else{
+//			board.setKingBlack(king);
+//		}
 		return king;
 	}
 }
