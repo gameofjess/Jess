@@ -16,9 +16,9 @@ public abstract class Piece{
      */
 	private static final Logger log = LogManager.getLogger(Board.class);
 
-    transient Board board;
-    boolean isWhite;
-    String fen;
+    protected transient Board board;
+    protected boolean isWhite;
+    protected String fen;
 
     /**
      * Constructor
