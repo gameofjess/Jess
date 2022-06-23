@@ -8,8 +8,8 @@ public class Position {
 	 * This Class represents a position on the Chessboard
 	 */
 	private static final Logger log = LogManager.getLogger(Position.class);
-	final byte x;
-	final byte y;
+	private final byte x;
+	private final byte y;
 
 	/**
 	 * constructor

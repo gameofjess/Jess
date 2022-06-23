@@ -199,7 +199,7 @@ public class King extends Piece {
 		if (castling && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null) {
 			Piece rook = board.getBoardMap().get(new Position(0, position.getY()));
 			if (rook instanceof Rook) {
-				if (((Rook) rook).castling) {
+				if (((Rook) rook).isCastling()) {
 					Move test_move = new Move(position, new Position(1, position.getY()), true);
 					if (checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
@@ -213,7 +213,7 @@ public class King extends Piece {
 				&& board.getBoardMap().get(new Position(4, position.getY())) == null) {
 			Piece rook = board.getBoardMap().get(new Position(7, position.getY()));
 			if (rook instanceof Rook) {
-				if (((Rook) rook).castling) {
+				if (((Rook) rook).isCastling()) {
 					Move test_move = new Move(position, new Position(5, position.getY()), true);
 					if (checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
@@ -241,7 +241,7 @@ public class King extends Piece {
 				board.boardMapRemove(kingPosition);
 				board.boardMapAdd(move.getDestination(), king);
 				board.boardMapAdd(new Position(5, move.getDestination().getY()), rook);
-				rook.castling = false;
+				rook.setCastling(false);
 				king.castling = false;
 
 			}
@@ -254,7 +254,7 @@ public class King extends Piece {
 				board.boardMapRemove(kingPosition);
 				board.boardMapAdd(move.getDestination(), king);
 				board.boardMapAdd(new Position(3, move.getDestination().getY()), rook);
-				rook.castling = false;
+				rook.setCastling(false);
 				king.castling = false;
 			}
 			//lang

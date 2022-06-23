@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
 public class Rook extends Piece {
 	private static final Logger log = LogManager.getLogger(Rook.class);
 
-    boolean castling;
+    private boolean castling;
 
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ public class Rook extends Piece {
 	 */
     public Rook(Board Board, boolean isWhite, boolean castling) {
         super(Board, isWhite);
-        this.castling = castling;
+        this.setCastling(castling);
     }
 
 	@Override
@@ -137,7 +137,7 @@ public class Rook extends Piece {
 	@Override
     public void makeMove(Move move) {
 		log.trace("making move");
-		castling = false;
+		setCastling(false);
 		if (move.getCapturePosition() != null) {
 			board.capture(move.getCapturePosition());
 		}
@@ -157,8 +157,15 @@ public class Rook extends Piece {
 
 	@Override
 	public Piece getClone(Board board) {
-		return new Rook(board, isWhite, castling);
+		return new Rook(board, isWhite, isCastling());
 	}
 
 
+	public boolean isCastling() {
+		return castling;
+	}
+
+	public void setCastling(boolean castling) {
+		this.castling = castling;
+	}
 }

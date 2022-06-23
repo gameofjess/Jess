@@ -18,7 +18,7 @@ import javafx.scene.image.Image;
 public class Pawn extends Piece {
 	private static final Logger log = LogManager.getLogger(Pawn.class);
 
-	boolean enpassant = false;
+	private boolean enpassant = false;
 
 	/** returns if the Pawn can be captured by enpassant
 	 * @return the enpassant

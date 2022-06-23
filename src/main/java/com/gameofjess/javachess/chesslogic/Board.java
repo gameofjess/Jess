@@ -17,10 +17,10 @@ public class Board {
 	 */
 	private static final Logger log = LogManager.getLogger(Board.class);
 
-	BidiMap<Position, Piece> board = new DualHashBidiMap<>();
+	private BidiMap<Position, Piece> board = new DualHashBidiMap<>();
 
-    King kingWhite;
-	King kingBlack;
+	private King kingWhite;
+	private King kingBlack;
 
 	/**
 	 * Create a new Chessboard and set it to the initial position
@@ -158,7 +158,7 @@ public class Board {
 	 */
 	public boolean isMoveValid(Move move){
 		log.trace("Checking move validity");
-		Piece testPiece = board.get(move.origin);
+		Piece testPiece = board.get(move.getOrigin());
 		Move[] moves = testPiece.getMoves();
 
 		return Arrays.stream(moves).parallel().anyMatch(move::equals);

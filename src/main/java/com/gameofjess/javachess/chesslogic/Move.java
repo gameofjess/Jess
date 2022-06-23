@@ -11,12 +11,12 @@ public class Move {
 
 	private static final Logger log = LogManager.getLogger(Move.class);
 
-	Position origin;
-	Position destination;
-    Position capturePosition = null;
-    boolean castling = false;
-    boolean enpassant = false;
-	String promotion = null;
+	private Position origin;
+	private Position destination;
+	private Position capturePosition = null;
+	private boolean castling = false;
+	private boolean enpassant = false;
+	private String promotion = null;
 
 	/**
 	 * Constructor for normal Moves
