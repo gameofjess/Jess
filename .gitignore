@@ -10,4 +10,4 @@ out
 .~lock*
 logs/2022-06/app-06-10-2022-1.log.gz
 logs/app.log
-src/main/resources/log4j2.xml
+/src/main/resources/log4j2.xml
