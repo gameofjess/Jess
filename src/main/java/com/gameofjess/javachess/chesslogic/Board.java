@@ -34,12 +34,13 @@ public class Board {
 	 * Constructor to deep clone a Chessboard
 	 * @param board Board to be cloned
 	 */
-	@SuppressWarnings("CopyConstructorMissesField")
 	public Board(Board board){
 		log.trace("Cloning board");
 		this.board = new DualHashBidiMap<>(board.getBoardMap().entrySet().stream().parallel().collect(Collectors.toMap(
 				entry -> entry.getKey().getClone(), entry -> entry.getValue().getClone(this)
-				)));
+		)));
+		this.kingWhite = (King) this.board.values().parallelStream().filter(piece -> piece instanceof King && piece.isWhite()).collect(Collectors.toList()).get(0);
+		this.kingBlack = (King) this.board.values().parallelStream().filter(piece -> piece instanceof King && !piece.isWhite()).collect(Collectors.toList()).get(0);
 	}
 
 	/**

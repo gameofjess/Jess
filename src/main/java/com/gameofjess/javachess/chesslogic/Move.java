@@ -1,5 +1,6 @@
 package com.gameofjess.javachess.chesslogic;
 
+import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,10 +14,10 @@ public class Move {
 
 	private Position origin;
 	private Position destination;
-	private Position capturePosition = null;
-	private boolean castling = false;
+	private Position capturePosition;
+	private Position castling;
 	private boolean enpassant = false;
-	private String promotion = null;
+	private String promotion;
 
 	/**
 	 * Constructor for normal Moves
@@ -63,11 +64,11 @@ public class Move {
 	 * @param destination of the move
 	 * @param castling boolean if castling is happening
 	 */
-    public Move(Position origin, Position destination, boolean castling) {
+    public Move(Position origin, Position destination, boolean castling, Position rookPosition) {
 		log.trace("Creating castling move");
 		this.origin = origin;
 		this.destination = destination;
-        this.castling = castling;
+        this.castling = rookPosition;
     }
 
 	/**
@@ -100,7 +101,7 @@ public class Move {
 	/**
 	 * @return the move from the rook involved in castling or null
 	 */
-	public boolean getCastling() {
+	public Position getCastling() {
 		return castling;
 	}
 
@@ -134,13 +135,8 @@ public class Move {
 	public boolean equals(Object obj) {
         if (this == obj) {
 			return true;
-        } else if (obj instanceof Move test) {
-            if (!(capturePosition == null) && !(test.getCapturePosition() == null)) {
-                return origin.equals(test.getOrigin()) && destination.equals(test.getDestination()) && capturePosition.equals(test.getCapturePosition())
-                        && castling == test.getCastling() && enpassant == test.getEnpassant();
-            } else if (capturePosition == null && test.getCapturePosition() == null) {
-                return origin.equals(test.getOrigin()) && destination.equals(test.getDestination()) && castling == test.getCastling() && enpassant == test.getEnpassant();
-			}
+        } else if (obj instanceof Move move) {
+			return Objects.equals(origin, move.getOrigin()) && Objects.equals(destination, move.getDestination()) && Objects.equals(capturePosition, move.getCapturePosition()) && Objects.equals(castling, move.getCastling()) && Objects.equals(enpassant, move.getEnpassant()) && Objects.equals(promotion, move.getPromotion());
 		}
         return false;
 	}

@@ -197,10 +197,11 @@ public class King extends Piece {
 
 		// castling short
 		if (castling && board.getBoardMap().get(new Position(1, position.getY())) == null && board.getBoardMap().get(new Position(2, position.getY())) == null) {
-			Piece rook = board.getBoardMap().get(new Position(0, position.getY()));
+			Position rookPosition = new Position(0, position.getY());
+			Piece rook = board.getBoardMap().get(rookPosition);
 			if (rook instanceof Rook) {
 				if (((Rook) rook).isCastling()) {
-					Move test_move = new Move(position, new Position(1, position.getY()), true);
+					Move test_move = new Move(position, new Position(1, position.getY()), true, rookPosition);
 					if (checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
 					}
@@ -209,12 +210,13 @@ public class King extends Piece {
 		}
 
 		//castling long
-		if (castling && board.getBoardMap().get(new Position(6, position.getY())) == null && board.getBoardMap().get(new Position(5, position.getY())) == null
-				&& board.getBoardMap().get(new Position(4, position.getY())) == null) {
-			Piece rook = board.getBoardMap().get(new Position(7, position.getY()));
+		if (castling && board.getBoardMap().get(new Position(4, position.getY())) == null && board.getBoardMap().get(new Position(5, position.getY())) == null
+				&& board.getBoardMap().get(new Position(6, position.getY())) == null) {
+			Position rookPosition = new Position(7, position.getY());
+			Piece rook = board.getBoardMap().get(rookPosition);
 			if (rook instanceof Rook) {
 				if (((Rook) rook).isCastling()) {
-					Move test_move = new Move(position, new Position(5, position.getY()), true);
+					Move test_move = new Move(position, new Position(5, position.getY()), true, rookPosition);
 					if (checkCheckMove(test_move) || !checking){
 						moves.add(test_move);
 					}
@@ -230,34 +232,15 @@ public class King extends Piece {
 		log.debug("making move");
 		castling = false;
 
-		if (move.getCastling()) {
-			// kurz
-			if (move.getDestination().getX() == 6) {
-				Position rookPosition = new Position(7, move.getDestination().getY());
-				Position kingPosition = new Position(4, move.getDestination().getY());
-				Rook rook = (Rook) board.getBoardMap().get(rookPosition);
-				King king = (King) board.getBoardMap().get(kingPosition);
-				board.boardMapRemove(rookPosition);
-				board.boardMapRemove(kingPosition);
+		if (move.getCastling() != null) {
+				Rook rook = (Rook) board.getBoardMap().get(move.getCastling());
+				King king = (King) board.getBoardMap().get(move.getOrigin());
+				board.boardMapRemove(move.getOrigin());
+				board.boardMapRemove(move.getCastling());
 				board.boardMapAdd(move.getDestination(), king);
-				board.boardMapAdd(new Position(5, move.getDestination().getY()), rook);
+				board.boardMapAdd(move.getCastling(), rook);
 				rook.setCastling(false);
-				king.castling = false;
-
-			}
-			else{
-				Position rookPosition = new Position(0, move.getDestination().getY());
-				Position kingPosition = new Position(4, move.getDestination().getY());
-				Rook rook = (Rook) board.getBoardMap().get(rookPosition);
-				King king = (King) board.getBoardMap().get(kingPosition);
-				board.boardMapRemove(rookPosition);
-				board.boardMapRemove(kingPosition);
-				board.boardMapAdd(move.getDestination(), king);
-				board.boardMapAdd(new Position(3, move.getDestination().getY()), rook);
-				rook.setCastling(false);
-				king.castling = false;
-			}
-			//lang
+				this.castling = false;
 		}
 
 		if (move.getCapturePosition() != null) {
