@@ -2,10 +2,11 @@ package com.gameofjess.javachess.helper.game;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
-import com.gameofjess.javachess.helper.configuration.StandardConfig;
 import com.gameofjess.javachess.helper.configuration.ConfigLoader;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
 
 import javafx.scene.image.Image;
 
@@ -35,8 +36,16 @@ public enum Pieces {
             whiteImage = new Image(Objects.requireNonNull(whiteImageFile.toURI().toString()));
         } else {
             path = "/icons/";
-            blackImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path + blackImageFileName)));
-            whiteImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path + whiteImageFileName)));
+            try (InputStream blackImageStream = Objects.requireNonNull(getClass().getResourceAsStream(path + blackImageFileName));
+                    InputStream whiteImageStream = Objects.requireNonNull(getClass().getResourceAsStream(path + whiteImageFileName))) {
+
+                blackImage = new Image(blackImageStream);
+                whiteImage = new Image(whiteImageStream);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
