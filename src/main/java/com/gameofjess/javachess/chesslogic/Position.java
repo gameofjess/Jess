@@ -18,8 +18,12 @@ public class Position {
 	 */
 	public Position(int x, int y) {
 		log.trace("Create Position object");
-		this.x = (byte)x;
-		this.y = (byte)y;
+		if (x > 7 || x < 0) {
+			throw new IllegalArgumentException("X value must be between 0 and 7");
+		} else this.x = (byte)x;
+		if (y > 7 || y < 0) {
+			throw new IllegalArgumentException("Y value must be between 0 and 7");
+		} else this.y = (byte)y;
 	}
 
 	/**
