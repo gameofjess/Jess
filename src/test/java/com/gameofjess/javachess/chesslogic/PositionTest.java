@@ -63,12 +63,4 @@ class PositionTest {
             assertEquals(position.toString(), "("+position.getX()+","+position.getY()+")");
         }
     }
-
-    @Test
-    void constructor(){
-        assertThrows(IllegalArgumentException.class, () -> new Position(2, 10));
-        assertThrows(IllegalArgumentException.class, () -> new Position(10, 2));
-        assertThrows(IllegalArgumentException.class, () -> new Position(2, -2));
-        assertThrows(IllegalArgumentException.class, () -> new Position(-2, 2));
-    }
 }
