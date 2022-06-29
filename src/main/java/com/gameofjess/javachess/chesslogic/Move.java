@@ -1,6 +1,7 @@
 package com.gameofjess.javachess.chesslogic;
 
 import java.util.Objects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,8 +13,8 @@ public class Move {
 
 	private static final Logger log = LogManager.getLogger(Move.class);
 
-	private Position origin;
-	private Position destination;
+    private final Position origin;
+    private final Position destination;
 	private Position capturePosition;
 	private Position castling;
 	private boolean enpassant = false;

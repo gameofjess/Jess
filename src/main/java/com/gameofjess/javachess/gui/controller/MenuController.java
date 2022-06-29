@@ -24,7 +24,7 @@ public class MenuController extends Controller {
     @FXML
     protected TextField username;
     @FXML
-    protected Text errorMessage;
+    private Text errorMessage;
 
     /**
      * Connects to the server.

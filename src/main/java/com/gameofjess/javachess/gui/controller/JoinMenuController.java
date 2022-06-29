@@ -18,7 +18,7 @@ public class JoinMenuController extends MenuController {
     private static final Logger log = LogManager.getLogger(JoinMenuController.class);
 
     @FXML
-    protected TextField address;
+    private TextField address;
 
     /**
      * Gets user inputs and calls the connect method.
