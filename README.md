@@ -31,7 +31,7 @@ $ sudo dnf install -y maven-openjdk-17 --allowerasing
 
 After cloning the repository you may run the following command within the project's folder:
 
-`mvn package`
+`mvn package -DskipTests`
 
 After the process of building, you should find the built jar-file in the folder target.
 When the project proceeds to usuable state, we'll also provide prebuilt jars.

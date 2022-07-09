@@ -102,9 +102,10 @@ public class ServerClientTest {
         ConnectionHandler testConnection3 = new ConnectionHandler("127.0.0.1", port);
         testConnection3.setGameController(mock(GameController.class)); // Not necessary, but prevents null pointer exceptions.
 
-        assertTrue(testConnection1.connect("TooManyTestUser1"));
-        assertTrue(testConnection2.connect("TooManyTestUser2"));
-        assertTrue(testConnection3.connect("TooManyTestUser3"));
+        await().atMost(5, TimeUnit.SECONDS).until(() -> testConnection1.connect("TooManyTestUser1"), equalTo(true));
+        await().atMost(5, TimeUnit.SECONDS).until(() -> testConnection2.connect("TooManyTestUser2"), equalTo(true));
+        await().atMost(5, TimeUnit.SECONDS).until(() -> testConnection3.connect("TooManyTestUser3"), equalTo(true));
+
 
         await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TooManyTestUser1"), equalTo(true));
         await().atMost(5, TimeUnit.SECONDS).until(() -> Arrays.stream(testServer.getUsers()).toList().contains("TooManyTestUser2"), equalTo(true));
