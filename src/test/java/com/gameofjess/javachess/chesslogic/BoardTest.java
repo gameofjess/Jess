@@ -22,7 +22,9 @@ class BoardTest {
                     Move[] moves = piece.getMoves();
                     if(moves.length > 0){
                         Move move = moves[i % moves.length];
+                        assertEquals(piece.getPosition(), move.getOrigin());
                         piece.makeMove(move);
+                        assertEquals(piece.getPosition(), move.getDestination());
                     }
                 }
             }
