@@ -33,6 +33,10 @@ class PositionTest {
             Position testposition = new Position(position.getX(), position.getY());
             assertTrue(position.equals(testposition));
         }
+        Position testposition = new Position(-1, -1);
+        for (Position position: positions) {
+            assertFalse(position.equals(testposition));
+        }
     }
 
     @Test
@@ -40,6 +44,10 @@ class PositionTest {
         for (Position position: positions) {
             Position testposition = new Position(position.getX(), position.getY());
             assertTrue(position.hashCode() == testposition.hashCode());
+        }
+        Position testposition = new Position(-1, -1);
+        for (Position position: positions) {
+            assertFalse(position.hashCode() == testposition.hashCode());
         }
     }
 
