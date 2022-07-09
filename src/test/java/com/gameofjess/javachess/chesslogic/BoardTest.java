@@ -1,13 +1,14 @@
 package com.gameofjess.javachess.chesslogic;
 
-import com.gameofjess.javachess.chesslogic.pieces.Piece;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
 
 class BoardTest {
 

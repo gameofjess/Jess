@@ -1,15 +1,15 @@
 package com.gameofjess.javachess.chesslogic;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class PositionTest {
-    static List<Position> positions = new ArrayList();
+    static List<Position> positions = new ArrayList<>();
     @BeforeAll
     static void init(){
         for (int i = 0; i < 8; i++) {
@@ -31,11 +31,11 @@ class PositionTest {
     void testEquals() {
         for (Position position: positions) {
             Position testposition = new Position(position.getX(), position.getY());
-            assertTrue(position.equals(testposition));
+            assertEquals(position, testposition);
         }
         Position testposition = new Position(-1, -1);
         for (Position position: positions) {
-            assertFalse(position.equals(testposition));
+            assertNotEquals(position, testposition);
         }
     }
 
@@ -43,25 +43,25 @@ class PositionTest {
     void testHashCode() {
         for (Position position: positions) {
             Position testposition = new Position(position.getX(), position.getY());
-            assertTrue(position.hashCode() == testposition.hashCode());
+            assertEquals(position.hashCode(), testposition.hashCode());
         }
         Position testposition = new Position(-1, -1);
         for (Position position: positions) {
-            assertFalse(position.hashCode() == testposition.hashCode());
+            assertNotEquals(position.hashCode(), testposition.hashCode());
         }
     }
 
     @Test
     void getX() {
         for (int i = 0; i < 8; i++) {
-            assertTrue(new Position(i, 0).getX() == i);
+            assertEquals(new Position(i, 0).getX(), i);
         }
     }
 
     @Test
     void getY() {
         for (int i = 0; i < 8; i++) {
-            assertTrue(new Position(0, i).getY() == i);
+            assertEquals(new Position(0, i).getY(), i);
         }
     }
 

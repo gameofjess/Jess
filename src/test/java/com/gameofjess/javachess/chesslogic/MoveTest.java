@@ -1,14 +1,12 @@
 package com.gameofjess.javachess.chesslogic;
 
-import com.gameofjess.javachess.chesslogic.pieces.Queen;
-import com.gameofjess.javachess.chesslogic.pieces.Rook;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.gameofjess.javachess.chesslogic.pieces.Queen;
+import com.gameofjess.javachess.chesslogic.pieces.Rook;
 
 class MoveTest {
     @Test
@@ -17,15 +15,15 @@ class MoveTest {
         Position pos2 = new Position(1,0);
         Position pos3 = new Position(2,0);
         Position pos4 = new Position(3, 0);
-        assertTrue(new Move(pos1, pos2).equals(new Move(pos1, pos2)));
-        assertTrue(new Move(pos1, pos2, pos3).equals(new Move(pos1, pos2, pos3)));
-        assertTrue(new Move(pos1, pos2, pos3, true).equals(new Move(pos1, pos2, pos3, true)));
-        assertTrue(new Move(pos1, pos2, true, pos3).equals(new Move(pos1, pos2, true, pos3)));
-        assertTrue(new Move(pos1, pos2, Queen.class.toString()).equals(new Move(pos1, pos2, Queen.class.toString())));
-        assertFalse(new Move(pos1, pos2).equals(new Move(pos1, pos4)));
-        assertFalse(new Move(pos1, pos2, pos3).equals(new Move(pos1, pos2, pos4)));
-        assertFalse(new Move(pos1, pos2, pos3, true).equals(new Move(pos1, pos2, pos3, false)));
-        assertFalse(new Move(pos1, pos2, true, pos3).equals(new Move(pos1, pos2, true, pos4)));
-        assertFalse(new Move(pos1, pos2, Queen.class.toString()).equals(new Move(pos1, pos2, Rook.class.toString())));
+        assertEquals(new Move(pos1, pos2), new Move(pos1, pos2));
+        assertEquals(new Move(pos1, pos2, pos3), new Move(pos1, pos2, pos3));
+        assertEquals(new Move(pos1, pos2, pos3, true), new Move(pos1, pos2, pos3, true));
+        assertEquals(new Move(pos1, pos2, true, pos3), new Move(pos1, pos2, true, pos3));
+        assertEquals(new Move(pos1, pos2, Queen.class.toString()), new Move(pos1, pos2, Queen.class.toString()));
+        assertNotEquals(new Move(pos1, pos2), new Move(pos1, pos4));
+        assertNotEquals(new Move(pos1, pos2, pos3), new Move(pos1, pos2, pos4));
+        assertNotEquals(new Move(pos1, pos2, pos3, true), new Move(pos1, pos2, pos3, false));
+        assertNotEquals(new Move(pos1, pos2, true, pos3), new Move(pos1, pos2, true, pos4));
+        assertNotEquals(new Move(pos1, pos2, Queen.class.toString()), new Move(pos1, pos2, Rook.class.toString()));
     }
 }
