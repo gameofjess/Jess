@@ -13,7 +13,7 @@ import java.util.Objects;
 public class PublicScene implements IScene {
 
     private static final Logger log = LogManager.getLogger(JoinScene.class);
-    private static final URL fxmlFileURL = JoinScene.class.getClassLoader().getResource("public.fxml");
+    private static final URL fxmlFileURL = JoinScene.class.getClassLoader().getResource("fxml/public.fxml");
     private final Controller controller;
     private final Scene scene;
 

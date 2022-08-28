@@ -16,7 +16,7 @@ public class LobbyList extends ScrollPane {
     private final VBox lobbyBox;
 
     public LobbyList() {
-        this.getStylesheets().add("scrollbar.css");
+        this.getStylesheets().add("fxml/css/scrollbar.css");
 
         this.setBackground(new Background(new BackgroundFill(Color.valueOf("#EFEFEF"), new CornerRadii(10), Insets.EMPTY)));
         //this.setBorder(new Border(new BorderStroke(Color.valueOf("#EFEFEF"), BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));

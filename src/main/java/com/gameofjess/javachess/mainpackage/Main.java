@@ -1,17 +1,16 @@
 package com.gameofjess.javachess.mainpackage;
 
-import java.net.URL;
-import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -24,7 +23,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             log.debug("Loading menu!");
-            URL fxmlFileUrl = getClass().getClassLoader().getResource("menu.fxml");
+            URL fxmlFileUrl = getClass().getClassLoader().getResource("fxml/menu.fxml");
             Parent root = FXMLLoader.load(Objects.requireNonNull(fxmlFileUrl));
             Scene scene = new Scene(root);
 
