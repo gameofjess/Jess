@@ -1,7 +1,7 @@
 package com.gameofjess.javachess.gui.controller;
 
-import static org.mockito.Mockito.verify;
-
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.server.PrivateServer;
 import org.java_websocket.framing.CloseFrame;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gameofjess.javachess.client.ConnectionHandler;
-import com.gameofjess.javachess.server.Server;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class GameControllerTest {
@@ -18,7 +17,7 @@ public class GameControllerTest {
     @Mock
     private ConnectionHandler connectionHandler;
     @Mock
-    private Server server;
+    private PrivateServer server;
 
     @InjectMocks
     private GameController gameController;

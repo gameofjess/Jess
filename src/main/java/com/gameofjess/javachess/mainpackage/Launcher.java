@@ -1,22 +1,25 @@
 package com.gameofjess.javachess.mainpackage;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
+import com.gameofjess.javachess.helper.argumentparsing.ArgumentParser;
+import com.gameofjess.javachess.helper.argumentparsing.Option;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.publicserver.EncryptionManager;
+import com.gameofjess.javachess.server.PrivateServer;
+import com.gameofjess.javachess.server.PublicServer;
+import com.gameofjess.javachess.server.ServerCommandListener;
+import com.gameofjess.javachess.server.ServerFactory;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
 
-import com.gameofjess.javachess.helper.argumentparsing.ArgumentParser;
-import com.gameofjess.javachess.helper.argumentparsing.Option;
-import com.gameofjess.javachess.helper.configuration.StandardConfig;
-import com.gameofjess.javachess.helper.configuration.ConfigLoader;
-import com.gameofjess.javachess.server.Server;
-import com.gameofjess.javachess.server.ServerBuilder;
-import com.gameofjess.javachess.server.ServerCommandListener;
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class is needed to fix the issue with starting JavaFX Applications pointed out here:
@@ -49,8 +52,8 @@ public class Launcher {
             Option[] options = ArgumentParser.getOpts(args);
             List<Option> optionList = Arrays.asList(options);
 
-            if (optionList.contains(Option.DEDICATED_SERVER)) {
-                ServerBuilder sb = new ServerBuilder();
+            if (optionList.contains(Option.PRIVATE_SERVER)) {
+                ServerFactory sb = new ServerFactory(false);
                 if (optionList.contains(Option.PORT)) {
                     int port = Integer
                             .parseInt(optionList.get(optionList.indexOf(Option.PORT)).getValue());
@@ -62,7 +65,7 @@ public class Launcher {
                     sb.setHost(host);
                     log.debug("Manually set server hostname to {}", host);
                 }
-                Server server = sb.build();
+                PrivateServer server = (PrivateServer) sb.build();
                 log.debug("Successfully built server");
 
                 ServerCommandListener commandListener =
@@ -73,12 +76,43 @@ public class Launcher {
 
                 log.info("Starting server on {}.", server.getAddress().toString());
                 commandListener.parseCommand("start");
+            } else if (optionList.contains(Option.PUBLIC_SERVER)) {
+                EncryptionManager encryptionManager = new EncryptionManager();
+
+                ServerFactory sb = new ServerFactory(true);
+                if (optionList.contains(Option.PORT)) {
+                    int port = Integer
+                            .parseInt(optionList.get(optionList.indexOf(Option.PORT)).getValue());
+                    sb.setPort(port);
+                    log.debug("Manually set server port to {}", port);
+                }
+                if (optionList.contains(Option.HOST)) {
+                    String host = optionList.get(optionList.indexOf(Option.HOST)).getValue();
+                    sb.setHost(host);
+                    log.debug("Manually set server hostname to {}", host);
+                }
+                PublicServer server = (PublicServer) sb.build();
+                log.debug("Successfully built server");
+
+                if (encryptionManager.getEncrypted()) {
+                    SSLContext sslContext = encryptionManager.getSSLContextFromKeystore();
+                    server.setWebSocketFactory(new DefaultSSLWebSocketServerFactory(sslContext));
+                }
+
+                ServerCommandListener commandListener =
+                        new ServerCommandListener(server, System.in);
+                Thread commandListenerThread = new Thread(commandListener);
+                commandListenerThread.start();
+                log.debug("Started ServerCommandListener Thread");
+
+                log.info("Starting public server on {}.", server.getAddress().toString());
+                commandListener.parseCommand("start");
             } else {
                 log.info("Starting client application");
                 Main.main(args);
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.fatal(Arrays.toString(e.getStackTrace()));
         }
 
 

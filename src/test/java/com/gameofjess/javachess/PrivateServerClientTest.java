@@ -1,14 +1,11 @@
 package com.gameofjess.javachess;
 
-import static org.awaitility.Awaitility.await;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.gui.controller.GameController;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import com.gameofjess.javachess.server.PrivateServer;
+import com.gameofjess.javachess.server.ServerFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
@@ -16,23 +13,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.gameofjess.javachess.client.ConnectionHandler;
-import com.gameofjess.javachess.gui.controller.GameController;
-import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
-import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
-import com.gameofjess.javachess.server.Server;
-import com.gameofjess.javachess.server.ServerBuilder;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
-public class ServerClientTest {
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
-    Logger log = LogManager.getLogger(ServerClientTest.class);
+public class PrivateServerClientTest {
 
-    static Server testServer;
+    Logger log = LogManager.getLogger(PrivateServerClientTest.class);
+
+    static PrivateServer testServer;
     static int port = 9887;
 
     @BeforeAll
     static void beforeAll() {
-        testServer = new ServerBuilder().build();
+        testServer = (PrivateServer) new ServerFactory(false).build();
     }
 
     @BeforeEach
@@ -40,7 +39,7 @@ public class ServerClientTest {
         if (testServer.getServerStatus())
             testServer.stop();
         port++;
-        testServer = new ServerBuilder().setPort(port).build();
+        testServer = (PrivateServer) new ServerFactory(false).setPort(port).build();
         testServer.start();
     }
 

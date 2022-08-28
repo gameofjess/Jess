@@ -1,19 +1,18 @@
 package com.gameofjess.javachess.helper.argumentparsing;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidOptionException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
-import com.gameofjess.javachess.helper.exceptions.InvalidOptionException;
-import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ArgumentParserTest {
 
@@ -32,7 +31,7 @@ public class ArgumentParserTest {
         port.setValue("8888");
 
         assertArrayEquals(ArgumentParser.getOpts(args),
-                new Option[] {Option.DEDICATED_SERVER, hostname, port});
+                new Option[]{Option.PRIVATE_SERVER, hostname, port});
     }
 
     /**
@@ -44,10 +43,10 @@ public class ArgumentParserTest {
     void regularServerTest()
             throws InvalidOptionException, InvalidHostnameException, InvalidPortException {
         String[] args = {"-s"};
-        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.DEDICATED_SERVER});
+        assertArrayEquals(ArgumentParser.getOpts(args), new Option[]{Option.PRIVATE_SERVER});
 
-        args = new String[] {"--server"};
-        assertArrayEquals(ArgumentParser.getOpts(args), new Option[] {Option.DEDICATED_SERVER});
+        args = new String[]{"--server"};
+        assertArrayEquals(ArgumentParser.getOpts(args), new Option[]{Option.PRIVATE_SERVER});
     }
 
     /**

@@ -13,6 +13,7 @@ public class StandardConfig implements Config {
 
     private final Logging logging = new Logging("INFO");
     private final HostMenuConfiguration hostMenuConfiguration = new HostMenuConfiguration(false, "https://ipaddr.gameofjess.com");
+    private final ClientConfiguration clientConfiguration = new ClientConfiguration("127.0.0.1:8887", false);
     private final ServerConfiguration serverConfiguration = new ServerConfiguration(8887, "0.0.0.0");
 
     private class Appearance {
@@ -191,6 +192,25 @@ public class StandardConfig implements Config {
         return hostMenuConfiguration.loadPublicIPAddress;
     }
 
+    private class ClientConfiguration {
+        private final String publicServerHostname;
+
+        private final boolean ignoreCertificateAuthenticity;
+
+        private ClientConfiguration(String publicServerHostname, boolean ignoreCertificateAuthenticity) {
+            this.publicServerHostname = publicServerHostname;
+            this.ignoreCertificateAuthenticity = ignoreCertificateAuthenticity;
+        }
+    }
+
+    public String getPublicServerHostname() {
+        return clientConfiguration.publicServerHostname;
+    }
+
+    public boolean getIgnoreCertificateAuthenticity() {
+        return clientConfiguration.ignoreCertificateAuthenticity;
+    }
+
     private class ServerConfiguration {
         /**
          * <p>
@@ -240,8 +260,6 @@ public class StandardConfig implements Config {
     public String getDefaultHostname() {
         return serverConfiguration.defaultHostname;
     }
-
-
 
     // HELPER CLASSES
 

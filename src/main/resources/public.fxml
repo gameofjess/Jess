@@ -9,7 +9,8 @@
           minWidth="-Infinity"
           prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #FFFFFF;"
           xmlns="http://javafx.com/javafx/18"
-          fx:controller="com.gameofjess.javachess.gui.controller.HostMenuController">
+          fx:id="main"
+          fx:controller="com.gameofjess.javachess.gui.controller.PublicServerJoinMenuController">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="15.0"/>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="70.0"/>
@@ -21,18 +22,12 @@
         <RowConstraints percentHeight="25.0" vgrow="SOMETIMES"/>
     </rowConstraints>
     <children>
-        <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="20">
+        <VBox fx:id="mainBox" alignment="TOP_CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" spacing="20">
             <VBox alignment="CENTER" spacing="10">
                 <!-- JESS "Logo" -->
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jess">
                     <font>
                         <Font name="System Bold" size="64.0"/>
-                    </font>
-                </Text>
-                <!-- IP Address -->
-                <Text fx:id="ipAddressText" strokeType="OUTSIDE" strokeWidth="0.0">
-                    <font>
-                        <Font name="System Bold" size="13.0"/>
                     </font>
                 </Text>
                 <!-- Username field -->
@@ -48,7 +43,7 @@
                 <HBox alignment="TOP_CENTER">
                     <children>
 
-                        <TextField fx:id="username" maxWidth="-Infinity" onAction="#hostGame" prefHeight="31.0"
+                        <TextField fx:id="username" maxWidth="-Infinity" onAction="#join" prefHeight="31.0"
                                    prefWidth="143.0" promptText="Jessplayer1"
                                    style="-fx-background-color: #EEECEC;">
                             <HBox.margin>
@@ -61,9 +56,9 @@
                                 <Font size="18.0"/>
                             </font>
                         </TextField>
-                        <Button mnemonicParsing="false" onAction="#hostGame"
+                        <Button mnemonicParsing="false" onAction="#join"
                                 style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;"
-                                text="HOST">
+                                text="JOIN">
                             <padding>
                                 <Insets bottom="7.0" left="10.0" right="10.0" top="7.0"/>
                             </padding>
@@ -84,30 +79,6 @@
                     </Text>
                 </HBox>
             </VBox>
-
-            <VBox alignment="CENTER">
-                <!-- Color field -->
-                <Label prefHeight="17.0" prefWidth="216.0" text="COLOR">
-                    <font>
-                        <Font name="System Bold" size="12.0"/>
-                    </font>
-                </Label>
-                <HBox alignment="CENTER" prefHeight="47.0" prefWidth="420.0">
-                    <children>
-                        <RadioButton mnemonicParsing="false" selected="true" text="Random" fx:id="colorRandom">
-                            <HBox.margin>
-                                <Insets right="10.0"/>
-                            </HBox.margin>
-                        </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Black" fx:id="colorBlack">
-                            <HBox.margin>
-                                <Insets right="10.0"/>
-                            </HBox.margin>
-                        </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="White" fx:id="colorWhite"/>
-                    </children>
-                </HBox>
-            </VBox>
         </VBox>
         <Group GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
         <GridPane style="-fx-background-color: #EFEFEF;" GridPane.columnSpan="3" GridPane.rowIndex="2">
@@ -119,9 +90,9 @@
             </rowConstraints>
             <children>
                 <HBox alignment="CENTER" spacing="10">
-                    <Button mnemonicParsing="false" onAction="#switchPublicScene"
+                    <Button mnemonicParsing="false" onAction="#switchJoinScene"
                             style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;"
-                            text="PUBLIC">
+                            text="JOIN GAME">
                         <padding>
                             <Insets bottom="7.0" left="10.0" right="10.0" top="7.0"/>
                         </padding>
@@ -129,9 +100,9 @@
                             <Font name="System Bold" size="18.0"/>
                         </font>
                     </Button>
-                    <Button mnemonicParsing="false" onAction="#switchJoinScene"
+                    <Button mnemonicParsing="false" onAction="#switchHostScene"
                             style="-fx-background-color: black; -fx-text-fill: white; -fx-cursor: hand;"
-                            text="JOIN GAME">
+                            text="HOST YOUR OWN GAME">
                         <padding>
                             <Insets bottom="7.0" left="10.0" right="10.0" top="7.0"/>
                         </padding>

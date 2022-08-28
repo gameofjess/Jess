@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info">
-	<Appenders>
-		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} %-5p %c{1} - %m%n"/>
-		</Console>
+<Configuration status="trace">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} %-5p %c{1} - %m%n"/>
+        </Console>
 
-		<RollingFile name="RollingFile" fileName="logs/app.log"
-					 filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
-			<PatternLayout>
-				<Pattern>%d{dd-MM-yyyy HH:mm:ss} %-5p %c{1} - %m%n</Pattern>
-			</PatternLayout>
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{dd-MM-yyyy HH:mm:ss} %-5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="5 MB" />
@@ -17,8 +17,8 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Root level="info" additivity="false">
-			<AppenderRef ref="console"/>
-		</Root>
+        <Root level="trace" additivity="false">
+            <AppenderRef ref="console"/>
+        </Root>
 	</Loggers>
 </Configuration>

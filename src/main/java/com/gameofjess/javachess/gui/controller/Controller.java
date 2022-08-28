@@ -1,16 +1,14 @@
 package com.gameofjess.javachess.gui.controller;
 
-import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.gameofjess.javachess.gui.scenes.SceneFactory;
 import com.gameofjess.javachess.gui.scenes.SceneType;
-
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class Controller {
 
@@ -34,6 +32,16 @@ public class Controller {
 
     public MenuController switchJoinScene() throws IOException {
         return (MenuController) switchScene(SceneType.JOIN);
+    }
+
+    /**
+     * Set the scene to the public server scene.
+     *
+     * @throws IOException If the corresponding fxml file is not found.
+     */
+
+    public MenuController switchPublicScene() throws IOException {
+        return (MenuController) switchScene(SceneType.PUBLIC);
     }
 
     /**

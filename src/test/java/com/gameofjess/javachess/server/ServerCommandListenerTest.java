@@ -1,18 +1,11 @@
 package com.gameofjess.javachess.server;
 
 
-import static org.awaitility.Awaitility.await;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
-
+import com.gameofjess.javachess.client.ConnectionHandler;
+import com.gameofjess.javachess.extensions.AssertLoggedExtension;
+import com.gameofjess.javachess.gui.controller.GameController;
+import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
+import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,11 +13,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import com.gameofjess.javachess.client.ConnectionHandler;
-import com.gameofjess.javachess.extensions.AssertLoggedExtension;
-import com.gameofjess.javachess.gui.controller.GameController;
-import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
-import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
+
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class ServerCommandListenerTest {
 
@@ -32,12 +31,12 @@ public class ServerCommandListenerTest {
     AssertLoggedExtension assertLogged = new AssertLoggedExtension();
 
 
-    static Server testServer;
+    static PrivateServer testServer;
     static int port = 8887;
 
     @BeforeAll
     static void beforeAll() {
-        testServer = new ServerBuilder().build();
+        testServer = (PrivateServer) new ServerFactory(false).build();
     }
 
     @BeforeEach
@@ -45,7 +44,7 @@ public class ServerCommandListenerTest {
         if (testServer.getServerStatus())
             testServer.stop();
         port++;
-        testServer = new ServerBuilder().setPort(port).build();
+        testServer = (PrivateServer) new ServerFactory(false).setPort(port).build();
         testServer.start();
     }
 

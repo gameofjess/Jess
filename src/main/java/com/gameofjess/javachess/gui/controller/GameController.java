@@ -13,7 +13,7 @@ import com.gameofjess.javachess.helper.game.Color;
 import com.gameofjess.javachess.helper.messages.ClientMessage;
 import com.gameofjess.javachess.helper.messages.Message;
 import com.gameofjess.javachess.helper.messages.MessageType;
-import com.gameofjess.javachess.server.Server;
+import com.gameofjess.javachess.server.PrivateServer;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -79,7 +79,7 @@ public class GameController extends Controller {
     /**
      * Server to stop on application closure.
      */
-    private Server server;
+    private PrivateServer server;
     /**
      * Chosen username
      */
@@ -116,7 +116,7 @@ public class GameController extends Controller {
      *
      * @param server Server that shall be stopped on application closure.
      */
-    void setServer(Server server) {
+    void setServer(PrivateServer server) {
         this.server = server;
     }
 

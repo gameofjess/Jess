@@ -1,30 +1,27 @@
 package com.gameofjess.javachess.gui.controller;
 
+import com.gameofjess.javachess.gui.scenes.SceneFactory;
+import com.gameofjess.javachess.gui.scenes.SceneType;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
+import com.gameofjess.javachess.helper.game.Color;
+import com.gameofjess.javachess.server.PrivateServer;
+import com.gameofjess.javachess.server.ServerFactory;
+import javafx.concurrent.Task;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
+import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.gameofjess.javachess.gui.scenes.SceneFactory;
-import com.gameofjess.javachess.gui.scenes.SceneType;
-import com.gameofjess.javachess.helper.configuration.ConfigLoader;
-import com.gameofjess.javachess.helper.configuration.StandardConfig;
-import com.gameofjess.javachess.helper.game.Color;
-import com.gameofjess.javachess.server.Server;
-import com.gameofjess.javachess.server.ServerBuilder;
-
-import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.text.Text;
 
 public class HostMenuController extends MenuController {
 
@@ -159,9 +156,9 @@ public class HostMenuController extends MenuController {
         String host = config.getDefaultHostname();
         int port = config.getDefaultPort();
 
-        ServerBuilder serverBuilder = new ServerBuilder();
+        ServerFactory serverFactory = new ServerFactory(false);
 
-        Server server = serverBuilder.build();
+        PrivateServer server = (PrivateServer) serverFactory.build();
         Thread serverThread = new Thread(server::start);
 
         serverThread.start();

@@ -1,7 +1,19 @@
 package com.gameofjess.javachess.server;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import com.gameofjess.javachess.chesslogic.Board;
+import com.gameofjess.javachess.chesslogic.Move;
+import com.gameofjess.javachess.chesslogic.Position;
+import com.gameofjess.javachess.chesslogic.pieces.Piece;
+import com.gameofjess.javachess.helper.game.Color;
+import com.gameofjess.javachess.helper.messages.ClientMessage;
+import com.gameofjess.javachess.helper.messages.Message;
+import com.gameofjess.javachess.helper.messages.MessageType;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
+import org.java_websocket.WebSocket;
+import org.java_websocket.WebSocketImpl;
+import org.java_websocket.framing.CloseFrame;
+import org.java_websocket.handshake.ClientHandshake;
+import org.junit.jupiter.api.Test;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -9,32 +21,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import com.gameofjess.javachess.helper.messages.Message;
-import org.java_websocket.WebSocket;
-import org.java_websocket.WebSocketImpl;
-import org.java_websocket.framing.CloseFrame;
-import org.java_websocket.handshake.ClientHandshake;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-import com.gameofjess.javachess.chesslogic.Board;
-import com.gameofjess.javachess.chesslogic.Move;
-import com.gameofjess.javachess.chesslogic.Position;
-import com.gameofjess.javachess.chesslogic.pieces.Piece;
-import com.gameofjess.javachess.helper.game.Color;
-import com.gameofjess.javachess.helper.messages.ClientMessage;
-import com.gameofjess.javachess.helper.messages.MessageType;
-import com.gameofjess.javachess.helper.messages.ServerMessage;
-
-public class ServerTest {
+public class PrivateServerTest {
 
     /**
      * Tests the onOpen method
-     * 
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     *
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenStandardTest() {
-        Server testServer = new ServerBuilder().build();
+        PrivateServer testServer = (PrivateServer) new ServerFactory(false).build();
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
@@ -53,12 +52,12 @@ public class ServerTest {
 
     /**
      * Tests the onOpen method for handling of more than two users.
-     * 
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     *
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenTooManyUsersTest() {
-        Server testServer = new ServerBuilder().build();
+        PrivateServer testServer = (PrivateServer) new ServerFactory(false).build();
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
@@ -109,12 +108,12 @@ public class ServerTest {
 
     /**
      * Tests the onOpen method for handling duplicate usernames
-     * 
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     *
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenDuplicateUsernameTest() {
-        Server testServer = new ServerBuilder().build();
+        PrivateServer testServer = (PrivateServer) new ServerFactory(false).build();
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any());
@@ -145,12 +144,12 @@ public class ServerTest {
 
     /**
      * Tests the onOpen method with a client-handshake without a username field
-     * 
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     *
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenNoUsernameFieldTest() {
-        Server testServer = new ServerBuilder().build();
+        PrivateServer testServer = (PrivateServer) new ServerFactory(false).build();
 
         WebSocket testWS = mock(WebSocket.class);
 
@@ -165,11 +164,11 @@ public class ServerTest {
     /**
      * Tests the onOpen method with a client-handshake without a username field
      *
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onOpenNoColorFieldTest() {
-        Server testServer = new ServerBuilder().build();
+        PrivateServer testServer = (PrivateServer) new ServerFactory(false).build();
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any());
@@ -187,12 +186,12 @@ public class ServerTest {
 
     /**
      * Tests the onClose method
-     * 
-     * @see Server#onOpen(WebSocket, ClientHandshake)
+     *
+     * @see PrivateServer#onOpen(WebSocket, ClientHandshake)
      */
     @Test
     void onCloseStandardTest() {
-        Server testServer = spy(new ServerBuilder().build());
+        PrivateServer testServer = (PrivateServer) spy(new ServerFactory(false).build());
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
@@ -228,7 +227,7 @@ public class ServerTest {
 
     @Test
     void handleClientMessageChatMessageTest() {
-        Server testServer = spy(new ServerBuilder().build());
+        PrivateServer testServer = (PrivateServer) spy(new ServerFactory(false).build());
 
         WebSocket testWS = mock(WebSocketImpl.class);
         when(testWS.getAttachment()).thenReturn(UUID.randomUUID());
@@ -245,7 +244,7 @@ public class ServerTest {
 
     @Test
     void handleClientMessageNewMoveTest() {
-        Server testServer = spy(new ServerBuilder().build());
+        PrivateServer testServer = (PrivateServer) spy(new ServerFactory(false).build());
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any(UUID.class));
@@ -289,7 +288,7 @@ public class ServerTest {
 
     @Test
     void handleClientMessageNewMoveErrorTest() {
-        Server testServer = spy(new ServerBuilder().build());
+        PrivateServer testServer = spy((PrivateServer) new ServerFactory(false).build());
 
         WebSocket testWS = mock(WebSocketImpl.class);
         doCallRealMethod().when(testWS).setAttachment(any(UUID.class));

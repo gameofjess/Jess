@@ -10,9 +10,13 @@ import java.util.Optional;
 public enum Option {
 
     /**
-     * Just the dedicated server should be started.
+     * Just the dedicated private server should be started.
      */
-    DEDICATED_SERVER('s', "server"),
+    PRIVATE_SERVER('p', "privateserver"),
+    /**
+     * A public server should be started
+     */
+    PUBLIC_SERVER('s', "server"),
     /**
      * A different host should be used.
      */

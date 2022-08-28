@@ -1,5 +1,9 @@
 package com.gameofjess.javachess.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.java_websocket.WebSocketServerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,9 +11,6 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Stream;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * The ServerCommandListener can be used to listen to user commands issued via CLI and processes
@@ -84,13 +85,16 @@ public class ServerCommandListener implements Runnable {
 
         int port = server.getPort();
         String host = server.getAddress().getHostName();
+        WebSocketServerFactory webSocketServerFactory = (WebSocketServerFactory) server.getWebSocketFactory();
 
-        ServerBuilder sb = new ServerBuilder();
+        ServerFactory sb = new ServerFactory(server instanceof PublicServer);
         log.debug("Setting server port to {} and host to {}", port, host);
         sb.setPort(port);
         sb.setHost(host);
 
         server = sb.build();
+
+        server.setWebSocketFactory(webSocketServerFactory);
 
         log.info("Starting server...");
         server.start();
@@ -137,7 +141,6 @@ public class ServerCommandListener implements Runnable {
     private void exit() {
         if(!server.getServerStatus()){
             log.info("Exiting...");
-            stop = true;
         } else {
             log.info("Server is not stopped yet. Proceeding to stop, then exit.");
             stop();
@@ -151,12 +154,12 @@ public class ServerCommandListener implements Runnable {
                 }
             }
 
-            if(!isClosed){
+            if (!isClosed) {
                 log.error("Could not stop server. Proceeding to exit unsafely");
             }
 
-            stop = true;
         }
+        stop = true;
     }
 
     private void list(){

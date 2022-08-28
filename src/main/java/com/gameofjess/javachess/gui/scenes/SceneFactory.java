@@ -1,8 +1,8 @@
 package com.gameofjess.javachess.gui.scenes;
 
-import java.io.IOException;
-
 import com.gameofjess.javachess.gui.controller.Controller;
+
+import java.io.IOException;
 
 /**
  * This factory is used to construct the various scenes of the application.
@@ -29,6 +29,11 @@ public class SceneFactory {
             }
             case HOST -> {
                 HostScene scene = new HostScene();
+                controller = scene.getController();
+                return scene;
+            }
+            case PUBLIC -> {
+                PublicScene scene = new PublicScene();
                 controller = scene.getController();
                 return scene;
             }

@@ -1,19 +1,19 @@
 package com.gameofjess.javachess.helper.argumentparsing;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class OptionTest {
 
     /**
      * Tests the getValue and setValue methods of the Option enum.
-     * 
+     *
      * @see Option
      */
     @ParameterizedTest(name = "#{index} - Option Value Test with String {0}")
@@ -30,7 +30,7 @@ public class OptionTest {
      */
     @Test
     void getByShortAliasTest(){
-        assertEquals(Option.DEDICATED_SERVER, Option.getByShortAlias('s'));
+        assertEquals(Option.PRIVATE_SERVER, Option.getByShortAlias('s'));
         assertEquals(Option.HOST, Option.getByShortAlias('H'));
         assertEquals(Option.PORT, Option.getByShortAlias('p'));
     }
@@ -42,7 +42,7 @@ public class OptionTest {
      */
     @Test
     void getByLongAliasTest(){
-        assertEquals(Option.DEDICATED_SERVER, Option.getByLongAlias("server"));
+        assertEquals(Option.PRIVATE_SERVER, Option.getByLongAlias("server"));
         assertEquals(Option.HOST, Option.getByLongAlias("host"));
         assertEquals(Option.PORT, Option.getByLongAlias("port"));
     }

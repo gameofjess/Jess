@@ -1,15 +1,14 @@
 package com.gameofjess.javachess.client;
 
-import java.net.URI;
-
 import com.gameofjess.javachess.helper.messages.Message;
+import com.gameofjess.javachess.helper.messages.ServerMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ServerHandshake;
 
-import com.gameofjess.javachess.helper.messages.ServerMessage;
+import java.net.URI;
 
 public class Client extends WebSocketClient {
 
@@ -51,6 +50,6 @@ public class Client extends WebSocketClient {
 
     @Override
     public void onError(Exception e) {
-        log.error("An error occurred in the client instance: {}", e.getMessage());
+        throw new RuntimeException(e);
     }
 }
