@@ -2,6 +2,8 @@ package com.gameofjess.javachess.client;
 
 import com.gameofjess.javachess.gui.controller.GameController;
 import com.gameofjess.javachess.gui.controller.PublicServerJoinMenuController;
+import com.gameofjess.javachess.helper.configuration.ConfigLoader;
+import com.gameofjess.javachess.helper.configuration.StandardConfig;
 import com.gameofjess.javachess.helper.exceptions.InvalidHostnameException;
 import com.gameofjess.javachess.helper.exceptions.InvalidPortException;
 import com.gameofjess.javachess.helper.game.Color;
@@ -11,6 +13,7 @@ import com.gameofjess.javachess.helper.publicserver.EncryptionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,6 +55,14 @@ public class ConnectionHandler {
 
         this.publicConnection = publicConnection;
 
+        StandardConfig config;
+        try {
+            config = (StandardConfig) new ConfigLoader().loadConfig(new File("config.json"), StandardConfig.class);
+        } catch (IOException e) {
+            log.error("Could not read config file. Proceeding to use default values!");
+            config = new StandardConfig();
+        }
+
         if (host.matches(regexHostname) || host.matches(regexIP)) {
             if (port <= 65535 && port >= 1024) {
                 String schema;
@@ -64,7 +75,11 @@ public class ConnectionHandler {
 
                 if (publicConnection) {
                     EncryptionManager encryptionManager = new EncryptionManager();
-                    client.setSocketFactory(encryptionManager.getInsecureSSLContext().getSocketFactory());
+                    if (config.getIgnoreCertificateAuthenticity()) {
+                        client.setSocketFactory(encryptionManager.getInsecureSSLContext().getSocketFactory());
+                    } else {
+                        client.setSocketFactory(encryptionManager.getDefaultSSLContext().getSocketFactory());
+                    }
                 }
             } else {
                 throw new InvalidPortException(String.valueOf(port));

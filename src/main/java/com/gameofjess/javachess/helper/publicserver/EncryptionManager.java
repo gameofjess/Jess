@@ -8,9 +8,13 @@ import org.apache.logging.log4j.Logger;
 import javax.net.ssl.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 public class EncryptionManager {
@@ -30,6 +34,35 @@ public class EncryptionManager {
 
     public boolean getEncrypted() {
         return config.getUseEncryption();
+    }
+
+    public SSLContext getDefaultSSLContext() {
+        SSLContext sslContext;
+        try {
+            Certificate letsEncrypt;
+            try (InputStream inputStream = new URL("https://letsencrypt.org/certs/lets-encrypt-r3.pem").openStream()) {
+                letsEncrypt = CertificateFactory.getInstance("X.509").generateCertificate(inputStream);
+            } catch (CertificateException e) {
+                throw new RuntimeException(e);
+            }
+
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(null, null);
+
+            keyStore.setCertificateEntry("lets-encrypt", letsEncrypt);
+
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+            kmf.init(keyStore, new char[0]);
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+            tmf.init(keyStore);
+
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+        } catch (NoSuchAlgorithmException | KeyManagementException | IOException | KeyStoreException |
+                 CertificateException | UnrecoverableKeyException e) {
+            throw new RuntimeException(e);
+        }
+        return sslContext;
     }
 
     public SSLContext getInsecureSSLContext() {
